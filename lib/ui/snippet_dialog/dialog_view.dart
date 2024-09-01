@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:snippet/ui/snippet_dialog/dialog_controller.dart';
 
 class CodeEditorScreen extends StatelessWidget {
+
+   CodeEditorScreen({super.key});
+    final DialogViewController controller = DialogViewController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +18,14 @@ class CodeEditorScreen extends StatelessWidget {
               decoration: InputDecoration(
                 label: Text('Enter title for your snippet'),
                 border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
+                 controller: controller.titleTextController,
+            ),
+            SizedBox(height: 30,),
+             TextFormField(
+              decoration: InputDecoration(
+                label: Text('Enter your snippet'),
+                border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
+                controller: controller.snippetTextController,
             ),
             SizedBox(height: 20),
             Container(
@@ -42,7 +54,9 @@ class CodeEditorScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                     controller.submitSnippetData();
+                  },
                   child: Text('Upload Output Image'),
                   style: ElevatedButton.styleFrom(),
                 ),
