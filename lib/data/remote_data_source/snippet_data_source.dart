@@ -15,5 +15,8 @@ abstract class SnipperDataSource {
   @POST(SnippetApi.submitSnippetApi)
   Future<String> submitSnippetData(@Body() SnippetRequest req);
 
+    @GET(SnippetApi.getSnippetsApi)
+  Future<String> getSnippets(@Query('query') String q);
+
   
 }

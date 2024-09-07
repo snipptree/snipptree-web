@@ -23,6 +23,5 @@ class SnippetRequest {
 
   factory SnippetRequest.fromJson(Map<String, dynamic> json) =>
       _$SnippetRequestFromJson(json);
-  @override
   Map<String, dynamic> toJson() => _$SnippetRequestToJson(this);
 }

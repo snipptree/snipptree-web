@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:snippet/common/utis.dart';
 import 'package:snippet/domain/models/snippet_request.dart';
 import 'package:snippet/domain/models/snippet_response.dart';
-import 'package:snippet/domain/usecases/snippet_dialog_usecase.dart';
+import 'package:snippet/domain/usecases/snippet_usecase.dart';
 
 
 class DialogViewController extends GetxController{
@@ -74,7 +74,7 @@ class DialogViewController extends GetxController{
     isDataLoaded.value = false;
     snippetResponse.value = SnippetResponse();
     SnippetRequest ticketStatusReq = getServiceStatusRequest();
-    final response = await SnippetDialogUseCase().submitSnippetData(ticketStatusReq);
+    final response = await SnippetUseCase().submitSnippetData(ticketStatusReq);
     response.fold((l) async {
       isLoading.value = false;
       Util().showOkDialog(l.message??'Something wentwrong');
@@ -82,6 +82,7 @@ class DialogViewController extends GetxController{
       if(r.error == false){
         isDataLoaded.value = true;
         snippetResponse.value = r;
+         Util().showOkDialog(r.message??'Uploaded successfully');
       }else{
         Util().showOkDialog(r.message??'Something wentwrong');
       }

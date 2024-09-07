@@ -20,6 +20,5 @@ class SnippetResponse {
 
   factory SnippetResponse.fromJson(Map<String, dynamic> json) =>
       _$SnippetResponseFromJson(json);
-  @override
   Map<String, dynamic> toJson() => _$SnippetResponseToJson(this);
 }
