@@ -109,7 +109,7 @@ class HeadingRow extends StatelessWidget {
       children: [
         Expanded(
           flex: 1,
-          child: InkWell(
+          child: GestureDetector(
             onTap: () {
               Get.offAllNamed(Routes.homePage);
             },

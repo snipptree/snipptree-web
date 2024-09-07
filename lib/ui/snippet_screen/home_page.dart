@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/strings.dart';
@@ -16,99 +14,137 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Google Doodle placeholder
-          Hero(
-            tag: 'logo',
-            child: Center(
-              child: Image.asset(
-                'assets/images/snipptree.png',
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 24, top: 20),
+              child: Row(
+                children: [
+                  InkWell(
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Text(
+                        "Donate ❤️",
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 30),
-          // Search Bar
-          Hero(
-            tag: 'search_bar',
-            child: Container(
-              width: 600,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: Colors.grey[900],
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.grey[700]!),
+            const Padding(
+              padding: EdgeInsets.only(right: 64, top: 20),
+              child: Icon(
+                Icons.account_circle,
+                size: 40,
               ),
-              child: Material(
-                color: Colors.grey[900],
-                child: KeyboardListener(
-                  focusNode: FocusNode(),
-                  onKeyEvent: (event) async {
-                    if (event.logicalKey == LogicalKeyboardKey.enter) {
-                      navigateToSERP();
-                    }
-                  },
-                  child: TextFormField(
-                    textAlign: TextAlign.start,
-                    controller: ctrl.searchSnippetController,
-                    decoration: const InputDecoration(
-                      prefixIcon: Align(
-                        widthFactor: 0.0,
-                        heightFactor: 0.0,
-                        alignment: Alignment.center,
-                        child: Icon(Icons.search),
+            ),
+          ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Spacer(),
+              Hero(
+                tag: 'logo',
+                child: Center(
+                  child: Image.asset(
+                    'assets/images/snipptree.png',
+                  ),
+                ),
+              ),
+              const SizedBox(height: 50),
+              Hero(
+                tag: 'search_bar',
+                child: Container(
+                  width: 600,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(25),
+                    border: Border.all(color: Colors.grey[700]!),
+                  ),
+                  child: Material(
+                    color: Colors.grey[900],
+                    child: KeyboardListener(
+                      focusNode: FocusNode(),
+                      onKeyEvent: (event) async {
+                        if (event.logicalKey == LogicalKeyboardKey.enter) {
+                          navigateToSERP();
+                        }
+                      },
+                      child: TextFormField(
+                        textAlign: TextAlign.start,
+                        controller: ctrl.searchSnippetController,
+                        decoration: const InputDecoration(
+                          prefixIcon: Align(
+                            widthFactor: 0.0,
+                            heightFactor: 0.0,
+                            alignment: Alignment.center,
+                            child: Icon(Icons.search),
+                          ),
+                          border: InputBorder.none,
+                          hintText: 'Search for snippet',
+                          contentPadding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                        ),
                       ),
-                      border: InputBorder.none,
-                      hintText: 'Search for snippet',
-                      contentPadding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 55,
-                width: 180,
-                child: ElevatedButton(
-                  onPressed: () {
-                    navigateToSERP();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 55,
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        navigateToSERP();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      ),
+                      child: const Text(
+                        'Search Snippet',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
-                  child: const Text(
-                    'Search Snippet',
-                    style: TextStyle(color: Colors.white),
+                  const SizedBox(width: 20),
+                  SizedBox(
+                    height: 55,
+                    width: 180,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      ),
+                      child: const Text(
+                        "Upload Snippet",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-              const SizedBox(width: 20),
-              SizedBox(
-                height: 55,
-                width: 180,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  ),
-                  child: const Text(
-                    "Upload Snippet",
-                    style: TextStyle(color: Colors.white),
+              const Spacer(),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                  '© 2024 www.snipptree.com. All rights reserved.',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
                   ),
                 ),
               ),
             ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 
   void navigateToSERP() {
