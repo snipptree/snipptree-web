@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:snippet/common/utis.dart';
+import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/search_response.dart';
 import 'package:snippet/domain/models/snippet_request.dart';
 import 'package:snippet/domain/models/snippet_response.dart';

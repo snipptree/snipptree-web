@@ -1,6 +1,6 @@
 class Routes {
 
-  static var homePage =  '/homePage';
+  static var homePage =  '/';
   static var serp =  '/serp';
 
 }

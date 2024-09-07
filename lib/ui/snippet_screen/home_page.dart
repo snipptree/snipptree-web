@@ -1,0 +1,133 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:snippet/common/routes.dart';
+import 'package:snippet/common/strings.dart';
+import 'package:snippet/common/utils.dart';
+import 'package:snippet/ui/snippet_screen/snipper_controller.dart';
+
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
+
+  final SnippetController ctrl = SnippetController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Google Doodle placeholder
+          Hero(
+            tag: 'logo',
+            child: Center(
+              child: Image.asset(
+                'assets/images/snipptree.png',
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+          // Search Bar
+          Hero(
+            tag: 'search_bar',
+            child: Container(
+              width: 600,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(25),
+                border: Border.all(color: Colors.grey[700]!),
+              ),
+              child: Material(
+                color: Colors.grey[900],
+                child: KeyboardListener(
+                  focusNode: FocusNode(),
+                  onKeyEvent: (event) async {
+                    if (event.logicalKey == LogicalKeyboardKey.enter) {
+                      navigateToSERP();
+                    }
+                  },
+                  child: TextFormField(
+                    textAlign: TextAlign.start,
+                    controller: ctrl.searchSnippetController,
+                    decoration: const InputDecoration(
+                      prefixIcon: Align(
+                        widthFactor: 0.0,
+                        heightFactor: 0.0,
+                        alignment: Alignment.center,
+                        child: Icon(Icons.search),
+                      ),
+                      border: InputBorder.none,
+                      hintText: 'Search for snippet',
+                      contentPadding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 55,
+                width: 180,
+                child: ElevatedButton(
+                  onPressed: () {
+                    navigateToSERP();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  ),
+                  child: const Text(
+                    'Search Snippet',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              SizedBox(
+                height: 55,
+                width: 180,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  ),
+                  child: const Text(
+                    "Upload Snippet",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ));
+  }
+
+  void navigateToSERP() {
+    if (ctrl.searchSnippetController.text.isNotEmpty) {
+      Get.toNamed(Routes.serp, parameters: {"searchKey": ctrl.searchSnippetController.text});
+    } else {
+      Util().showToast(
+        title: AppStrings.enterASearchQuery,
+        subTitle: AppStrings.weHaveSnippetsWaitingForYou,
+        type: ToastType.info,
+      );
+    }
+  }
+
+  final OutlineInputBorder customBorder = OutlineInputBorder(
+    borderSide: const BorderSide(
+      color: Colors.grey,
+      width: 0.5, // Set the border width here
+    ),
+    borderRadius: BorderRadius.circular(4.0), // Set the border radius here
+  );
+}
