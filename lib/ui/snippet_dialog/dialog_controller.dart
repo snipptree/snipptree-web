@@ -77,14 +77,13 @@ class DialogViewController extends GetxController{
     final response = await SnippetUseCase().submitSnippetData(ticketStatusReq);
     response.fold((l) async {
       isLoading.value = false;
-      Util().showOkDialog(l.message??'Something wentwrong');
+      Util().showToast(title:l.message??'Something wentwrong', subTitle: '',type: ToastType.error);
     }, (r) async {
       if(r.error == false){
         isDataLoaded.value = true;
         snippetResponse.value = r;
-         Util().showOkDialog(r.message??'Uploaded successfully');
       }else{
-        Util().showOkDialog(r.message??'Something wentwrong');
+      Util().showToast(title:r.message??'Something wentwrong', subTitle: '',type: ToastType.error);
       }
       isLoading.value = false;
 

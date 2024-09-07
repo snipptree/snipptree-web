@@ -5,6 +5,7 @@ import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/styles.dart';
 import 'package:snippet/common/theme.dart';
 import 'package:snippet/injector.dart';
+import 'package:snippet/ui/snippet_dialog/dialog_view.dart';
 import 'package:snippet/ui/snippet_screen/home_page.dart';
 import 'package:toastification/toastification.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         getPages: AppPages.appPages,
         initialRoute: Routes.homePage,
         home: SelectionArea(
-          child: HomePage(),
+          child: CodeEditorScreen(),
         ),
         builder: (context, child) {
           return MediaQuery(
