@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/utils.dart';
@@ -16,6 +19,8 @@ class DialogViewController extends GetxController{
   TextEditingController titleTextController = TextEditingController();
   TextEditingController snippetTextController = TextEditingController();
 
+   var imageFile = Uint8List(0).obs;
+   var fileName = '';
 
   var deptDate = 'Departure Date'.obs;
   var errorText = ''.obs;
@@ -111,4 +116,16 @@ class DialogViewController extends GetxController{
     return req;
   }
 
+pickImage() async{
+FilePickerResult? resultFilePicker = await FilePicker.platform.pickFiles(
+type: FileType.image,
+allowMultiple: false,
+);
+if (resultFilePicker != null)
+{
+imageFile.value = resultFilePicker.files.first.bytes!;
+fileName = resultFilePicker.files.first.name;
+}
+
+}
 }
