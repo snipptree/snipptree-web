@@ -72,19 +72,62 @@ class CodeEditorScreen extends StatelessWidget {
                     controller: controller.snippetTextController,
                   ),
                 ),
+                const Expanded(flex: 1,child: SizedBox()),
                 Expanded(
                     flex: 3,
-                    // ignore: unnecessary_null_comparison
-                    child: Obx(
-                      () => AspectRatio(
+                   child:
+                  Obx(()=> controller.selectedCondition.value == 'Text'? 
+                   TextFormField(
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                        label: Text('Enter out put'),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)))),
+                    controller: controller.snippetTextController,
+                  ):
+                   Stack(
+                    children: [
+                      controller.imageFile.value.buffer
+                                          .lengthInBytes > 0?
+                                         Column(children: [
+                                           AspectRatio(
                               aspectRatio: 16 / 9,
                               child: controller.imageFile.value.buffer
-                                          .lengthInBytes >
-                                      0
+                                          .lengthInBytes > 0
                                   ? Image.memory(controller.imageFile.value)
                                   : const SizedBox())
                           .paddingAll(8.0),
+                           TextButton(onPressed: (){
+                                         controller.pickImage();
+                                      }, child: const Text('Replace'))
+                                         ],):
+                    
+                    InkWell(
+                      onTap: (){
+                        controller.pickImage();
+                      },
+                      child: Column(children: [
+                        Container(
+                        height: 260,
+                        
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        border: Border.all(
+                         color: Colors.grey,  // red as border color
+                          ),
+                                    ),
+                                        child: Image.asset(
+                      'assets/images/snipptree.png',fit: BoxFit.fill ,
+                                        ),
+                                      ),
+                                      
+                      ],),
+                    ),
+                    ],
+                   )
                     ))
+                
               ],
             ),
             const SizedBox(
