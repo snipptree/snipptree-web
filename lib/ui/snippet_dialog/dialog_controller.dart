@@ -27,6 +27,9 @@ class DialogViewController extends GetxController{
   var isLoading = false.obs;
   var isDataLoaded = false.obs;
 
+   final conditions = ['Image', 'Text'];
+  var selectedCondition = 'Image'.obs;
+
   var snippetResponse = SnippetResponse().obs;
 
    void resetData(){
