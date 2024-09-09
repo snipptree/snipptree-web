@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 import 'package:snippet/ui/snippet_dialog/dialog_controller.dart';
 
 class CodeEditorScreen extends StatelessWidget {
@@ -16,14 +15,8 @@ class CodeEditorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child:Column(
-          children: [
-             Row(
-            children: [
-              Expanded(
-                flex: 7,
+            child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(children: [
                   TextFormField(
                     decoration: const InputDecoration(
@@ -33,8 +26,10 @@ class CodeEditorScreen extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.titleTextController,
                   ),
-                  SizedBox(height: 30,),
-                 TextFormField(
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
                     maxLines: 10,
                     decoration: const InputDecoration(
                         label: Text('Enter your snippet'),
@@ -43,103 +38,124 @@ class CodeEditorScreen extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.snippetTextController,
                   ),
-                ],),
-              ),
-              SizedBox(width: 30,), 
-              Expanded(
-                flex: 3,
-                child: Column(children: [
-                   Column(
-                    children: [
-                     Text('Output Type:'),
-                     const SizedBox(height: 30,),
-                     Obx(() => RadioGroup.builder(
-                          direction: Axis.horizontal,
-                          groupValue: controller.selectedCondition.value,
-                          horizontalAlignment: MainAxisAlignment.center,
-                          onChanged: (value) {
-                            controller.selectedCondition.value =
-                                value ?? 'Image';
-                            controller.isDataLoaded.value = false;
-                          //  controller.resetData();
-                          },
-                          items: controller.conditions,
-                          itemBuilder: (item) => RadioButtonBuilder(
-                            item,
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Obx(() => Row(
+                        children: [
+                          Row(
+                            children: [
+                              Radio<String>(
+                                value: controller.conditions[0],
+                                groupValue: controller.selectedCondition.value,
+                                onChanged: (String? value) {
+                                  if (value != null) {
+                                    controller.selectedCondition.value = value;
+                                  }
+                                },
+                              ),
+                              const Text('Image Output')
+                            ],
                           ),
-                        )),
-                        SizedBox(height: 20,)
-                    ],
-                   ),
-                   Obx(()=> controller.selectedCondition.value == 'Text'? 
-                   TextFormField(
-                    maxLines: 10,
-                    decoration: const InputDecoration(
-                        label: Text('Enter out put'),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)))),
-                    controller: controller.outPutextController,
-                  ):
-                   Stack(
-                    children: [
-                      controller.imageFile.value.buffer
-                                          .lengthInBytes > 0?
-                                         Column(children: [
-                                           AspectRatio(
-                              aspectRatio: 16 / 9,
-                              child: controller.imageFile.value.buffer
-                                          .lengthInBytes > 0
-                                  ? Image.memory(controller.imageFile.value)
-                                  : const SizedBox())
-                          .paddingAll(8.0),
-                           TextButton(onPressed: (){
-                                         controller.pickImage();
-                                      }, child: const Text('Replace'))
-                                         ],):
-                    
-                    InkWell(
-                      onTap: (){
-                        controller.pickImage();
-                      },
-                      child: Column(children: [
-                        Container(
-                        height: 260,
-                        width: 360,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(20)),
-                        border: Border.all(
-                         color: Colors.grey,  // red as border color
+                          const SizedBox(
+                            width: 30,
                           ),
-                                    ),
-                                        child: Icon(Icons.upload_rounded,size: 70,),
+                          Row(
+                            children: [
+                              Radio<String>(
+                                value: controller.conditions[1],
+                                groupValue: controller.selectedCondition.value,
+                                onChanged: (String? value) {
+                                  if (value != null) {
+                                    controller.selectedCondition.value = value;
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          const Text('Text Output')
+                        ],
+                      )),
+                      const SizedBox(height: 20,),
+                  Obx(() => controller.selectedCondition.value == 'Text'
+                      ? TextFormField(
+                          maxLines: 10,
+                          decoration: const InputDecoration(
+                              label: Text('Enter out put'),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0)))),
+                          controller: controller.outPutextController,
+                        )
+                      : Align(
+                        alignment: Alignment.centerLeft,
+                        child: Stack(
+                            children: [
+                              controller.imageFile.value.buffer.lengthInBytes > 0
+                                  ? Column(
+                                      children: [
+                                        AspectRatio(
+                                                aspectRatio: 5,
+                                                child: controller
+                                                            .imageFile
+                                                            .value
+                                                            .buffer
+                                                            .lengthInBytes >
+                                                        0
+                                                    ? Image.memory(controller
+                                                        .imageFile.value)
+                                                    : const SizedBox())
+                                            .paddingAll(8.0),
+                                        TextButton(
+                                            onPressed: () {
+                                              controller.pickImage();
+                                            },
+                                            child: const Text('Replace'))
+                                      ],
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        controller.pickImage();
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 260,
+                                            width: 360,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(20)),
+                                              border: Border.all(
+                                                color: Colors
+                                                    .grey, // red as border color
+                                              ),
+                                            ),
+                                            child: const Icon(
+                                              Icons.upload_rounded,
+                                              size: 70,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      
-                      ],),
+                                    ),
+                            ],
+                          ),
+                      )),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    height: 55,
+                    width: 360,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        controller.uploadSnippet();
+                      },
+                      style: ElevatedButton.styleFrom(),
+                      child: const Text('Save Snippet'),
                     ),
-                    ],
-                   )
-                    )
-                ],),
-              )
-            ],
-          ),
-             const SizedBox(
-              height: 30,
-            ),
-           Align(
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {
-                  controller.uploadSnippet();
-                },
-                style: ElevatedButton.styleFrom(),
-                child: const Text('Save Snippet'),
-              ),
-            ),
-           
-          ], )
-        ),
-    ));
+                  )
+                ]))));
   }
 }
