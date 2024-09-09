@@ -108,17 +108,18 @@ class CodeEditorScreen extends StatelessWidget {
                             controller.imageFile.value.buffer.lengthInBytes > 0
                                 ? Column(
                                     children: [
-                                      AspectRatio(
-                                              aspectRatio: 5,
-                                              child: controller
-                                                          .imageFile
-                                                          .value
-                                                          .buffer
-                                                          .lengthInBytes >
-                                                      0
-                                                  ? Image.memory(controller
-                                                      .imageFile.value)
-                                                  : const SizedBox())
+                                      controller
+                                                  .imageFile
+                                                  .value
+                                                  .buffer
+                                                  .lengthInBytes >
+                                              0
+                                          ? SizedBox(
+                                            height: 260,width: 360,
+                                            child: Image.memory(controller
+                                                .imageFile.value),
+                                          )
+                                          : const SizedBox()
                                           .paddingAll(8.0),
                                       TextButton(
                                           onPressed: () {
@@ -186,7 +187,7 @@ class CodeEditorScreen extends StatelessWidget {
                       controller.uploadSnippet();
                     },
                     style: ElevatedButton.styleFrom(),
-                    child: const Text('Save Snippet'),
+                    child: const Text('Save Snippet',style: TextStyle(fontSize: 18),),
                   ),
                 )
               ]),

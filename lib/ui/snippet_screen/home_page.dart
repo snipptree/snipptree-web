@@ -124,8 +124,9 @@ class HomePage extends StatelessWidget {
                         await Get.defaultDialog(
 
            barrierDismissible: true,
-          title: 'Upload Snippet',
-          contentPadding:const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+          title: 'Snippet Form',
+          titleStyle: const TextStyle(fontSize: 16),
+          contentPadding:const EdgeInsets.symmetric(horizontal: 32,vertical: 16),
           titlePadding: EdgeInsets.zero,
           content: Expanded(child: CodeEditorScreen()));
                       },
