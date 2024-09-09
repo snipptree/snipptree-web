@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
+import 'package:snippet/ui/snippet_dialog/dialog_view.dart';
 import 'package:snippet/ui/snippet_screen/snipper_controller.dart';
 
 class HomePage extends StatelessWidget {
@@ -119,7 +120,15 @@ class HomePage extends StatelessWidget {
                     height: 55,
                     width: 180,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () async{
+                        await Get.defaultDialog(
+
+           barrierDismissible: true,
+          title: 'Upload Snippet',
+          contentPadding:const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+          titlePadding: EdgeInsets.zero,
+          content: Expanded(child: CodeEditorScreen()));
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       ),

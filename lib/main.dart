@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         getPages: AppPages.appPages,
         initialRoute: Routes.homePage,
         home: SelectionArea(
-          child: CodeEditorScreen(),
+          child: HomePage(),
         ),
         builder: (context, child) {
           return MediaQuery(
