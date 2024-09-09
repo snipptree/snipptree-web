@@ -6,16 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/utils.dart';
-import 'package:snippet/domain/models/snippet_request.dart';
 import 'package:snippet/domain/models/snippet_response.dart';
-import 'package:snippet/domain/usecases/snippet_usecase.dart';
 
 class DialogViewController extends GetxController {
   var byTicketSelected = true.obs;
   var byServiceSelected = false.obs;
 
-  final byTicketFormKey = GlobalKey<FormState>();
-  final byServiceFormKey = GlobalKey<FormState>();
+  final outPutFormKey = GlobalKey<FormState>();
+  final titleSnippetFormKey = GlobalKey<FormState>();
 
   TextEditingController titleTextController = TextEditingController();
   TextEditingController snippetTextController = TextEditingController();
@@ -40,25 +38,30 @@ class DialogViewController extends GetxController {
     snippetTextController.text = '';
   }
 
-  String? validateServiceCode(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter service code';
-    }
-    return null;
-  }
-
-
-
-  String? validateTicketNo(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter ticket number';
-    }
-    return null;
-  }
-
-
-
  
+
+
+
+  String? validateTitle(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the title';
+    }
+    return null;
+  }
+
+ String? validateSnipperCode(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the snipper code';
+    }
+    return null;
+  }
+
+  String? validateTextOutput(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter the output';
+    }
+    return null;
+  }
 
  
 
@@ -73,83 +76,46 @@ class DialogViewController extends GetxController {
     }
   }
 
-  // Future<void> uploadSnippet() async {
-  //   // Prepare the form data
-  //   final html.FormData formData = html.FormData();
-  //   if (selectedCondition.value == 'Image') {
-  //     final blob = Blob(imageFile.value);
-  //     formData.appendBlob('image', blob, fileName);
-  //     formData.append('output_type', 'image');
-  //   } else {
-  //     formData.append('output_type', 'text');
-  //     formData.append('output', outPutextController.text);
-  //   }
 
-  //   formData.append('title', titleTextController.text);
-  //   formData.append('type', 'public');
-  //   formData.append('snippet', snippetTextController.text);
-
-  //   try {
-  //     // Use html.HttpRequest to send the request
-  //     final request = html.HttpRequest();
-  //     request.open('POST', '${AppConstants.baseUrl}/snippet-service/snippet');
-  //     request.onLoadEnd.listen((event) {
-  //       if (request.status == 200) {
-  //         Util().showToast(
-  //             title: 'Snipper Submitted Successfully',
-  //             subTitle: '',
-  //             type: ToastType.error);
-  //       } else {
-  //         Util().showToast(
-  //             title: 'Something wentwrong',
-  //             subTitle: '',
-  //             type: ToastType.error);
-  //       }
-  //     });
-  //     print(formData.get('title'));
-  //        print(formData.get('image'));
-  //     request.send(formData);
-  //   } catch (e) {
-  //     Util().showToast(
-  //         title: 'Something wentwrong', subTitle: '', type: ToastType.error);
-  //   }
-  // }
 
   Future<void> uploadSnippet() async {
-  print('uploadSnippet() started');
+
+      final titleSnippetIsValid = titleSnippetFormKey.currentState?.validate();
+      var outPutIsValid = false;
+      if(selectedCondition.value == 'Text'){
+         outPutIsValid = outPutFormKey.currentState?.validate()??false;
+      }else{
+        if(imageFile.value.buffer.lengthInBytes > 0){
+          outPutIsValid = true;
+        }else{
+          outPutIsValid = false;
+           errorText.value = 'Please select the image';
+        }
+      }
+
+    if (titleSnippetIsValid == true && outPutIsValid == true ) {
+    
 
   // Prepare the form data
   final html.FormData formData = html.FormData();
   
   if (selectedCondition.value == 'Image') {
-    print('Condition: Image');
+
     final blob = Blob(imageFile.value);
     formData.appendBlob('image', blob, fileName);
     formData.append('output_type', 'image');
-    print('Image file added to formData');
+
   } else {
-    print('Condition: Text');
+
     formData.append('output_type', 'text');
     formData.append('output', outPutextController.text);
-    print('Text output added to formData');
+
   }
 
   formData.append('title', titleTextController.text);
   formData.append('type', 'public');
   formData.append('snippet', snippetTextController.text);
 
-  // Manually logging form data
-  print('Form Data:');
-  print('Title: ${formData.get('title')}');
-  print('Type: ${formData.get('type')}');
-  print('Snippet: ${formData.get('snippet')}');
-  print('Output Type: ${formData.get('output_type')}');
-  
-  if (selectedCondition.value == 'Image') {
-    print('Image: ${formData.get('image')}');
-  } else {
-    print('Output: ${formData.get('output')}');
-  }
 
   try {
     // Use html.HttpRequest to send the request
@@ -158,13 +124,13 @@ class DialogViewController extends GetxController {
 
     request.onLoadEnd.listen((event) {
       if (request.status == 200) {
-        print('Request completed successfully with status 200');
+
         Util().showToast(
             title: 'Snippet Submitted Successfully',
             subTitle: '',
             type: ToastType.success);
       } else {
-        print('Request failed with status ${request.status}');
+
         Util().showToast(
             title: 'Something went wrong',
             subTitle: '',
@@ -174,15 +140,15 @@ class DialogViewController extends GetxController {
 
     // Sending the request with form data
     request.send(formData);
-    print('Request sent successfully with formData');
+
     
   } catch (e) {
-    print('Error occurred: $e');
+
     Util().showToast(
         title: 'Something went wrong', subTitle: '', type: ToastType.error);
   }
   
-  print('uploadSnippet() execution finished');
+    }
 }
 
 }

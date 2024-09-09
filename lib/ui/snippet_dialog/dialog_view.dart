@@ -15,28 +15,39 @@ class CodeEditorScreen extends StatelessWidget {
       child: SingleChildScrollView(
       
               child: Column(children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text('Enter title for your snippet'),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12.0)))),
-                  controller: controller.titleTextController,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  maxLines: 10,
-                  decoration: const InputDecoration(
-                      label: Text('Enter your snippet'),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(12.0)))),
-                  controller: controller.snippetTextController,
-                ),
-                const SizedBox(
-                  height: 30,
+                Form(
+                 key: controller.titleSnippetFormKey,
+                  child: Column(children: [
+                    TextFormField(
+                    decoration: const InputDecoration(
+                        label: Text('Enter title for your snippet'),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)))),
+                    controller: controller.titleTextController,
+                      validator: (value) {
+                      return controller.validateTitle(value);
+                     },
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                        label: Text('Enter your snippet'),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)))),
+                    controller: controller.snippetTextController,
+                      validator: (value) {
+                      return controller.validateSnipperCode(value);
+                     },
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  ],),
                 ),
                 Obx(() => Row(
                       children: [
@@ -75,15 +86,21 @@ class CodeEditorScreen extends StatelessWidget {
                     )),
                     const SizedBox(height: 20,),
                 Obx(() => controller.selectedCondition.value == 'Text'
-                    ? TextFormField(
-                        maxLines: 10,
-                        decoration: const InputDecoration(
-                            label: Text('Enter out put'),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(12.0)))),
-                        controller: controller.outPutextController,
-                      )
+                    ? Form(
+                       key: controller.outPutFormKey,
+                      child: TextFormField(
+                          maxLines: 10,
+                          decoration: const InputDecoration(
+                              label: Text('Enter out put'),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12.0)))),
+                          controller: controller.outPutextController,
+                           validator: (value) {
+                      return controller.validateTextOutput(value);
+                     },
+                        ),
+                    )
                     : Align(
                       alignment: Alignment.centerLeft,
                       child: Stack(
@@ -116,7 +133,9 @@ class CodeEditorScreen extends StatelessWidget {
                                     },
                                     child: Column(
                                       children: [
-                                        Container(
+                                        Stack(
+                                          children: [
+                                             Container(
                                           height: 260,
                                           width: 360,
                                           decoration: BoxDecoration(
@@ -128,12 +147,22 @@ class CodeEditorScreen extends StatelessWidget {
                                                   .grey, // red as border color
                                             ),
                                           ),
-                                          child: const Icon(
-                                            Icons.upload_rounded,
-                                            size: 70,
-                                          ),
+                                    
                                         ),
-                                      ],
+                                         Positioned.fill(
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Image.asset(
+                                              height: 50,
+                                              width: 50,
+                                              'assets/images/upload.png'),
+                                          ),
+                                        )
+,
+                                    
+                                          ],
+                                        )
+                                         ],
                                     ),
                                   ),
                           ],
@@ -142,6 +171,13 @@ class CodeEditorScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
+                 Obx(()=>Visibility(
+                  visible: (controller.selectedCondition.value == 'Image' && controller.imageFile.value.buffer.lengthInBytes < 1),
+                   child: Column(children: [
+                    Text(controller.errorText.value,style: const TextStyle(color: Colors.red),),
+                    const SizedBox(height: 20,)
+                   ],),
+                 )),
                 SizedBox(
                   height: 55,
                   width: 360,
@@ -153,7 +189,7 @@ class CodeEditorScreen extends StatelessWidget {
                     child: const Text('Save Snippet'),
                   ),
                 )
-              ])),
-    );
+              ]),
+    ));
   }
 }
