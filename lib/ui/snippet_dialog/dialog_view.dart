@@ -84,7 +84,7 @@ class CodeEditorScreen extends StatelessWidget {
                         border: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(12.0)))),
-                    controller: controller.snippetTextController,
+                    controller: controller.outPutextController,
                   ):
                    Stack(
                     children: [
@@ -110,7 +110,6 @@ class CodeEditorScreen extends StatelessWidget {
                       child: Column(children: [
                         Container(
                         height: 260,
-                        
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(20)),
                         border: Border.all(
@@ -136,7 +135,9 @@ class CodeEditorScreen extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.uploadSnippet();
+                },
                 style: ElevatedButton.styleFrom(),
                 child: const Text('Save Snippet'),
               ),
