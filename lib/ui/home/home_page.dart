@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
-import 'package:snippet/ui/snippet_dialog/dialog_view.dart';
-import 'package:snippet/ui/snippet_screen/snipper_controller.dart';
+import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
+import 'package:snippet/ui/home/home_controller.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final SnippetController ctrl = SnippetController();
+  final HomeController ctrl = HomeController();
 
   @override
   Widget build(BuildContext context) {
@@ -122,13 +123,14 @@ class HomePage extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () async{
                         await Get.defaultDialog(
+                          backgroundColor: AppColors.dialogBgColor,
 
            barrierDismissible: true,
-          title: 'Snippet Form',
+          title: '',
           titleStyle: const TextStyle(fontSize: 16),
           contentPadding:const EdgeInsets.symmetric(horizontal: 32,vertical: 16),
           titlePadding: EdgeInsets.zero,
-          content: Expanded(child: CodeEditorScreen()));
+          content: Expanded(child: UploadSnippetDialog()));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),

@@ -4,9 +4,9 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:snippet/ui/snippet_dialog/dialog_controller.dart';
 
-class CodeEditorScreen extends StatelessWidget {
-  CodeEditorScreen({super.key});
-  final DialogViewController controller = DialogViewController();
+class UploadSnippetDialog extends StatelessWidget {
+  UploadSnippetDialog({super.key});
+  final UploadSnippetDialogController controller = UploadSnippetDialogController();
   final QuillController quillController = QuillController.basic();
   @override
   Widget build(BuildContext context) {

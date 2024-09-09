@@ -6,7 +6,7 @@ import 'package:snippet/common/styles.dart';
 import 'package:snippet/common/theme.dart';
 import 'package:snippet/injector.dart';
 
-import 'package:snippet/ui/snippet_screen/home_page.dart';
+import 'package:snippet/ui/home/home_page.dart';
 import 'package:toastification/toastification.dart';
 
 void main() async {
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
     return ToastificationWrapper(
       child: GetMaterialApp(
         title: 'SnippTree',
+
         theme: ThemeData(colorScheme: MaterialTheme.darkScheme()).copyWith(
           scrollbarTheme: Styles.scrollbarTheme,
         ),

@@ -10,7 +10,7 @@ class MaterialTheme {
       onBackground: Color(0xffffffff),
       brightness: Brightness.dark,
       primary: Color(0xffffffff),
-      surfaceTint: Color(0xff2ae500),
+      surfaceTint: Colors.transparent,
       onPrimary: Color(0xff053900),
       primaryContainer: Color(0xff2df500),
       onPrimaryContainer: Color(0xff084a00),

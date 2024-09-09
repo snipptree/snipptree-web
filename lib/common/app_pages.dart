@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/search_result/search_result_view.dart';
-import 'package:snippet/ui/snippet_screen/home_page.dart';
+import 'package:snippet/ui/home/home_page.dart';
 
 class AppPages {
 
