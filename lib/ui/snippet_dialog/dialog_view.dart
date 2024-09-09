@@ -18,14 +18,14 @@ class CodeEditorScreen extends StatelessWidget {
         body: SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child:Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  flex: 6,
-                  child: TextFormField(
+             Row(
+            children: [
+              Expanded(
+                flex: 7,
+                child: Column(children: [
+                  TextFormField(
                     decoration: const InputDecoration(
                         label: Text('Enter title for your snippet'),
                         border: OutlineInputBorder(
@@ -33,18 +33,30 @@ class CodeEditorScreen extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.titleTextController,
                   ),
-                ),
-                const Expanded(
-                  flex:2,child: Padding(
-                    padding: EdgeInsets.only(left: 16,right: 16),
-                    child: Text('Output Type:'),
-                  )),
-                 Expanded(
-                  flex: 2,
-                    child: Obx(() => RadioGroup.builder(
+                  SizedBox(height: 30,),
+                 TextFormField(
+                    maxLines: 10,
+                    decoration: const InputDecoration(
+                        label: Text('Enter your snippet'),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)))),
+                    controller: controller.snippetTextController,
+                  ),
+                ],),
+              ),
+              SizedBox(width: 30,), 
+              Expanded(
+                flex: 3,
+                child: Column(children: [
+                   Column(
+                    children: [
+                     Text('Output Type:'),
+                     const SizedBox(height: 30,),
+                     Obx(() => RadioGroup.builder(
                           direction: Axis.horizontal,
                           groupValue: controller.selectedCondition.value,
-                          horizontalAlignment: MainAxisAlignment.spaceEvenly,
+                          horizontalAlignment: MainAxisAlignment.center,
                           onChanged: (value) {
                             controller.selectedCondition.value =
                                 value ?? 'Image';
@@ -55,31 +67,11 @@ class CodeEditorScreen extends StatelessWidget {
                           itemBuilder: (item) => RadioButtonBuilder(
                             item,
                           ),
-                        ))),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 7,
-                  child: TextFormField(
-                    maxLines: 10,
-                    decoration: const InputDecoration(
-                        label: Text('Enter your snippet'),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)))),
-                    controller: controller.snippetTextController,
-                  ),
-                ),
-                const Expanded(flex: 1,child: SizedBox()),
-                Expanded(
-                    flex: 3,
-                   child:
-                  Obx(()=> controller.selectedCondition.value == 'Text'? 
+                        )),
+                        SizedBox(height: 20,)
+                    ],
+                   ),
+                   Obx(()=> controller.selectedCondition.value == 'Text'? 
                    TextFormField(
                     maxLines: 10,
                     decoration: const InputDecoration(
@@ -113,29 +105,29 @@ class CodeEditorScreen extends StatelessWidget {
                       child: Column(children: [
                         Container(
                         height: 260,
+                        width: 360,
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(20)),
                         border: Border.all(
                          color: Colors.grey,  // red as border color
                           ),
                                     ),
-                                        child: Image.asset(
-                      'assets/images/snipptree.png',fit: BoxFit.fill ,
-                                        ),
+                                        child: Icon(Icons.upload_rounded,size: 70,),
                                       ),
                                       
                       ],),
                     ),
                     ],
                    )
-                    ))
-                
-              ],
-            ),
-            const SizedBox(
+                    )
+                ],),
+              )
+            ],
+          ),
+             const SizedBox(
               height: 30,
             ),
-            Align(
+           Align(
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
@@ -145,9 +137,9 @@ class CodeEditorScreen extends StatelessWidget {
                 child: const Text('Save Snippet'),
               ),
             ),
-          ],
+           
+          ], )
         ),
-      ),
     ));
   }
 }
