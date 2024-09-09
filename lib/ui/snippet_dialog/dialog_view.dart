@@ -35,8 +35,11 @@ class CodeEditorScreen extends StatelessWidget {
                   ),
                 ),
                 const Expanded(
-                  flex:2,child: Text('Output Type:')).paddingOnly(left: 16,right: 16),
-                Expanded(
+                  flex:2,child: Padding(
+                    padding: EdgeInsets.only(left: 16,right: 16),
+                    child: Text('Output Type:'),
+                  )),
+                 Expanded(
                   flex: 2,
                     child: Obx(() => RadioGroup.builder(
                           direction: Axis.horizontal,
