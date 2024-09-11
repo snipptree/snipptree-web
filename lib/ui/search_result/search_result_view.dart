@@ -37,7 +37,7 @@ class _SearchResultViewState extends State<SearchResultView> {
                 Obx(
                   () => Expanded(
                     child: GridView.count(
-                      childAspectRatio: 400 / 200,
+                      childAspectRatio: 2,
                       shrinkWrap: true,
                       crossAxisCount: 4,
                       crossAxisSpacing: 14,
@@ -185,32 +185,37 @@ class GridChild extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       child: InkWell(
         onTap: () {},
-        child: Container(
+        child: Column(
+          children: [
+            Container(
+              width: 400,
+              height: 100,
           decoration: BoxDecoration(
             color: Colors.green,
             border: Border.all(color: Colors.black12),
             borderRadius: AppBorderRadius.k8px,
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 12),
-              Text(
-                snippet.title ?? "",
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                snippet.snippet ?? '',
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: Theme.of(context).textTheme.titleLarge,
-              ).paddingAll(8)
-            ],
-          ),
+          child: Image.network(
+                  'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+                  fit: BoxFit.fill,
+                  loadingBuilder: (BuildContext context, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                            : null,
+                      ),
+                    );
+                  },
+                ),
         ),
+            Text('Hello')
+      
+
+        ],),
       ),
     );
   }

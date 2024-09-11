@@ -102,6 +102,7 @@ class UploadSnippetDialogController extends GetxController {
 
         request.onLoadEnd.listen((event) {
           if (request.status == 200) {
+            Get.back();
             Util().showToast(
                 title: 'Snippet Submitted Successfully',
                 subTitle: '',
