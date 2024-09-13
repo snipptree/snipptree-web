@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
     return ToastificationWrapper(
       child: GetMaterialApp(
         title: 'SnippTree',
-
         theme: ThemeData(colorScheme: MaterialTheme.darkScheme()).copyWith(
           scrollbarTheme: Styles.scrollbarTheme,
         ),

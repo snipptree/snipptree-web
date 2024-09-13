@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 import 'package:snippet/ui/home/home_controller.dart';
+import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
+import 'package:google_sign_in_web/google_sign_in_web.dart' as web;
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -20,26 +23,47 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.transparent,
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 24, top: 20),
+              padding: const EdgeInsets.only(right: 24),
               child: Row(
                 children: [
-                  InkWell(
-                    child: MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: Text(
-                        "Donate ❤️",
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(decoration: TextDecoration.underline),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 24, top: 16),
+                    child: FutureBuilder(
+                      future: (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
+                        SignInInitParameters(
+                          clientId: AppConstants.googleSignInOAuthClientId,
+                          scopes: ctrl.scopes,
+                        ),
                       ),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return Row(
+                            children: [
+                              InkWell(
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: Text(
+                                    "Donate ❤️",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(decoration: TextDecoration.underline),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                              (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).renderButton(
+                                configuration: web.GSIButtonConfiguration(shape: web.GSIButtonShape.pill),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
                     ),
                   ),
                 ],
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(right: 64, top: 20),
-              child: Icon(
-                Icons.account_circle,
-                size: 40,
               ),
             ),
           ],
@@ -121,16 +145,15 @@ class HomePage extends StatelessWidget {
                     height: 55,
                     width: 180,
                     child: ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         await Get.defaultDialog(
-                          backgroundColor: AppColors.dialogBgColor,
-
-           barrierDismissible: true,
-          title: '',
-          titleStyle: const TextStyle(fontSize: 16),
-          contentPadding:const EdgeInsets.symmetric(horizontal: 32,vertical: 16),
-          titlePadding: EdgeInsets.zero,
-          content: Expanded(child: UploadSnippetDialog()));
+                            backgroundColor: AppColors.dialogBgColor,
+                            barrierDismissible: true,
+                            title: '',
+                            titleStyle: const TextStyle(fontSize: 16),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                            titlePadding: EdgeInsets.zero,
+                            content: Expanded(child: UploadSnippetDialog()));
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),

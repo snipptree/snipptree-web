@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "718411915230",
+    "project_id": "snipptree-323e8",
+    "storage_bucket": "snipptree-323e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718411915230:android:203c6af694fda35881c74f",
+        "android_client_info": {
+          "package_name": "com.snipptree"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwFr2xE7ljQ6fNKVzBNkx75HqRMWH_rfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
