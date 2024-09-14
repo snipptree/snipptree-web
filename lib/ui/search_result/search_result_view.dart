@@ -36,22 +36,13 @@ class _SearchResultViewState extends State<SearchResultView> {
                 HeadingRow(ctrl: ctrl),
                 Obx(
                   () => Expanded(
-                    child: GridView.count(
-                      childAspectRatio: 2,
-                      shrinkWrap: true,
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 14,
-                      mainAxisSpacing: 12,
-                      primary: false,
-                      children: ctrl.searchResponse.value.data != null
-                          ? ctrl.searchResponse.value.data!
-                              .map((e) => GridChild(
-                                    snippet: e,
-                                  ))
-                              .toList()
-                          : [],
+                    child: GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+
+                      itemBuilder: (_, index) => GridChild(snippet: ctrl.searchResponse.value.data![index]),
+                      itemCount: ctrl.searchResponse.value.data?.length??0,
                     ),
-                  ),
+                  )
                 ),
               ],
             ),
@@ -181,42 +172,45 @@ class GridChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: InkWell(
-        onTap: () {},
-        child: Column(
-          children: [
-            Container(
-              width: 400,
-              height: 100,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            border: Border.all(color: Colors.black12),
-            borderRadius: AppBorderRadius.k8px,
-          ),
-          child: Image.network(
-                  'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-                  fit: BoxFit.fill,
-                  loadingBuilder: (BuildContext context, Widget child,
-                      ImageChunkEvent? loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    );
-                  },
-                ),
-        ),
-            Text('Hello')
-      
+    return
+           Column(
+            children: [
+           Container(
+             height:250,
+             width: 300,
+           margin: const EdgeInsets.all(8.0),
+           decoration: BoxDecoration(
+           color: Colors.white,
+               border: Border.all(color: Colors.black12),
+               borderRadius: const BorderRadius.all(
+                 Radius.circular(8),
+               )),
+                child:Image.network(
+                    snippet.image??'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    fit: BoxFit.fill,
+    loadingBuilder: (BuildContext context, Widget child,
+    ImageChunkEvent? loadingProgress) {
+      if (loadingProgress == null) return child;
+      return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                loadingProgress.expectedTotalBytes!
+                : null,
+          ));
+    }  )),
+              Flexible(
+                child: Text(
+                  snippet.title??'',
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 12),
+                ).paddingAll(8),
+              )
+            ],
 
-        ],),
-      ),
-    );
+        );
+
   }
 }

@@ -10,6 +10,7 @@ class SearchResponseList {
   String? snippet;
   String? title;
   String? type;
+  String? image;
   DateTime? updatedAt;
 
   SearchResponseList(
@@ -19,6 +20,7 @@ class SearchResponseList {
       this.snippet,
       this.title,
       this.type,
+      this.image,
       this.updatedAt});
 
   factory SearchResponseList.fromJson(Map<String, dynamic> json) =>
