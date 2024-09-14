@@ -8,7 +8,7 @@ brd:
 	dart run build_runner build --delete-conflicting-outputs
 	@echo "Build Runner Completed Successfully!"
 
-start:
+run:
 	@echo "Starting SnippTree on PORT 5000"
 	flutter run -d chrome --web-renderer html --web-port=5000
 
