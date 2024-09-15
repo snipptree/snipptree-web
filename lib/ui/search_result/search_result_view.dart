@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/border_radius.dart';
+import 'package:snippet/common/responsive_layout.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/domain/models/search_response_list.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
@@ -26,28 +27,65 @@ class _SearchResultViewState extends State<SearchResultView> {
 
   @override
   Widget build(BuildContext context) {
+    int count = MediaQuery.of(context).size.width ~/ 250;
     return Scaffold(
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 42),
-            child: Column(
-              children: [
-                HeadingRow(ctrl: ctrl),
-                Obx(
-                  () => Expanded(
+          Column(
+            children: [
+              HeadingRow(ctrl: ctrl),
+              Obx(() => Expanded(
                     child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-
-                      itemBuilder: (_, index) => GridChild(snippet: ctrl.searchResponse.value.data![index]),
-                      itemCount: ctrl.searchResponse.value.data?.length??0,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: count),
+                      itemBuilder: (_, index) => Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                                margin: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(8),
+                                    )),
+                                child: Image.network(
+                                    (ctrl.searchResponse.value.data![index]
+                                                .image ??
+                                            'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+                                        .replaceAll(' ', '+'),
+                                    fit: BoxFit.fill, loadingBuilder:
+                                        (BuildContext context, Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return Center(
+                                      child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ));
+                                })),
+                          ),
+                          Text(
+                            ctrl.searchResponse.value.data![index].title ?? '',
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: const TextStyle(fontSize: 12),
+                          ).paddingAll(8)
+                        ],
+                      ),
+                      itemCount: ctrl.searchResponse.value.data?.length ?? 0,
                     ),
-                  )
-                ),
-              ],
-            ),
+                  ))
+            ],
           ),
-          Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
+          Obx(() => ctrl.isLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : const SizedBox())
         ],
       ),
     );
@@ -125,7 +163,8 @@ class HeadingRow extends StatelessWidget {
               padding: const EdgeInsets.only(top: 24.0),
               child: Container(
                 width: 400,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: BorderRadius.circular(25),
@@ -137,7 +176,8 @@ class HeadingRow extends StatelessWidget {
                     focusNode: FocusNode(),
                     onKeyEvent: (event) async {
                       if (event.logicalKey == LogicalKeyboardKey.enter) {
-                        await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
+                        await ctrl.getSnippets(
+                            searchQuery: ctrl.searchKey.value);
                       }
                     },
                     child: TextField(
@@ -172,45 +212,42 @@ class GridChild extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-           Column(
-            children: [
-           Container(
-             height:250,
-             width: 300,
-           margin: const EdgeInsets.all(8.0),
-           decoration: BoxDecoration(
-           color: Colors.white,
-               border: Border.all(color: Colors.black12),
-               borderRadius: const BorderRadius.all(
-                 Radius.circular(8),
-               )),
-                child:Image.network(
-                    snippet.image??'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    fit: BoxFit.fill,
-    loadingBuilder: (BuildContext context, Widget child,
-    ImageChunkEvent? loadingProgress) {
-      if (loadingProgress == null) return child;
-      return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                loadingProgress.expectedTotalBytes!
-                : null,
-          ));
-    }  )),
-              Flexible(
-                child: Text(
-                  snippet.title??'',
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(fontSize: 12),
-                ).paddingAll(8),
-              )
-            ],
-
-        );
-
+    return Column(
+      children: [
+        Container(
+            height: 280,
+            width: 320,
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+                color: Colors.green,
+                border: Border.all(color: Colors.black12),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
+                )),
+            child: Image.network(
+                snippet.image ??
+                    'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+                fit: BoxFit.fill, loadingBuilder: (BuildContext context,
+                    Widget child, ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                  child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ));
+            })),
+        Flexible(
+          child: Text(
+            snippet.title ?? '',
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            style: TextStyle(fontSize: 12),
+          ).paddingAll(8),
+        )
+      ],
+    );
   }
 }
