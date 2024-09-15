@@ -89,40 +89,7 @@ class _SearchResultViewState extends State<SearchResultView> {
     );
   }
 
-  List<Widget> getGridChild(BuildContext context) {
-    return ctrl.gridViewItems.map((item) {
-      return GestureDetector(
-        onTap: () {},
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black12),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(8),
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Image.asset(
-                item["image"]!,
-                fit: BoxFit.contain,
-                height: 0.12 * Get.size.height,
-              ),
-              Flexible(
-                child: Text(
-                  item["title"]!,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: const TextStyle(fontSize: 12),
-                ).paddingAll(8),
-              )
-            ],
-          ),
-        ),
-      );
-    }).toList();
-  }
+
 }
 
 class HeadingRow extends StatelessWidget {
@@ -201,48 +168,4 @@ class HeadingRow extends StatelessWidget {
   }
 }
 
-class GridChild extends StatelessWidget {
-  final SearchResponseList snippet;
 
-  const GridChild({required this.snippet, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-            height: 280,
-            width: 320,
-            margin: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                color: Colors.green,
-                border: Border.all(color: Colors.black12),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(8),
-                )),
-            child: Image.network(
-                snippet.image ??
-                    'https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-                fit: BoxFit.fill,
-                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-              if (loadingProgress == null) return child;
-              return Center(
-                  child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                    : null,
-              ));
-            })),
-        Flexible(
-          child: Text(
-            snippet.title ?? '',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: TextStyle(fontSize: 12),
-          ).paddingAll(8),
-        )
-      ],
-    );
-  }
-}
