@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:snippet/common/border_radius.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
+import 'package:snippet/widgets/ellipsis_text_hover.dart';
 
 class SearchResultView extends StatefulWidget {
   const SearchResultView({super.key});
@@ -28,77 +29,90 @@ class _SearchResultViewState extends State<SearchResultView> {
     int count = MediaQuery.of(context).size.width ~/ 250;
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                HeadingRow(ctrl: ctrl),
-                Obx(() => Expanded(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: count,
-                        ),
-                        itemBuilder: (_, index) => Column(
-                          children: [
-                            Expanded(
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black12),
-                                  borderRadius: AppBorderRadius.k8px,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
-                                  child: AspectRatio(
-                                    aspectRatio: 16 / 9,
-                                    child: ClipRRect(
-                                      borderRadius: AppBorderRadius.k16px,
-                                      child: Image.network(
-                                        Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
-                                            "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(children: [
+            HeadingRow(ctrl: ctrl),
+            Expanded(
+              child: Stack(
+                children: [
+                  Obx(() => GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 16,
+                      crossAxisCount: count,
+                    ),
+                    itemBuilder: (_, index) => Column(
+                      children: [
+                        Expanded(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black12),
+                              borderRadius: AppBorderRadius.k8px,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 8),
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: ClipRRect(
+                                  borderRadius: AppBorderRadius.k16px,
+                                  child: Image.network(
+                                    Uri.encodeFull(ctrl.searchResponse.value
+                                            .data![index].image ??
+                                        "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                    fit: BoxFit.fill,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                    errorBuilder: (BuildContext context,
+                                        Object error,
+                                        StackTrace? stackTrace) {
+                                      return Image.network(
+                                        "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                                         fit: BoxFit.fill,
-                                        loadingBuilder:
-                                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null) return child;
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              value: loadingProgress.expectedTotalBytes != null
-                                                  ? loadingProgress.cumulativeBytesLoaded /
-                                                      loadingProgress.expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          );
-                                        },
-                                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                          return Image.network(
-                                            "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                                            fit: BoxFit.fill,
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
                             ),
-                            Text(
-                              ctrl.searchResponse.value.data![index].title ?? '',
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: const TextStyle(fontSize: 12),
-                            ).paddingAll(8)
-                          ],
+                          ),
                         ),
-                        itemCount: ctrl.searchResponse.value.data?.length ?? 0,
-                      ),
-                    ))
-              ],
+                        Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 20),
+                          child: EllipsisTextWithHover(
+                            text: ctrl.searchResponse.value.data![index]
+                                    .title?.capitalize ??
+                                '',
+                          ),
+                        )
+                      ],
+                    ),
+                    itemCount: ctrl.searchResponse.value.data?.length ?? 0,
+                  )),
+                  Obx(() => ctrl.isLoading.value
+                      ? const Center(child: CircularProgressIndicator())
+                      : const SizedBox())
+                ],
+              ),
             ),
-            Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
-          ],
-        ),
-      ),
+          ])),
     );
   }
 }
@@ -139,7 +153,8 @@ class HeadingRow extends StatelessWidget {
               padding: const EdgeInsets.only(top: 24.0),
               child: Container(
                 width: 400,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: BorderRadius.circular(25),
@@ -151,7 +166,8 @@ class HeadingRow extends StatelessWidget {
                     focusNode: FocusNode(),
                     onKeyEvent: (event) async {
                       if (event.logicalKey == LogicalKeyboardKey.enter) {
-                        await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
+                        await ctrl.getSnippets(
+                            searchQuery: ctrl.searchKey.value);
                       }
                     },
                     child: TextField(
