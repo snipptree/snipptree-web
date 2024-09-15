@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:snippet/common/border_radius.dart';
 import 'package:snippet/common/routes.dart';
-import 'package:snippet/domain/models/search_response_list.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
 
 class SearchResultView extends StatefulWidget {
@@ -27,69 +27,80 @@ class _SearchResultViewState extends State<SearchResultView> {
   Widget build(BuildContext context) {
     int count = MediaQuery.of(context).size.width ~/ 250;
     return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              HeadingRow(ctrl: ctrl),
-              Obx(() => Expanded(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: count),
-                      itemBuilder: (_, index) => Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.green,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                HeadingRow(ctrl: ctrl),
+                Obx(() => Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: count,
+                        ),
+                        itemBuilder: (_, index) => Column(
+                          children: [
+                            Expanded(
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black12),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(8),
-                                  )),
-                              child: Image.network(
-                                Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
-                                    "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                                fit: BoxFit.fill,
-                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                          : null,
+                                  borderRadius: AppBorderRadius.k8px,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                                  child: AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child: ClipRRect(
+                                      borderRadius: AppBorderRadius.k16px,
+                                      child: Image.network(
+                                        Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
+                                            "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                        fit: BoxFit.fill,
+                                        loadingBuilder:
+                                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) return child;
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress.expectedTotalBytes != null
+                                                  ? loadingProgress.cumulativeBytesLoaded /
+                                                      loadingProgress.expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                          return Image.network(
+                                            "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                                            fit: BoxFit.fill,
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  );
-                                },
-                                errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                  return Image.network(
-                                    "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-                                    fit: BoxFit.fill,
-                                  );
-                                },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            ctrl.searchResponse.value.data![index].title ?? '',
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: const TextStyle(fontSize: 12),
-                          ).paddingAll(8)
-                        ],
+                            Text(
+                              ctrl.searchResponse.value.data![index].title ?? '',
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: const TextStyle(fontSize: 12),
+                            ).paddingAll(8)
+                          ],
+                        ),
+                        itemCount: ctrl.searchResponse.value.data?.length ?? 0,
                       ),
-                      itemCount: ctrl.searchResponse.value.data?.length ?? 0,
-                    ),
-                  ))
-            ],
-          ),
-          Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
-        ],
+                    ))
+              ],
+            ),
+            Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
+          ],
+        ),
       ),
     );
   }
-
-
 }
 
 class HeadingRow extends StatelessWidget {
@@ -167,5 +178,3 @@ class HeadingRow extends StatelessWidget {
     );
   }
 }
-
-
