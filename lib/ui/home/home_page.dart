@@ -113,7 +113,7 @@ class HomePage extends StatelessWidget {
                           ),
                           border: InputBorder.none,
                           hintText: 'Search for snippet',
-                          contentPadding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                          contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                         ),
                       ),
                     ),
