@@ -29,58 +29,55 @@ class _SearchResultViewState extends State<SearchResultView> {
 
   @override
   Widget build(BuildContext context) {
-    int count = MediaQuery.of(context).size.width ~/ 250;
+    int count = MediaQuery.of(context).size.width ~/ 300;
     return Scaffold(
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: Column(children: [
+        padding: const EdgeInsets.symmetric(horizontal: 48),
+        child: Column(
+          children: [
             HeadingRow(ctrl: ctrl),
             Expanded(
               child: Stack(
                 children: [
                   Obx(() => GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 16,
-                      crossAxisCount: count,
-                    ),
-                    itemBuilder: (_, index) =>
-                        InkWell(
-                          onTap: ()
-                            async {
-                              await Get.defaultDialog(
-                                  backgroundColor: AppColors.dialogBgColor,
-                                  barrierDismissible: true,
-                                  title: '',
-                                  titleStyle: const TextStyle(fontSize: 16),
-                                 contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                                  titlePadding: EdgeInsets.zero,
-                                  content: Expanded(
-                                    child: SizedBox(
-                                      width: 400,
-                                      child: Stack(
-                                        children: [
-                                          ViewSnippetDialog(snippetData:
-                                          ctrl.searchResponse.value
-                                              .data![index],),
-                                          Positioned(
-                                            right: 0.0,
-                                            child: GestureDetector(
-                                              onTap: (){
-                                                Get.back();
-                                              },
-                                              child: const Align(
-                                                alignment: Alignment.topRight,
-                                                child: CircleAvatar(
-                                                  radius: 14.0,
-                                                  backgroundColor: Colors.white,
-                                                  child: Icon(Icons.close),
-                                                ),
-                                              ),
-                                            ))]
-                                    
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 16,
+                          crossAxisCount: count,
+                        ),
+                        itemBuilder: (_, index) => InkWell(
+                          onTap: () async {
+                            await Get.defaultDialog(
+                                backgroundColor: AppColors.dialogBgColor,
+                                barrierDismissible: true,
+                                title: '',
+                                titleStyle: const TextStyle(fontSize: 16),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                titlePadding: EdgeInsets.zero,
+                                content: Expanded(
+                                  child: SizedBox(
+                                    width: 400,
+                                    child: Stack(children: [
+                                      ViewSnippetDialog(
+                                        snippetData: ctrl.searchResponse.value.data![index],
                                       ),
-                                    ),
-                                  ));
+                                      Positioned(
+                                          right: 0.0,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Get.back();
+                                            },
+                                            child: const Align(
+                                              alignment: Alignment.topRight,
+                                              child: CircleAvatar(
+                                                radius: 14.0,
+                                                backgroundColor: Colors.white,
+                                                child: Icon(Icons.close),
+                                              ),
+                                            ),
+                                          ))
+                                    ]),
+                                  ),
+                                ));
                           },
                           child: Column(
                             children: [
@@ -91,39 +88,30 @@ class _SearchResultViewState extends State<SearchResultView> {
                                     borderRadius: AppBorderRadius.k8px,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 32, vertical: 8),
+                                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
                                     child: AspectRatio(
                                       aspectRatio: 16 / 9,
                                       child: ClipRRect(
                                         borderRadius: AppBorderRadius.k16px,
                                         child: Image.network(
-                                          Uri.encodeFull(ctrl.searchResponse.value
-                                              .data![index].image ??
+                                          Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
                                               "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
                                           fit: BoxFit.fill,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent? loadingProgress) {
+                                          loadingBuilder:
+                                              (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                             if (loadingProgress == null) {
                                               return child;
                                             }
                                             return Center(
                                               child: CircularProgressIndicator(
-                                                value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                    null
-                                                    ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
+                                                value: loadingProgress.expectedTotalBytes != null
+                                                    ? loadingProgress.cumulativeBytesLoaded /
+                                                        loadingProgress.expectedTotalBytes!
                                                     : null,
                                               ),
                                             );
                                           },
-                                          errorBuilder: (BuildContext context,
-                                              Object error,
-                                              StackTrace? stackTrace) {
+                                          errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
                                             return Image.network(
                                               "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                                               fit: BoxFit.fill,
@@ -136,26 +124,23 @@ class _SearchResultViewState extends State<SearchResultView> {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: EllipsisTextWithHover(
-                                  text: ctrl.searchResponse.value.data![index]
-                                      .title?.capitalize ??
-                                      '',
+                                  text: ctrl.searchResponse.value.data![index].title?.capitalize ?? '',
                                 ),
                               )
                             ],
                           ),
                         ),
-                    itemCount: ctrl.searchResponse.value.data?.length ?? 0,
-                  )),
-                  Obx(() => ctrl.isLoading.value
-                      ? const Center(child: CircularProgressIndicator())
-                      : const SizedBox())
+                        itemCount: ctrl.searchResponse.value.data?.length ?? 0,
+                      )),
+                  Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
                 ],
               ),
             ),
-          ])),
+          ],
+        ),
+      ).paddingOnly(bottom: 32),
     );
   }
 }
@@ -177,10 +162,9 @@ class HeadingRow extends StatelessWidget {
             },
             child: Hero(
               tag: 'logo',
-              child: Center(
+              child: AspectRatio(
+                aspectRatio: 10 / 6,
                 child: Image.asset(
-                  width: 200,
-                  height: 200,
                   'assets/images/snipptree.png',
                 ),
               ),
@@ -193,14 +177,13 @@ class HeadingRow extends StatelessWidget {
           child: Hero(
             tag: 'search_bar',
             child: Padding(
-              padding: const EdgeInsets.only(top: 24.0),
+              padding: const EdgeInsets.only(top: 40.0),
               child: Container(
                 width: 400,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: AppBorderRadius.k24px,
                   border: Border.all(color: Colors.grey[700]!),
                 ),
                 child: Material(
@@ -209,8 +192,7 @@ class HeadingRow extends StatelessWidget {
                     focusNode: FocusNode(),
                     onKeyEvent: (event) async {
                       if (event.logicalKey == LogicalKeyboardKey.enter) {
-                        await ctrl.getSnippets(
-                            searchQuery: ctrl.searchKey.value);
+                        await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
                       }
                     },
                     child: TextField(
@@ -219,11 +201,12 @@ class HeadingRow extends StatelessWidget {
                       onChanged: (val) {
                         ctrl.searchKey.value = val;
                       },
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.search),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
                         border: InputBorder.none,
                         hintText: 'Search for snippet',
-                        contentPadding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                        hintStyle: Theme.of(context).textTheme.bodyLarge,
+                        contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                       ),
                     ),
                   ),
@@ -234,6 +217,6 @@ class HeadingRow extends StatelessWidget {
         ),
         const Expanded(flex: 1, child: SizedBox.shrink())
       ],
-    );
+    ).paddingOnly(bottom: 16);
   }
 }

@@ -21,6 +21,12 @@ class SearchResultController extends GetxController {
     {"title": "Search for Bus Stop Near Me", "image": 'assets/images/snipptree.png'},
   ];
 
+  @override
+  void onInit(){
+    super.onInit();
+    getSnippets();
+  }
+
   Future<void>? getSnippets({String? searchQuery}) async {
     if (searchQuery == null) {
       searchKey.value = Get.parameters['searchKey'] ?? '';
