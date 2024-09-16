@@ -4,4 +4,5 @@ class SnippetApi {
  
   static const submitSnippetApi = 'snippet-service/snippet';
   static const getSnippetsApi = 'snippet-service/search';
+  static const authenticationApi = 'auth-service/authenticate';
 }

@@ -12,7 +12,7 @@ import 'package:snippet/domain/models/snippet_response.dart';
 import 'package:snippet/domain/repositories/snippet_repo.dart';
 
 class SnippetRepoImpl implements SnippetRepo {
-  final SnipperDataSource dataSource;
+  final SnippetDataSource dataSource;
   final NetworkInfo networkInfo;
   SnippetRepoImpl(this.dataSource, this.networkInfo);
 

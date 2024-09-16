@@ -7,6 +7,10 @@ import 'package:snippet/common/app_constants.dart';
 import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart'
     show GoogleSignInPlatform, SignInInitParameters;
 import 'package:google_sign_in_web/google_sign_in_web.dart' as web;
+import 'package:snippet/common/shared_pref.dart';
+import 'package:snippet/common/utils.dart';
+import 'package:snippet/domain/models/user.dart';
+import 'package:snippet/domain/usecases/home_usecase.dart';
 
 class HomeController extends GetxController {
   TextEditingController searchSnippetController = TextEditingController();
@@ -17,15 +21,15 @@ class HomeController extends GetxController {
   GoogleSignIn? googleSignIn;
   // user.data?.authentication ==> future data ==> idToken
   // user.data?.authentication.==> future data ==> accessToken
-  Rx<GoogleSignInAccount?> user = Rx<GoogleSignInAccount?>(null);
+  var isLoading = false.obs;
 
-  late final SharedPreferences prefs;
+  HomeUseCase useCase = HomeUseCase();
+
 
   @override
   Future<void> onInit() async {
 
     super.onInit();
-    prefs = await SharedPreferences.getInstance();
     // Initialize Google Sign-In plugin before using it
     if (GoogleSignInPlatform.instance is web.GoogleSignInPlugin) {
       (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
@@ -40,25 +44,28 @@ class HomeController extends GetxController {
       clientId: AppConstants.googleSignInOAuthClientId,
     );
     googleSignIn?.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      user.value = account;
+     User user = useCase.getUserData(account);
+     /// add to shared preferences
+
+      authenticateUser(user);
+
     });
-    await _canAccessBirthday();
+  //  await _canAccessBirthday();
   }
 
-  Future<void> _canAccessBirthday() async {
-    String accessToken = prefs.getString('googleAccessToken') ?? '';
-    if (googleSignIn != null) {
-      await googleSignIn!.canAccessScopes(
-        ['https://www.googleapis.com/auth/user.birthday.read'],
-        accessToken: accessToken,
-      );
-      try {
-        await googleSignIn!.requestScopes(['https://www.googleapis.com/auth/user.birthday.read']);
-      } catch (e) {
-        debugPrint('Error: $e');
-      }
-    }
-  }
+  // Future<void> _canAccessBirthday() async {
+  //   if (googleSignIn != null) {
+  //     await googleSignIn!.canAccessScopes(
+  //       ['https://www.googleapis.com/auth/user.birthday.read'],
+  //       accessToken: accessToken,
+  //     );
+  //     try {
+  //       await googleSignIn!.requestScopes(['https://www.googleapis.com/auth/user.birthday.read']);
+  //     } catch (e) {
+  //       debugPrint('Error: $e');
+  //     }
+  //   }
+  // }
 
   Future<void> handleSignIn() async {
     try {
@@ -66,5 +73,26 @@ class HomeController extends GetxController {
     } catch (error) {
       debugPrint(error.toString());
     }
+  }
+
+
+  Future<void> authenticateUser(User user) async {
+    isLoading.value = true;
+    final response = await useCase.authenticateUser(user);
+    response.fold((l) async {
+      isLoading.value = false;
+      Util().showToast(title: l.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+    }, (r) async {
+      if (r.error == false) {
+        SharedPrefs().setUserName(r.data?.firstName);
+        SharedPrefs().setImageUrl(r.data?.profilePicUrl);
+        //SharedPrefs().setJwtToken(r.data?.);
+
+
+      } else {
+        Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+      }
+      isLoading.value = false;
+    });
   }
 }
