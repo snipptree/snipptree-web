@@ -6,18 +6,24 @@ part of 'search_response_list.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SearchResponseList _$SearchResponseListFromJson(Map<String, dynamic> json) => SearchResponseList(
-      createdAt: json['createdAt'] == null ? null : DateTime.parse(json['createdAt'] as String),
+SearchResponseList _$SearchResponseListFromJson(Map<String, dynamic> json) =>
+    SearchResponseList(
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
       id: json['id'] as String?,
       output: json['output'] as String?,
       snippet: json['snippet'] as String?,
       title: json['title'] as String?,
       type: json['type'] as String?,
       image: json['image'] as String?,
-      updatedAt: json['updatedAt'] == null ? null : DateTime.parse(json['updatedAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
 
-Map<String, dynamic> _$SearchResponseListToJson(SearchResponseList instance) => <String, dynamic>{
+Map<String, dynamic> _$SearchResponseListToJson(SearchResponseList instance) =>
+    <String, dynamic>{
       'createdAt': instance.createdAt?.toIso8601String(),
       'id': instance.id,
       'output': instance.output,

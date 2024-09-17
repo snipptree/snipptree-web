@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/network_info.dart';
@@ -12,7 +13,21 @@ import 'package:snippet/domain/repositories/snippet_repo.dart';
 import 'package:snippet/firebase_options.dart';
 
 var getIt = GetIt.I;
-var dio = Dio(BaseOptions(receiveTimeout: const Duration(seconds: 60)));
+var dio = Dio(BaseOptions(
+  receiveTimeout: const Duration(seconds: 60),
+))
+  ..interceptors.add(LogInterceptor(
+    request: true,
+    requestBody: true,
+    requestHeader: true,
+    responseBody: true,
+    responseHeader: false,
+    // You can enable if needed
+    error: true,
+    logPrint: (log) {
+      debugPrint(log.toString()); // Customize how logs are printed if needed
+    },
+  ));
 
 Future<void> init() async {
   await Firebase.initializeApp(

@@ -40,29 +40,12 @@ class HomeController extends GetxController {
       scopes: scopes,
       clientId: AppConstants.googleSignInOAuthClientId,
     );
+
     googleSignIn?.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       User user = useCase.getUserData(account);
-
-      /// add to shared preferences
-
       authenticateUser(user);
     });
-    //  await _canAccessBirthday();
   }
-
-  // Future<void> _canAccessBirthday() async {
-  //   if (googleSignIn != null) {
-  //     await googleSignIn!.canAccessScopes(
-  //       ['https://www.googleapis.com/auth/user.birthday.read'],
-  //       accessToken: accessToken,
-  //     );
-  //     try {
-  //       await googleSignIn!.requestScopes(['https://www.googleapis.com/auth/user.birthday.read']);
-  //     } catch (e) {
-  //       debugPrint('Error: $e');
-  //     }
-  //   }
-  // }
 
   Future<void> handleSignIn() async {
     try {
@@ -82,7 +65,7 @@ class HomeController extends GetxController {
       if (r.error == false) {
         SharedPrefs().setUserName(r.data?.firstName);
         SharedPrefs().setImageUrl(r.data?.profilePicUrl);
-        //SharedPrefs().setJwtToken(r.data?.);
+        SharedPrefs().setJwtToken(r.data?.token);
       } else {
         Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
       }
