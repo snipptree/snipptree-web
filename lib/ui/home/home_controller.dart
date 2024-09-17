@@ -27,31 +27,53 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    // Initialize Google Sign-In plugin before using it
+
+    // Initialize Google Sign-In plugin
     if (GoogleSignInPlatform.instance is web.GoogleSignInPlugin) {
-      (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
-        SignInInitParameters(
-          clientId: AppConstants.googleSignInOAuthClientId,
-          scopes: scopes,
-        ),
-      );
+      try {
+        (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
+          SignInInitParameters(
+            clientId: AppConstants.googleSignInOAuthClientId,
+            scopes: scopes,
+          ),
+        );
+        debugPrint('Google Sign-In Web initialized successfully.');
+      } catch (error) {
+        debugPrint('Error initializing Google Sign-In Web: $error');
+      }
     }
+
     googleSignIn = GoogleSignIn(
       scopes: scopes,
       clientId: AppConstants.googleSignInOAuthClientId,
     );
 
+    // Listen for user sign-in state
     googleSignIn?.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      User user = useCase.getUserData(account);
-      authenticateUser(user);
+      if (account != null) {
+        // Call authenticateUser once sign-in is successful
+        User user = useCase.getUserData(account);
+        authenticateUser(user);
+      } else {
+        debugPrint('No user signed in');
+      }
     });
+
+    // Optionally call signInSilently() to check if a user is already signed in
+    try {
+      await googleSignIn?.signInSilently();
+    } catch (error) {
+      debugPrint('Error in silent sign-in: $error');
+    }
   }
 
   Future<void> handleSignIn() async {
     try {
-      await googleSignIn?.signInSilently();
+      await googleSignIn?.signInSilently() ?? googleSignIn?.signIn();
+      debugPrint('User signed in successfully.');
     } catch (error) {
-      debugPrint(error.toString());
+      debugPrint('Error signing in: $error');
+      Util().showToast(title: 'Error', subTitle: error.toString(), type: ToastType.error);
     }
   }
 
