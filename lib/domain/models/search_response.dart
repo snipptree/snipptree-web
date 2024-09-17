@@ -15,8 +15,8 @@ class SearchResponse {
     this.data,
   });
 
-  factory SearchResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchResponseFromJson(json);
+  factory SearchResponse.fromJson(Map<String, dynamic> json) => _$SearchResponseFromJson(json);
+
   @override
   Map<String, dynamic> toJson() => _$SearchResponseToJson(this);
 }

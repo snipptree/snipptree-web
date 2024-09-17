@@ -14,12 +14,11 @@ class EllipsisTextWithHover extends StatelessWidget {
         preferBelow: false, // Ensure tooltip appears above the text (optional)
         child: Container(
           constraints: const BoxConstraints(maxWidth: 200), // Set a max width to enforce ellipsis
-          child: Text(
-            text,
-            overflow: TextOverflow.ellipsis, // Truncate text with ellipsis
-            style:  Theme.of(context).textTheme.bodyMedium),
-          ),
+          child: Text(text,
+              overflow: TextOverflow.ellipsis, // Truncate text with ellipsis
+              style: Theme.of(context).textTheme.bodyMedium),
         ),
+      ),
     );
   }
 }

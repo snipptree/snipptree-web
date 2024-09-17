@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
+import 'package:google_sign_in_web/google_sign_in_web.dart' as web;
 import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
-import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 import 'package:snippet/ui/home/home_controller.dart';
-import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
-import 'package:google_sign_in_web/google_sign_in_web.dart' as web;
+import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});

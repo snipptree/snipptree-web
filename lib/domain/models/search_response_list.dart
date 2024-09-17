@@ -14,17 +14,10 @@ class SearchResponseList {
   DateTime? updatedAt;
 
   SearchResponseList(
-      {this.createdAt,
-      this.id,
-      this.output,
-      this.snippet,
-      this.title,
-      this.type,
-      this.image,
-      this.updatedAt});
+      {this.createdAt, this.id, this.output, this.snippet, this.title, this.type, this.image, this.updatedAt});
 
-  factory SearchResponseList.fromJson(Map<String, dynamic> json) =>
-      _$SearchResponseListFromJson(json);
+  factory SearchResponseList.fromJson(Map<String, dynamic> json) => _$SearchResponseListFromJson(json);
+
   @override
   Map<String, dynamic> toJson() => _$SearchResponseListToJson(this);
 }

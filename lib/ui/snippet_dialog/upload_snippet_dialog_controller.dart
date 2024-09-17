@@ -1,6 +1,7 @@
+import 'dart:html' as html;
 import 'dart:html';
 import 'dart:typed_data';
-import 'dart:html' as html;
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,8 +30,6 @@ class UploadSnippetDialogController extends GetxController {
   var selectedCondition = 'Image'.obs;
 
   var snippetResponse = SnippetResponse().obs;
-
- 
 
   String? validateTitle(String? value) {
     if (value == null || value.isEmpty) {
@@ -103,23 +102,16 @@ class UploadSnippetDialogController extends GetxController {
         request.onLoadEnd.listen((event) {
           if (request.status == 200) {
             Get.back();
-            Util().showToast(
-                title: 'Snippet Submitted Successfully',
-                subTitle: '',
-                type: ToastType.success);
+            Util().showToast(title: 'Snippet Submitted Successfully', subTitle: '', type: ToastType.success);
           } else {
-            Util().showToast(
-                title: 'Something went wrong',
-                subTitle: '',
-                type: ToastType.error);
+            Util().showToast(title: 'Something went wrong', subTitle: '', type: ToastType.error);
           }
         });
 
         // Sending the request with form data
         request.send(formData);
       } catch (e) {
-        Util().showToast(
-            title: 'Something went wrong', subTitle: '', type: ToastType.error);
+        Util().showToast(title: 'Something went wrong', subTitle: '', type: ToastType.error);
       }
     }
   }

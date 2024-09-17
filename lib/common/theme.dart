@@ -4,6 +4,7 @@ class MaterialTheme {
   final TextTheme textTheme;
 
   const MaterialTheme(this.textTheme);
+
   static ColorScheme darkScheme() {
     return const ColorScheme(
       background: Colors.black,
@@ -35,7 +36,6 @@ class MaterialTheme {
       scrim: Color(0xff000000),
       inverseSurface: Color(0xffdae6d0),
       inversePrimary: Color(0xff106e00),
-    
     );
   }
 
@@ -74,7 +74,6 @@ class MaterialTheme {
       scrim: Color(0xff000000),
       inverseSurface: Color(0xffdae6d0),
       inversePrimary: Color(0xff0a5400),
-     
     );
   }
 
@@ -84,7 +83,7 @@ class MaterialTheme {
 
   static ColorScheme darkHighContrastScheme() {
     return const ColorScheme(
-       background: Colors.black,
+      background: Colors.black,
       onBackground: Color(0xffffffff),
       brightness: Brightness.dark,
       primary: Color.fromARGB(255, 28, 23, 23),
@@ -113,7 +112,6 @@ class MaterialTheme {
       scrim: Color(0xff000000),
       inverseSurface: Color(0xffdae6d0),
       inversePrimary: Color(0xff043200),
-    
     );
   }
 
@@ -121,22 +119,19 @@ class MaterialTheme {
     return theme(darkHighContrastScheme());
   }
 
-
   ThemeData theme(ColorScheme colorScheme) => ThemeData(
-     useMaterial3: true,
-     brightness: colorScheme.brightness,
-     colorScheme: colorScheme,
-     textTheme: textTheme.apply(
-       bodyColor: colorScheme.onSurface,
-       displayColor: colorScheme.onSurface,
-     ),
-     scaffoldBackgroundColor: colorScheme.background,
-     canvasColor: colorScheme.surface,
-  );
+        useMaterial3: true,
+        brightness: colorScheme.brightness,
+        colorScheme: colorScheme,
+        textTheme: textTheme.apply(
+          bodyColor: colorScheme.onSurface,
+          displayColor: colorScheme.onSurface,
+        ),
+        scaffoldBackgroundColor: colorScheme.background,
+        canvasColor: colorScheme.surface,
+      );
 
-
-  List<ExtendedColor> get extendedColors => [
-  ];
+  List<ExtendedColor> get extendedColors => [];
 }
 
 class ExtendedColor {

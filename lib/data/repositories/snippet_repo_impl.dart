@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
@@ -14,20 +12,15 @@ import 'package:snippet/domain/repositories/snippet_repo.dart';
 class SnippetRepoImpl implements SnippetRepo {
   final SnippetDataSource dataSource;
   final NetworkInfo networkInfo;
+
   SnippetRepoImpl(this.dataSource, this.networkInfo);
 
- 
-
   @override
-  Future<Either<Failure, SnippetResponse>> submitSnippetData(
-      SnippetRequest req) async {
+  Future<Either<Failure, SnippetResponse>> submitSnippetData(SnippetRequest req) async {
     if (!await networkInfo.isConnected) {
-      return Left(Failure(
-          message: 'No Internet',
-          failureType: FailureType.INTERNET));
+      return Left(Failure(message: 'No Internet', failureType: FailureType.INTERNET));
     } else {
       try {
-      
         var response = await dataSource.submitSnippetData(req);
         final map = jsonDecode(response);
         final serviceListResponse = SnippetResponse.fromJson(map);
@@ -38,18 +31,12 @@ class SnippetRepoImpl implements SnippetRepo {
     }
   }
 
- 
- 
-   @override
-  Future<Either<Failure, SearchResponse>> getSnippets(
-      String req) async {
+  @override
+  Future<Either<Failure, SearchResponse>> getSnippets(String req) async {
     if (!await networkInfo.isConnected) {
-      return Left(Failure(
-          message: 'No Internet',
-          failureType: FailureType.INTERNET));
+      return Left(Failure(message: 'No Internet', failureType: FailureType.INTERNET));
     } else {
       try {
-      
         var response = await dataSource.getSnippets(req);
         final map = jsonDecode(response);
         final searchRes = SearchResponse.fromJson(map);
@@ -59,5 +46,4 @@ class SnippetRepoImpl implements SnippetRepo {
       }
     }
   }
-
 }

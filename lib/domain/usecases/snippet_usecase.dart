@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:snippet/common/failure.dart';
 import 'package:snippet/domain/models/search_response.dart';
@@ -7,16 +6,17 @@ import 'package:snippet/domain/models/snippet_response.dart';
 import 'package:snippet/domain/repositories/snippet_repo.dart';
 import 'package:snippet/injector.dart';
 
-class SnippetUseCase{
+class SnippetUseCase {
   final dataSource = getIt.get<SnippetRepo>();
-  /// get the service status from api
-    Future<Either<Failure, SnippetResponse>> submitSnippetData(SnippetRequest req) async {
-      final response = await dataSource.submitSnippetData(req);
-      return response;
-    }
 
-   Future<Either<Failure, SearchResponse>> getSnippets(String query) async {
-      final response = await dataSource.getSnippets(query);
-      return response;
-    }
+  /// get the service status from api
+  Future<Either<Failure, SnippetResponse>> submitSnippetData(SnippetRequest req) async {
+    final response = await dataSource.submitSnippetData(req);
+    return response;
+  }
+
+  Future<Either<Failure, SearchResponse>> getSnippets(String query) async {
+    final response = await dataSource.getSnippets(query);
+    return response;
+  }
 }

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snippet/common/app_constants.dart';
 import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart'
     show GoogleSignInPlatform, SignInInitParameters;
 import 'package:google_sign_in_web/google_sign_in_web.dart' as web;
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/user.dart';
@@ -19,16 +17,15 @@ class HomeController extends GetxController {
     'https://www.googleapis.com/auth/contacts.readonly',
   ];
   GoogleSignIn? googleSignIn;
+
   // user.data?.authentication ==> future data ==> idToken
   // user.data?.authentication.==> future data ==> accessToken
   var isLoading = false.obs;
 
   HomeUseCase useCase = HomeUseCase();
 
-
   @override
   Future<void> onInit() async {
-
     super.onInit();
     // Initialize Google Sign-In plugin before using it
     if (GoogleSignInPlatform.instance is web.GoogleSignInPlugin) {
@@ -44,13 +41,13 @@ class HomeController extends GetxController {
       clientId: AppConstants.googleSignInOAuthClientId,
     );
     googleSignIn?.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-     User user = useCase.getUserData(account);
-     /// add to shared preferences
+      User user = useCase.getUserData(account);
+
+      /// add to shared preferences
 
       authenticateUser(user);
-
     });
-  //  await _canAccessBirthday();
+    //  await _canAccessBirthday();
   }
 
   // Future<void> _canAccessBirthday() async {
@@ -75,7 +72,6 @@ class HomeController extends GetxController {
     }
   }
 
-
   Future<void> authenticateUser(User user) async {
     isLoading.value = true;
     final response = await useCase.authenticateUser(user);
@@ -87,8 +83,6 @@ class HomeController extends GetxController {
         SharedPrefs().setUserName(r.data?.firstName);
         SharedPrefs().setImageUrl(r.data?.profilePicUrl);
         //SharedPrefs().setJwtToken(r.data?.);
-
-
       } else {
         Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
       }

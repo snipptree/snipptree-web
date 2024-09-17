@@ -26,35 +26,34 @@ class SharedPrefs {
 
   /// to store the places updated version once api is successful.
   setAuthExpiry(int? time) {
-    prefs.setInt(AppConstants.authExpiry, time??DateTime.now().millisecondsSinceEpoch+6000);
+    prefs.setInt(AppConstants.authExpiry, time ?? DateTime.now().millisecondsSinceEpoch + 6000);
   }
 
   int? getAuthExpiry() {
-    return prefs.getInt(AppConstants.authExpiry)??DateTime.now().millisecondsSinceEpoch+6000;
+    return prefs.getInt(AppConstants.authExpiry) ?? DateTime.now().millisecondsSinceEpoch + 6000;
   }
 
   setJwtToken(String? token) {
-    prefs.setString(AppConstants.jwtToken, token??'');
+    prefs.setString(AppConstants.jwtToken, token ?? '');
   }
 
   String? getJwtToken() {
-    return prefs.getString(AppConstants.jwtToken)??'';
+    return prefs.getString(AppConstants.jwtToken) ?? '';
   }
+
   setUserName(String? userName) {
-    prefs.setString(AppConstants.userName, userName??'');
+    prefs.setString(AppConstants.userName, userName ?? '');
   }
 
   String? getUserName() {
-    return prefs.getString(AppConstants.userName)??'';
+    return prefs.getString(AppConstants.userName) ?? '';
   }
 
   setImageUrl(String? imageUrl) {
-    prefs.setString(AppConstants.imageUrl, imageUrl??'');
+    prefs.setString(AppConstants.imageUrl, imageUrl ?? '');
   }
 
   String? getImageUrl() {
-    return prefs.getString(AppConstants.imageUrl)??'';
+    return prefs.getString(AppConstants.imageUrl) ?? '';
   }
-
-
 }

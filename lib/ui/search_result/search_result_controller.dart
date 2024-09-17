@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/strings.dart';
@@ -22,7 +23,7 @@ class SearchResultController extends GetxController {
   ];
 
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
     getSnippets();
   }

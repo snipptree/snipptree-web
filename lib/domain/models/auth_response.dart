@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:snippet/domain/models/search_response_list.dart';
 import 'package:snippet/domain/models/user.dart';
 
 part 'auth_response.g.dart';
@@ -16,8 +15,8 @@ class AuthResponse {
     this.data,
   });
 
-  factory AuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$AuthResponseFromJson(json);
+  factory AuthResponse.fromJson(Map<String, dynamic> json) => _$AuthResponseFromJson(json);
+
   @override
   Map<String, dynamic> toJson() => _$AuthResponseToJson(this);
 }

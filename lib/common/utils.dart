@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:snippet/common/border_radius.dart';
-import 'package:snippet/common/colors.dart';
-import 'package:snippet/common/strings.dart';
 import 'package:toastification/toastification.dart';
 
 enum ToastType {
@@ -29,7 +26,6 @@ class Util {
   /// Show Single Button dialog
   bool value = false;
 
-  
   showToast({required String? title, required String? subTitle, required ToastType type}) {
     switch (type) {
       case ToastType.info:

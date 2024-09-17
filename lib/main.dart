@@ -5,14 +5,13 @@ import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/styles.dart';
 import 'package:snippet/common/theme.dart';
 import 'package:snippet/injector.dart';
-
 import 'package:snippet/ui/home/home_page.dart';
 import 'package:toastification/toastification.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
   await init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

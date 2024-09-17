@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
@@ -6,28 +5,28 @@ import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog_controller.dart'
 
 class UploadSnippetDialog extends StatelessWidget {
   UploadSnippetDialog({super.key});
+
   final UploadSnippetDialogController controller = UploadSnippetDialogController();
   final QuillController quillController = QuillController.basic();
+
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-      child: SingleChildScrollView(
-      
-              child: Column(children: [
-                Form(
-                 key: controller.titleSnippetFormKey,
-                  child: Column(children: [
-                    TextFormField(
+        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+        child: SingleChildScrollView(
+          child: Column(children: [
+            Form(
+              key: controller.titleSnippetFormKey,
+              child: Column(
+                children: [
+                  TextFormField(
                     decoration: const InputDecoration(
                         label: Text('Enter title for your snippet'),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)))),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.titleTextController,
-                      validator: (value) {
+                    validator: (value) {
                       return controller.validateTitle(value);
-                     },
+                    },
                   ),
                   const SizedBox(
                     height: 30,
@@ -36,161 +35,156 @@ class UploadSnippetDialog extends StatelessWidget {
                     maxLines: 10,
                     decoration: const InputDecoration(
                         label: Text('Enter your snippet'),
-                        border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)))),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.snippetTextController,
-                      validator: (value) {
+                    validator: (value) {
                       return controller.validateSnipperCode(value);
-                     },
+                    },
                   ),
                   const SizedBox(
                     height: 30,
                   ),
-                  ],),
-                ),
-                Obx(() => Row(
+                ],
+              ),
+            ),
+            Obx(() => Row(
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Radio<String>(
-                              value: controller.conditions[0],
-                              groupValue: controller.selectedCondition.value,
-                              onChanged: (String? value) {
-                                if (value != null) {
-                                  controller.selectedCondition.value = value;
-                                }
-                              },
-                            ),
-                            const Text('Image Output')
-                          ],
+                        Radio<String>(
+                          value: controller.conditions[0],
+                          groupValue: controller.selectedCondition.value,
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              controller.selectedCondition.value = value;
+                            }
+                          },
                         ),
-                        const SizedBox(
-                          width: 30,
-                        ),
-                        Row(
-                          children: [
-                            Radio<String>(
-                              value: controller.conditions[1],
-                              groupValue: controller.selectedCondition.value,
-                              onChanged: (String? value) {
-                                if (value != null) {
-                                  controller.selectedCondition.value = value;
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        const Text('Text Output')
+                        const Text('Image Output')
                       ],
-                    )),
-                    const SizedBox(height: 20,),
-                Obx(() => controller.selectedCondition.value == 'Text'
-                    ? Form(
-                       key: controller.outPutFormKey,
-                      child: TextFormField(
-                          maxLines: 10,
-                          decoration: const InputDecoration(
-                              label: Text('Enter out put'),
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(12.0)))),
-                          controller: controller.outPutextController,
-                           validator: (value) {
-                      return controller.validateTextOutput(value);
-                     },
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                    Row(
+                      children: [
+                        Radio<String>(
+                          value: controller.conditions[1],
+                          groupValue: controller.selectedCondition.value,
+                          onChanged: (String? value) {
+                            if (value != null) {
+                              controller.selectedCondition.value = value;
+                            }
+                          },
                         ),
-                    )
-                    : Align(
-                      alignment: Alignment.centerLeft,
-                      child: Stack(
-                          children: [
-                            controller.imageFile.value.buffer.lengthInBytes > 0
-                                ? Column(
-                                    children: [
-                                      controller
-                                                  .imageFile
-                                                  .value
-                                                  .buffer
-                                                  .lengthInBytes >
-                                              0
-                                          ? SizedBox(
-                                            height: 260,width: 360,
-                                            child: Image.memory(controller
-                                                .imageFile.value),
-                                          )
-                                          : const SizedBox()
-                                          .paddingAll(8.0),
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.pickImage();
-                                          },
-                                          child: const Text('Replace'))
-                                    ],
-                                  )
-                                : InkWell(
-                                    onTap: () {
-                                      controller.pickImage();
-                                    },
-                                    child: Column(
+                      ],
+                    ),
+                    const Text('Text Output')
+                  ],
+                )),
+            const SizedBox(
+              height: 20,
+            ),
+            Obx(() => controller.selectedCondition.value == 'Text'
+                ? Form(
+                    key: controller.outPutFormKey,
+                    child: TextFormField(
+                      maxLines: 10,
+                      decoration: const InputDecoration(
+                          label: Text('Enter out put'),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
+                      controller: controller.outPutextController,
+                      validator: (value) {
+                        return controller.validateTextOutput(value);
+                      },
+                    ),
+                  )
+                : Align(
+                    alignment: Alignment.centerLeft,
+                    child: Stack(
+                      children: [
+                        controller.imageFile.value.buffer.lengthInBytes > 0
+                            ? Column(
+                                children: [
+                                  controller.imageFile.value.buffer.lengthInBytes > 0
+                                      ? SizedBox(
+                                          height: 260,
+                                          width: 360,
+                                          child: Image.memory(controller.imageFile.value),
+                                        )
+                                      : const SizedBox().paddingAll(8.0),
+                                  TextButton(
+                                      onPressed: () {
+                                        controller.pickImage();
+                                      },
+                                      child: const Text('Replace'))
+                                ],
+                              )
+                            : InkWell(
+                                onTap: () {
+                                  controller.pickImage();
+                                },
+                                child: Column(
+                                  children: [
+                                    Stack(
                                       children: [
-                                        Stack(
-                                          children: [
-                                             Container(
+                                        Container(
                                           height: 260,
                                           width: 360,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(20)),
+                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
                                             border: Border.all(
-                                              color: Colors
-                                                  .grey, // red as border color
+                                              color: Colors.grey, // red as border color
                                             ),
                                           ),
-                                    
                                         ),
-                                         Positioned.fill(
+                                        Positioned.fill(
                                           child: Align(
                                             alignment: Alignment.center,
-                                            child: Image.asset(
-                                              height: 50,
-                                              width: 50,
-                                              'assets/images/upload.png'),
+                                            child: Image.asset(height: 50, width: 50, 'assets/images/upload.png'),
                                           ),
-                                        )
-,
-                                    
-                                          ],
-                                        )
-                                         ],
-                                    ),
-                                  ),
-                          ],
-                        ),
-                    )),
-                const SizedBox(
-                  height: 30,
-                ),
-                 Obx(()=>Visibility(
-                  visible: (controller.selectedCondition.value == 'Image' && controller.imageFile.value.buffer.lengthInBytes < 1),
-                   child: Column(children: [
-                    Text(controller.errorText.value,style: const TextStyle(color: Colors.red),),
-                    const SizedBox(height: 20,)
-                   ],),
-                 )),
-                SizedBox(
-                  height: 55,
-                  width: 360,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      controller.uploadSnippet();
-                    },
-                    style: ElevatedButton.styleFrom(),
-                    child: const Text('Save Snippet',style: TextStyle(fontSize: 18),),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                      ],
+                    ),
+                  )),
+            const SizedBox(
+              height: 30,
+            ),
+            Obx(() => Visibility(
+                  visible: (controller.selectedCondition.value == 'Image' &&
+                      controller.imageFile.value.buffer.lengthInBytes < 1),
+                  child: Column(
+                    children: [
+                      Text(
+                        controller.errorText.value,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      )
+                    ],
                   ),
-                )
-              ]),
-    ));
+                )),
+            SizedBox(
+              height: 55,
+              width: 360,
+              child: ElevatedButton(
+                onPressed: () {
+                  controller.uploadSnippet();
+                },
+                style: ElevatedButton.styleFrom(),
+                child: const Text(
+                  'Save Snippet',
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+            )
+          ]),
+        ));
   }
 }
