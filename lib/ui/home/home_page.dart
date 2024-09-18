@@ -147,14 +147,15 @@ class HomePage extends StatelessWidget {
                   width: 180,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await Get.defaultDialog(
-                          backgroundColor: AppColors.dialogBgColor,
-                          barrierDismissible: true,
-                          title: '',
-                          titleStyle: const TextStyle(fontSize: 16),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                          titlePadding: EdgeInsets.zero,
-                          content: Expanded(child: UploadSnippetDialog()));
+                      ctrl.signInWithGoogle();
+                      // await Get.defaultDialog(
+                      //     backgroundColor: AppColors.dialogBgColor,
+                      //     barrierDismissible: true,
+                      //     title: '',
+                      //     titleStyle: const TextStyle(fontSize: 16),
+                      //     contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      //     titlePadding: EdgeInsets.zero,
+                      //     content: Expanded(child: UploadSnippetDialog()));
                     },
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),

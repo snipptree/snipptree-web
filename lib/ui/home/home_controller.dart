@@ -24,48 +24,48 @@ class HomeController extends GetxController {
 
   HomeUseCase useCase = HomeUseCase();
 
-  @override
-  Future<void> onInit() async {
-    super.onInit();
-
-    // Initialize Google Sign-In plugin
-    if (GoogleSignInPlatform.instance is web.GoogleSignInPlugin) {
-      try {
-        (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
-          SignInInitParameters(
-            clientId: AppConstants.googleSignInOAuthClientId,
-            scopes: scopes,
-          ),
-        );
-        debugPrint('Google Sign-In Web initialized successfully.');
-      } catch (error) {
-        debugPrint('Error initializing Google Sign-In Web: $error');
-      }
-    }
-
-    googleSignIn = GoogleSignIn(
-      scopes: scopes,
-      clientId: AppConstants.googleSignInOAuthClientId,
-    );
-
-    // Listen for user sign-in state
-    googleSignIn?.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      if (account != null) {
-        // Call authenticateUser once sign-in is successful
-        User user = useCase.getUserData(account);
-        authenticateUser(user);
-      } else {
-        debugPrint('No user signed in');
-      }
-    });
-
-    // Optionally call signInSilently() to check if a user is already signed in
-    try {
-      await googleSignIn?.signInSilently();
-    } catch (error) {
-      debugPrint('Error in silent sign-in: $error');
-    }
-  }
+  // @override
+  // Future<void> onInit() async {
+  //   super.onInit();
+  //
+  //     // Initialize Google Sign-In plugin
+  //   if (GoogleSignInPlatform.instance is web.GoogleSignInPlugin) {
+  //     try {
+  //       (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
+  //         SignInInitParameters(
+  //           clientId: AppConstants.googleSignInOAuthClientId,
+  //           scopes: scopes,
+  //         ),
+  //       );
+  //       debugPrint('Google Sign-In Web initialized successfully.');
+  //     } catch (error) {
+  //       debugPrint('Error initializing Google Sign-In Web: $error');
+  //     }
+  //   }
+  //
+  //   googleSignIn = GoogleSignIn(
+  //     scopes: scopes,
+  //     clientId: AppConstants.googleSignInOAuthClientId,
+  //   );
+  //
+  //   // Listen for user sign-in state
+  //   googleSignIn?.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+  //     if (account != null) {
+  //       // Call authenticateUser once sign-in is successful
+  //       User user = useCase.getUserData(account);
+  //       authenticateUser(user);
+  //     } else {
+  //       debugPrint('No user signed in');
+  //     }
+  //   });
+  //
+  //   // Optionally call signInSilently() to check if a user is already signed in
+  //   try {
+  //     await googleSignIn?.signInSilently();
+  //   } catch (error) {
+  //     debugPrint('Error in silent sign-in: $error');
+  //   }
+  // }
 
   Future<void> handleSignIn() async {
     try {
@@ -77,21 +77,39 @@ class HomeController extends GetxController {
     }
   }
 
+
   Future<void> authenticateUser(User user) async {
     isLoading.value = true;
     final response = await useCase.authenticateUser(user);
     response.fold((l) async {
       isLoading.value = false;
-      Util().showToast(title: l.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+      Util().showToast(
+          title: l.message ?? 'Something went wrong',
+          subTitle: '',
+          type: ToastType.error);
     }, (r) async {
       if (r.error == false) {
         SharedPrefs().setUserName(r.data?.firstName);
         SharedPrefs().setImageUrl(r.data?.profilePicUrl);
         SharedPrefs().setJwtToken(r.data?.token);
       } else {
-        Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+        Util().showToast(
+            title: r.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.error);
       }
       isLoading.value = false;
     });
+  }
+
+  Future<void> signInWithGoogle() async {
+// begin interactive sign in process
+    final GoogleSignInAccount? gUser =
+        await GoogleSignIn(clientId: AppConstants.googleSignInOAuthClientId)
+            .signIn();
+    if (gUser?.email.isNotEmpty == true) {
+      User user = useCase.getUserData(gUser);
+      authenticateUser(user);
+    }
   }
 }
