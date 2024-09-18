@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/user.dart';
 import 'package:snippet/domain/usecases/home_usecase.dart';
@@ -24,9 +25,7 @@ class HomeController extends GetxController {
       (r) async {
         if (r.error == false) {
           //TODO: @satheesh handle shared prefs here and jwt token handling
-          // SharedPrefs().setUserName(r.data?.firstName);
-          // SharedPrefs().setImageUrl(r.data?.profilePicUrl);
-          // SharedPrefs().setJwtToken(r.data?.token);
+          SharedPrefs().setJwtToken(r.data?.token);
         } else {
           Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
         }
@@ -39,7 +38,7 @@ class HomeController extends GetxController {
     googleSignIn.value?.signOut().then(
       (value) {
         gUser.value = null;
-        Util().showToast(title: "SignOut Successful!", subTitle: "", type: ToastType.info);
+        Util().showToast(title: "SignOut Successful!", subTitle: "We miss you 🥺", type: ToastType.info);
       },
     );
   }

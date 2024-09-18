@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/routes.dart';
+import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/home/home_controller.dart';
@@ -13,7 +14,7 @@ import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final HomeController ctrl = HomeController();
+  final HomeController ctrl = Get.put(HomeController()); // Ensure the controller is injected properly
 
   @override
   Widget build(BuildContext context) {
@@ -29,34 +30,41 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 24, top: 16),
                   child: Row(
                     children: [
-                      //TODO: enable later
-                      // InkWell(
-                      //   child: MouseRegion(
-                      //     cursor: SystemMouseCursors.click,
-                      //     child: Text(
-                      //       "Donate ❤️",
-                      //       style:
-                      //           Theme.of(context).textTheme.titleMedium?.copyWith(decoration: TextDecoration.underline),
-                      //     ),
-                      //   ),
-                      // ),
-                      const SizedBox(width: 24),
                       Obx(() {
-                        if (ctrl.gUser.value != null) {
+                        final authToken = SharedPrefs().getJwtToken();
+                        if (ctrl.gUser.value != null && authToken?.isNotEmpty == true) {
                           return Row(
                             children: [
                               Text(
                                 "Hello, ${ctrl.gUser.value?.displayName}",
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(width: 12),
-                              MyProfileMenu(controller: ctrl),
+                              MyProfileMenu(controller: ctrl), // User Profile Menu
                             ],
                           );
                         } else {
-                          return GoogleSignInButton(controller: ctrl);
+                          return GoogleSignInButton(controller: ctrl); // Google Sign-In Button
                         }
-                      })
+                      }),
+                      const SizedBox(width: 24),
+                      InkWell(
+                        onTap: () {
+                          // Handle donation tap
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Text(
+                            "Donate ❤️",
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -74,7 +82,7 @@ class HomePage extends StatelessWidget {
               tag: 'logo',
               child: Center(
                 child: Image.asset(
-                  'assets/images/snipptree.png',
+                  'assets/images/snipptree.png', // Logo asset
                 ),
               ),
             ),
@@ -99,15 +107,9 @@ class HomePage extends StatelessWidget {
                       }
                     },
                     child: TextFormField(
-                      textAlign: TextAlign.start,
                       controller: ctrl.searchSnippetController,
                       decoration: const InputDecoration(
-                        prefixIcon: Align(
-                          widthFactor: 0.0,
-                          heightFactor: 0.0,
-                          alignment: Alignment.center,
-                          child: Icon(Icons.search),
-                        ),
+                        prefixIcon: Icon(Icons.search),
                         border: InputBorder.none,
                         hintText: 'Search for snippet',
                         contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
@@ -125,9 +127,7 @@ class HomePage extends StatelessWidget {
                   height: 55,
                   width: 180,
                   child: ElevatedButton(
-                    onPressed: () {
-                      navigateToSERP();
-                    },
+                    onPressed: navigateToSERP,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -144,18 +144,29 @@ class HomePage extends StatelessWidget {
                   width: 180,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await Get.defaultDialog(
+                      final authToken = SharedPrefs().getJwtToken();
+                      if (authToken?.isNotEmpty == true) {
+                        await Get.defaultDialog(
                           backgroundColor: AppColors.dialogBgColor,
                           barrierDismissible: true,
                           title: '',
                           titleStyle: const TextStyle(fontSize: 16),
                           contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                           titlePadding: EdgeInsets.zero,
-                          content: Expanded(child: UploadSnippetDialog()));
+                          content: Expanded(child: UploadSnippetDialog()),
+                        );
+                      } else {
+                        Util().showToast(
+                          title: "We'd love to have you, please stay with us!",
+                          subTitle: "Just one more step to complete your sign-up before you can upload your snippet.",
+                          type: ToastType.success,
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                        backgroundColor: Theme.of(context).colorScheme.inversePrimary),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                    ),
                     child: const Text(
                       "Upload Snippet",
                       style: TextStyle(color: Colors.white),
@@ -169,10 +180,7 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 16.0),
               child: Text(
                 '© 2024 www.snipptree.com. All rights reserved.',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ],
@@ -192,12 +200,4 @@ class HomePage extends StatelessWidget {
       );
     }
   }
-
-  final OutlineInputBorder customBorder = OutlineInputBorder(
-    borderSide: const BorderSide(
-      color: Colors.grey,
-      width: 0.5, // Set the border width here
-    ),
-    borderRadius: BorderRadius.circular(4.0), // Set the border radius here
-  );
 }
