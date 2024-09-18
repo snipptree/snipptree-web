@@ -12,13 +12,15 @@ class UploadSnippetDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: SingleChildScrollView(
-          child: Column(children: [
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
             Form(
               key: controller.titleSnippetFormKey,
               child: Column(
                 children: [
+                  const SizedBox(height: 12),
                   TextFormField(
                     decoration: const InputDecoration(
                         label: Text('Enter title for your snippet'),
@@ -91,7 +93,7 @@ class UploadSnippetDialog extends StatelessWidget {
                     child: TextFormField(
                       maxLines: 10,
                       decoration: const InputDecoration(
-                          label: Text('Enter out put'),
+                          label: Text('Enter output'),
                           border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
                       controller: controller.outPutextController,
                       validator: (value) {
@@ -184,7 +186,9 @@ class UploadSnippetDialog extends StatelessWidget {
                 ),
               ),
             )
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 }

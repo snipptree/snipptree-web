@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snippet/common/app_constants.dart';
+import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/user.dart';
 import 'package:snippet/domain/usecases/home_usecase.dart';
@@ -27,7 +28,9 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
       ],
     );
 
-    _signInSilently(); // Try silent sign-in on init
+    if (SharedPrefs().getJwtToken()?.isEmpty == true) {
+      _signInSilently(); // Try silent sign-in on init
+    }
   }
 
   // Attempt silent sign-in

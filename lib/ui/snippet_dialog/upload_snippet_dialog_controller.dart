@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/app_constants.dart';
+import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/snippet_response.dart';
 
@@ -97,21 +98,22 @@ class UploadSnippetDialogController extends GetxController {
       try {
         // Use html.HttpRequest to send the request
         final request = html.HttpRequest();
-        request.open('POST', '${AppConstants.baseUrl}/snippet-service/snippet');
+        request.open('POST', '${AppConstants.baseUrl}snippet-service/snippet');
+        request.setRequestHeader("Authorization", 'Bearer ${SharedPrefs().getJwtToken()}');
 
         request.onLoadEnd.listen((event) {
           if (request.status == 200) {
             Get.back();
             Util().showToast(title: 'Snippet Submitted Successfully', subTitle: '', type: ToastType.success);
           } else {
-            Util().showToast(title: 'Something went wrong', subTitle: '', type: ToastType.error);
+            Util().showToast(title: 'Something went wrong', subTitle: request.responseText, type: ToastType.error);
           }
         });
 
         // Sending the request with form data
         request.send(formData);
       } catch (e) {
-        Util().showToast(title: 'Something went wrong', subTitle: '', type: ToastType.error);
+        Util().showToast(title: 'Something went wrong', subTitle: e.toString(), type: ToastType.error);
       }
     }
   }

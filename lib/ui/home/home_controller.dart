@@ -38,6 +38,7 @@ class HomeController extends GetxController {
     googleSignIn.value?.signOut().then(
       (value) {
         gUser.value = null;
+        SharedPrefs().setJwtToken("");
         Util().showToast(title: "SignOut Successful!", subTitle: "We miss you 🥺", type: ToastType.info);
       },
     );
