@@ -45,6 +45,7 @@ class Util {
       case ToastType.error:
         toastification.show(
           type: ToastificationType.error,
+          showProgressBar: false,
           style: ToastificationStyle.flatColored,
           title: Text(title ?? ""),
           description: Text(subTitle ?? ""),
@@ -58,6 +59,7 @@ class Util {
       case ToastType.warn:
         toastification.show(
           type: ToastificationType.warning,
+          showProgressBar: false,
           style: ToastificationStyle.flatColored,
           title: Text(title ?? ""),
           description: Text(subTitle ?? ""),
@@ -71,6 +73,7 @@ class Util {
       case ToastType.success:
         toastification.show(
           type: ToastificationType.success,
+          showProgressBar: false,
           style: ToastificationStyle.flatColored,
           title: Text(title ?? ""),
           description: Text(subTitle ?? ""),

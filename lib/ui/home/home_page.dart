@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in_platform_interface/google_sign_in_platform_interface.dart';
-import 'package:google_sign_in_web/google_sign_in_web.dart' as web;
-import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/home/home_controller.dart';
+import 'package:snippet/ui/home/widgets/google_sign_in.dart';
+import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 
 class HomePage extends StatelessWidget {
@@ -28,39 +27,37 @@ class HomePage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 24, top: 16),
-                  child: FutureBuilder(
-                    future: (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).initWithParams(
-                      SignInInitParameters(
-                        clientId: AppConstants.googleSignInOAuthClientId,
-                        scopes: ctrl.scopes,
-                      ),
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Row(
-                          children: [
-                            InkWell(
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: Text(
-                                  "Donate ❤️",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(decoration: TextDecoration.underline),
-                                ),
+                  child: Row(
+                    children: [
+                      //TODO: enable later
+                      // InkWell(
+                      //   child: MouseRegion(
+                      //     cursor: SystemMouseCursors.click,
+                      //     child: Text(
+                      //       "Donate ❤️",
+                      //       style:
+                      //           Theme.of(context).textTheme.titleMedium?.copyWith(decoration: TextDecoration.underline),
+                      //     ),
+                      //   ),
+                      // ),
+                      const SizedBox(width: 24),
+                      Obx(() {
+                        if (ctrl.gUser.value != null) {
+                          return Row(
+                            children: [
+                              Text(
+                                "Hello, ${ctrl.gUser.value?.displayName}",
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
                               ),
-                            ),
-                            const SizedBox(width: 24),
-                            (GoogleSignInPlatform.instance as web.GoogleSignInPlugin).renderButton(
-                              configuration: web.GSIButtonConfiguration(shape: web.GSIButtonShape.pill),
-                            ),
-                          ],
-                        );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
+                              const SizedBox(width: 12),
+                              MyProfileMenu(controller: ctrl),
+                            ],
+                          );
+                        } else {
+                          return GoogleSignInButton(controller: ctrl);
+                        }
+                      })
+                    ],
                   ),
                 ),
               ],
@@ -147,15 +144,14 @@ class HomePage extends StatelessWidget {
                   width: 180,
                   child: ElevatedButton(
                     onPressed: () async {
-                      ctrl.signInWithGoogle();
-                      // await Get.defaultDialog(
-                      //     backgroundColor: AppColors.dialogBgColor,
-                      //     barrierDismissible: true,
-                      //     title: '',
-                      //     titleStyle: const TextStyle(fontSize: 16),
-                      //     contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                      //     titlePadding: EdgeInsets.zero,
-                      //     content: Expanded(child: UploadSnippetDialog()));
+                      await Get.defaultDialog(
+                          backgroundColor: AppColors.dialogBgColor,
+                          barrierDismissible: true,
+                          title: '',
+                          titleStyle: const TextStyle(fontSize: 16),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          titlePadding: EdgeInsets.zero,
+                          content: Expanded(child: UploadSnippetDialog()));
                     },
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
