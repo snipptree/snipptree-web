@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/home/home_controller.dart';
 
 class MyProfileMenu extends StatelessWidget {
@@ -13,7 +15,7 @@ class MyProfileMenu extends StatelessWidget {
       onSelected: (value) {
         switch (value) {
           case 1:
-            // Get.toNamed('/mySnippets'); // Use GetX navigation
+            Get.toNamed(Routes.mySnippets);
             break;
           case 2:
             controller.handleLogout();

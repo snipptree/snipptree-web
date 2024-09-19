@@ -99,21 +99,31 @@ class UploadSnippetDialogController extends GetxController {
         // Use html.HttpRequest to send the request
         final request = html.HttpRequest();
         request.open('POST', '${AppConstants.baseUrl}snippet-service/snippet');
-        request.setRequestHeader("Authorization", 'Bearer ${SharedPrefs().getJwtToken()}');
+        request.setRequestHeader(
+            "Authorization", 'Bearer ${SharedPrefs().getJwtToken()}');
 
         request.onLoadEnd.listen((event) {
           if (request.status == 200) {
             Get.back();
-            Util().showToast(title: 'Snippet Submitted Successfully', subTitle: '', type: ToastType.success);
+            Util().showToast(
+                title: 'Snippet Submitted Successfully',
+                subTitle: '',
+                type: ToastType.success);
           } else {
-            Util().showToast(title: 'Something went wrong', subTitle: request.responseText, type: ToastType.error);
+            Util().showToast(
+                title: 'Something went wrong',
+                subTitle: request.responseText,
+                type: ToastType.error);
           }
         });
 
         // Sending the request with form data
         request.send(formData);
       } catch (e) {
-        Util().showToast(title: 'Something went wrong', subTitle: e.toString(), type: ToastType.error);
+        Util().showToast(
+            title: 'Something went wrong',
+            subTitle: e.toString(),
+            type: ToastType.error);
       }
     }
   }

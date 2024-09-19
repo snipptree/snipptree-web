@@ -13,7 +13,8 @@ class Styles {
 
   static BorderRadius defaultBorderRadius = BorderRadius.circular(20);
 
-  static ScrollbarThemeData scrollbarTheme = const ScrollbarThemeData().copyWith(
+  static ScrollbarThemeData scrollbarTheme =
+      const ScrollbarThemeData().copyWith(
     thumbColor: MaterialStateProperty.all(defaultGreyColor),
     thickness: MaterialStateProperty.all(5),
     // thumbVisibility: false,

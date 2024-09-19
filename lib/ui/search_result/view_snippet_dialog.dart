@@ -43,7 +43,8 @@ class ViewSnippetDialog extends StatelessWidget {
                           child: IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: snippetData.snippet ?? ''));
+                              Clipboard.setData(ClipboardData(
+                                  text: snippetData.snippet ?? ''));
                             },
                           ),
                         ),

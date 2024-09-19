@@ -16,7 +16,8 @@ class SnippetRequest {
     this.output,
   });
 
-  factory SnippetRequest.fromJson(Map<String, dynamic> json) => _$SnippetRequestFromJson(json);
+  factory SnippetRequest.fromJson(Map<String, dynamic> json) =>
+      _$SnippetRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SnippetRequestToJson(this);
 }

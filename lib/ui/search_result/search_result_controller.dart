@@ -15,13 +15,6 @@ class SearchResultController extends GetxController {
 
   var searchResponse = SearchResponse().obs;
 
-  var gridViewItems = [
-    {"title": "Search for Bus Stop Near Me", "image": 'assets/images/snipptree.png'},
-    {"title": "Search for Bus Stop Near Me", "image": 'assets/images/snipptree.png'},
-    {"title": "Search for Bus Stop Near Me", "image": 'assets/images/snipptree.png'},
-    {"title": "Search for Bus Stop Near Me", "image": 'assets/images/snipptree.png'},
-  ];
-
   @override
   void onInit() {
     super.onInit();
@@ -36,23 +29,32 @@ class SearchResultController extends GetxController {
 
     if (searchKey.value.isEmpty) {
       Util().showToast(
-          title: AppStrings.enterASearchQuery, subTitle: AppStrings.weHaveSnippetsWaitingForYou, type: ToastType.info);
+          title: AppStrings.enterASearchQuery,
+          subTitle: AppStrings.weHaveSnippetsWaitingForYou,
+          type: ToastType.info);
       return;
     }
 
     isLoading.value = true;
     isDataLoaded.value = false;
     searchResponse.value = SearchResponse();
-    final response = await SnippetUseCase().getSnippets(searchQuery ?? searchKey.value);
+    final response =
+        await SnippetUseCase().getSnippets(searchQuery ?? searchKey.value);
     response.fold((l) async {
       isLoading.value = false;
-      Util().showToast(title: l.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+      Util().showToast(
+          title: l.message ?? 'Something went wrong',
+          subTitle: '',
+          type: ToastType.error);
     }, (r) async {
       if (r.error == false) {
         isDataLoaded.value = true;
         searchResponse.value = r;
       } else {
-        Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+        Util().showToast(
+            title: r.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.error);
       }
       isLoading.value = false;
     });

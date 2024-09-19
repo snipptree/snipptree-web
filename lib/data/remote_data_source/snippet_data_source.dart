@@ -14,4 +14,7 @@ abstract class SnippetDataSource {
 
   @GET(SnippetApi.getSnippetsApi)
   Future<String> getSnippets(@Query('query') String q);
+
+  @GET(SnippetApi.getMySnippetsApi)
+  Future<String> getMySnippets(@Header("Authorization") String token);
 }
