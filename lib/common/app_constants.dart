@@ -1,5 +1,5 @@
 class AppConstants {
-  //static const baseUrl = 'http://snipptree.com';
+  //static const baseUrl = 'http://api.snipptree.com';
   static const baseUrl = 'http://localhost:8080/';
   static const googleSignInOAuthClientId = "1080620736880-s6sv83ur9moh939l6jcc18ebkope1bbk.apps.googleusercontent.com";
   static const webDimens = 1000.0;
