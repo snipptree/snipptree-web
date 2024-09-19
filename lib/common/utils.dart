@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:snippet/common/border_radius.dart';
 import 'package:toastification/toastification.dart';
 
@@ -23,8 +24,17 @@ class Util {
     FocusScope.of(mContext).requestFocus(FocusNode());
   }
 
-  /// Show Single Button dialog
-  bool value = false;
+
+
+  bool isAuthTokenValid(String token) {
+    try {
+      // Check if token is expired
+      return JwtDecoder.isExpired(token);
+    } catch (e) {
+      return false;
+    }
+  }
+
 
   showToast({required String? title, required String? subTitle, required ToastType type}) {
     switch (type) {

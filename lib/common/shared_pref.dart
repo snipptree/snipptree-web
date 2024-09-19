@@ -16,44 +16,32 @@ class SharedPrefs {
   // Instance variable for SharedPreferences
   late SharedPreferences _prefs;
 
-  // Getter to access SharedPreferences
-  SharedPreferences get prefs => _prefs;
-
   // Initialize SharedPreferences
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  /// to store the places updated version once api is successful.
-  setAuthExpiry(int? time) {
-    prefs.setInt(AppConstants.authExpiry, time ?? DateTime.now().millisecondsSinceEpoch + 6000);
-  }
-
-  int? getAuthExpiry() {
-    return prefs.getInt(AppConstants.authExpiry) ?? DateTime.now().millisecondsSinceEpoch + 6000;
-  }
-
   setJwtToken(String? token) {
-    prefs.setString(AppConstants.jwtToken, token ?? '');
+    _prefs.setString(AppConstants.jwtToken, token ?? '');
   }
 
   String? getJwtToken() {
-    return prefs.getString(AppConstants.jwtToken) ?? '';
+    return _prefs.getString(AppConstants.jwtToken) ?? '';
   }
 
   setUserName(String? userName) {
-    prefs.setString(AppConstants.userName, userName ?? '');
+    _prefs.setString(AppConstants.userName, userName ?? '');
   }
 
   String? getUserName() {
-    return prefs.getString(AppConstants.userName) ?? '';
+    return _prefs.getString(AppConstants.userName) ?? '';
   }
 
   setImageUrl(String? imageUrl) {
-    prefs.setString(AppConstants.imageUrl, imageUrl ?? '');
+    _prefs.setString(AppConstants.imageUrl, imageUrl ?? '');
   }
 
   String? getImageUrl() {
-    return prefs.getString(AppConstants.imageUrl) ?? '';
+    return _prefs.getString(AppConstants.imageUrl) ?? '';
   }
 }
