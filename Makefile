@@ -18,4 +18,4 @@ clean:
 
 deploy:
 	@echo "Building flutter web and deploying to firebase"
-	flutter build web && firebase deploy
+	flutter build web --web-renderer html && firebase deploy

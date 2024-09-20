@@ -28,9 +28,9 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
       ],
     );
 
-    if (SharedPrefs().getJwtToken()?.isEmpty == true) {
-      _signInSilently(); // Try silent sign-in on init
-    }
+    // if (SharedPrefs().getJwtToken()?.isEmpty == true) {
+    //   signInWithGoogle(); // Try silent sign-in on init
+    // }
   }
 
   // Attempt silent sign-in
