@@ -14,7 +14,8 @@ import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
-  final HomeController ctrl = Get.put(HomeController()); // Ensure the controller is injected properly
+  final HomeController ctrl =
+      Get.put(HomeController()); // Ensure the controller is injected properly
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,8 @@ class HomePage extends StatelessWidget {
                     children: [
                       Obx(() {
                         final authToken = SharedPrefs().getJwtToken();
-                        if (ctrl.gUser.value != null && authToken?.isNotEmpty == true) {
+                        if (ctrl.gUser.value != null &&
+                            authToken?.isNotEmpty == true) {
                           return Row(
                             children: [
                               Text(
@@ -43,11 +45,13 @@ class HomePage extends StatelessWidget {
                                     ?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               const SizedBox(width: 12),
-                              MyProfileMenu(controller: ctrl), // User Profile Menu
+                              MyProfileMenu(
+                                  controller: ctrl), // User Profile Menu
                             ],
                           );
                         } else {
-                          return GoogleSignInButton(controller: ctrl); // Google Sign-In Button
+                          return GoogleSignInButton(
+                              controller: ctrl); // Google Sign-In Button
                         }
                       }),
                       const SizedBox(width: 24),
@@ -59,9 +63,12 @@ class HomePage extends StatelessWidget {
                           cursor: SystemMouseCursors.click,
                           child: Text(
                             "Donate ❤️",
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              decoration: TextDecoration.underline,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  decoration: TextDecoration.underline,
+                                ),
                           ),
                         ),
                       ),
@@ -91,7 +98,8 @@ class HomePage extends StatelessWidget {
               tag: 'search_bar',
               child: Container(
                 width: 600,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: BorderRadius.circular(25),
@@ -112,7 +120,8 @@ class HomePage extends StatelessWidget {
                         prefixIcon: Icon(Icons.search),
                         border: InputBorder.none,
                         hintText: 'Search for snippet',
-                        contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                        contentPadding:
+                            EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                       ),
                     ),
                   ),
@@ -129,8 +138,10 @@ class HomePage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: navigateToSERP,
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 15),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.inversePrimary,
                     ),
                     child: const Text(
                       'Search Snippet',
@@ -151,21 +162,25 @@ class HomePage extends StatelessWidget {
                           barrierDismissible: true,
                           title: '',
                           titleStyle: const TextStyle(fontSize: 16),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 16),
                           titlePadding: EdgeInsets.zero,
                           content: Expanded(child: UploadSnippetDialog()),
                         );
                       } else {
                         Util().showToast(
                           title: "We'd love to have you, please stay with us!",
-                          subTitle: "Just one more step to complete your sign-up before you can upload your snippet.",
+                          subTitle:
+                              "Just one more step to complete your sign-up before you can upload your snippet.",
                           type: ToastType.success,
                         );
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 15),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.inversePrimary,
                     ),
                     child: const Text(
                       "Upload Snippet",
@@ -191,7 +206,8 @@ class HomePage extends StatelessWidget {
 
   void navigateToSERP() {
     if (ctrl.searchSnippetController.text.isNotEmpty) {
-      Get.toNamed(Routes.serp, parameters: {"searchKey": ctrl.searchSnippetController.text});
+      Get.toNamed(Routes.serp,
+          parameters: {"searchKey": ctrl.searchSnippetController.text});
     } else {
       Util().showToast(
         title: AppStrings.enterASearchQuery,

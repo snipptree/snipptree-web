@@ -12,7 +12,8 @@ class SnippetResponse {
     this.message,
   });
 
-  factory SnippetResponse.fromJson(Map<String, dynamic> json) => _$SnippetResponseFromJson(json);
+  factory SnippetResponse.fromJson(Map<String, dynamic> json) =>
+      _$SnippetResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SnippetResponseToJson(this);
 }

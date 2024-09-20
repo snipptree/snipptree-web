@@ -17,7 +17,8 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, AuthResponse>> authenticateUser(User req) async {
     if (!await networkInfo.isConnected) {
-      return Left(Failure(message: 'No Internet', failureType: FailureType.INTERNET));
+      return Left(
+          Failure(message: 'No Internet', failureType: FailureType.INTERNET));
     } else {
       try {
         var response = await dataSource.authenticateUser(req);

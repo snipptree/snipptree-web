@@ -36,8 +36,10 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
   // Attempt silent sign-in
   Future<void> _signInSilently() async {
     try {
-      widget.controller.gUser.value = await widget.controller.googleSignIn.value?.signInSilently();
-      if (widget.controller.gUser.value != null && widget.controller.gUser.value!.email.isNotEmpty) {
+      widget.controller.gUser.value =
+          await widget.controller.googleSignIn.value?.signInSilently();
+      if (widget.controller.gUser.value != null &&
+          widget.controller.gUser.value!.email.isNotEmpty) {
         HomeUseCase useCase = HomeUseCase();
         User user = useCase.getUserData(widget.controller.gUser.value);
         widget.controller.authenticateUser(user);
@@ -52,15 +54,20 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
   Future<void> signInWithGoogle() async {
     HomeUseCase useCase = HomeUseCase();
     try {
-      widget.controller.gUser.value = await widget.controller.googleSignIn.value?.signIn();
-      if (widget.controller.gUser.value != null && widget.controller.gUser.value?.email.isNotEmpty == true) {
+      widget.controller.gUser.value =
+          await widget.controller.googleSignIn.value?.signIn();
+      if (widget.controller.gUser.value != null &&
+          widget.controller.gUser.value?.email.isNotEmpty == true) {
         User user = useCase.getUserData(widget.controller.gUser.value);
         widget.controller.authenticateUser(user);
       }
     } catch (error) {
       // Handle sign-in errors
       debugPrint('Error during Google sign-in: $error');
-      Util().showToast(title: "Google sign-in failed.", subTitle: "Please try again.", type: ToastType.error);
+      Util().showToast(
+          title: "Google sign-in failed.",
+          subTitle: "Please try again.",
+          type: ToastType.error);
     }
   }
 
@@ -69,7 +76,8 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.white),
-        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
+        padding:
+            MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
       ),
       onPressed: signInWithGoogle,
       child: Padding(

@@ -20,14 +20,20 @@ class HomeController extends GetxController {
     response.fold(
       (l) async {
         isLoading.value = false;
-        Util().showToast(title: l.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+        Util().showToast(
+            title: l.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.error);
       },
       (r) async {
         if (r.error == false) {
           //TODO: @satheesh handle shared prefs here and jwt token handling
           SharedPrefs().setJwtToken(r.data?.token);
         } else {
-          Util().showToast(title: r.message ?? 'Something went wrong', subTitle: '', type: ToastType.error);
+          Util().showToast(
+              title: r.message ?? 'Something went wrong',
+              subTitle: '',
+              type: ToastType.error);
         }
         isLoading.value = false;
       },
@@ -39,7 +45,10 @@ class HomeController extends GetxController {
       (value) {
         gUser.value = null;
         SharedPrefs().setJwtToken("");
-        Util().showToast(title: "SignOut Successful!", subTitle: "We miss you 🥺", type: ToastType.info);
+        Util().showToast(
+            title: "SignOut Successful!",
+            subTitle: "We miss you 🥺",
+            type: ToastType.info);
       },
     );
   }

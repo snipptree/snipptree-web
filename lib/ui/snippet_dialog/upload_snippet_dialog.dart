@@ -6,7 +6,8 @@ import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog_controller.dart'
 class UploadSnippetDialog extends StatelessWidget {
   UploadSnippetDialog({super.key});
 
-  final UploadSnippetDialogController controller = UploadSnippetDialogController();
+  final UploadSnippetDialogController controller =
+      UploadSnippetDialogController();
   final QuillController quillController = QuillController.basic();
 
   @override
@@ -24,7 +25,9 @@ class UploadSnippetDialog extends StatelessWidget {
                   TextFormField(
                     decoration: const InputDecoration(
                         label: Text('Enter title for your snippet'),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.titleTextController,
                     validator: (value) {
                       return controller.validateTitle(value);
@@ -37,7 +40,9 @@ class UploadSnippetDialog extends StatelessWidget {
                     maxLines: 10,
                     decoration: const InputDecoration(
                         label: Text('Enter your snippet'),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.snippetTextController,
                     validator: (value) {
                       return controller.validateSnipperCode(value);
@@ -94,7 +99,9 @@ class UploadSnippetDialog extends StatelessWidget {
                       maxLines: 10,
                       decoration: const InputDecoration(
                           label: Text('Enter output'),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12.0)))),
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.0)))),
                       controller: controller.outPutextController,
                       validator: (value) {
                         return controller.validateTextOutput(value);
@@ -108,11 +115,14 @@ class UploadSnippetDialog extends StatelessWidget {
                         controller.imageFile.value.buffer.lengthInBytes > 0
                             ? Column(
                                 children: [
-                                  controller.imageFile.value.buffer.lengthInBytes > 0
+                                  controller.imageFile.value.buffer
+                                              .lengthInBytes >
+                                          0
                                       ? SizedBox(
                                           height: 260,
                                           width: 360,
-                                          child: Image.memory(controller.imageFile.value),
+                                          child: Image.memory(
+                                              controller.imageFile.value),
                                         )
                                       : const SizedBox().paddingAll(8.0),
                                   TextButton(
@@ -134,16 +144,22 @@ class UploadSnippetDialog extends StatelessWidget {
                                           height: 260,
                                           width: 360,
                                           decoration: BoxDecoration(
-                                            borderRadius: const BorderRadius.all(Radius.circular(20)),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(20)),
                                             border: Border.all(
-                                              color: Colors.grey, // red as border color
+                                              color: Colors
+                                                  .grey, // red as border color
                                             ),
                                           ),
                                         ),
                                         Positioned.fill(
                                           child: Align(
                                             alignment: Alignment.center,
-                                            child: Image.asset(height: 50, width: 50, 'assets/images/upload.png'),
+                                            child: Image.asset(
+                                                height: 50,
+                                                width: 50,
+                                                'assets/images/upload.png'),
                                           ),
                                         ),
                                       ],

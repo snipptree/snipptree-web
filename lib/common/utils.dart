@@ -24,8 +24,6 @@ class Util {
     FocusScope.of(mContext).requestFocus(FocusNode());
   }
 
-
-
   bool isAuthTokenValid(String token) {
     try {
       // Check if token is expired
@@ -35,8 +33,10 @@ class Util {
     }
   }
 
-
-  showToast({required String? title, required String? subTitle, required ToastType type}) {
+  showToast(
+      {required String? title,
+      required String? subTitle,
+      required ToastType type}) {
     switch (type) {
       case ToastType.info:
         toastification.show(

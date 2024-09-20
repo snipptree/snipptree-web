@@ -42,11 +42,14 @@ Future<void> init() async {
   getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
 
   /// Snippet repository and data source injection.
-  getIt.registerLazySingleton<SnippetDataSource>(() => SnippetDataSource(dio, baseUrl: AppConstants.baseUrl));
-  getIt.registerLazySingleton<SnippetRepo>(
-      () => SnippetRepoImpl(getIt.get<SnippetDataSource>(), getIt.get<NetworkInfo>()));
+  getIt.registerLazySingleton<SnippetDataSource>(
+      () => SnippetDataSource(dio, baseUrl: AppConstants.baseUrl));
+  getIt.registerLazySingleton<SnippetRepo>(() => SnippetRepoImpl(
+      getIt.get<SnippetDataSource>(), getIt.get<NetworkInfo>()));
 
   /// auth repository and data store injection.
-  getIt.registerLazySingleton<AuthDataSource>(() => AuthDataSource(dio, baseUrl: AppConstants.baseUrl));
-  getIt.registerLazySingleton<AuthRepo>(() => AuthRepoImpl(getIt.get<AuthDataSource>(), getIt.get<NetworkInfo>()));
+  getIt.registerLazySingleton<AuthDataSource>(
+      () => AuthDataSource(dio, baseUrl: AppConstants.baseUrl));
+  getIt.registerLazySingleton<AuthRepo>(() =>
+      AuthRepoImpl(getIt.get<AuthDataSource>(), getIt.get<NetworkInfo>()));
 }
