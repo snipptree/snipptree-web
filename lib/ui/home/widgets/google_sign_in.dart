@@ -58,6 +58,7 @@ class GoogleSignInButtonState extends State<GoogleSignInButton> {
           await widget.controller.googleSignIn.value?.signIn();
       if (widget.controller.gUser.value != null &&
           widget.controller.gUser.value?.email.isNotEmpty == true) {
+        widget.controller.userName.value = widget.controller.gUser.value?.displayName ?? "";
         User user = useCase.getUserData(widget.controller.gUser.value);
         widget.controller.authenticateUser(user);
       }

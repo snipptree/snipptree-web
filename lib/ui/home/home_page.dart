@@ -33,12 +33,12 @@ class HomePage extends StatelessWidget {
                     children: [
                       Obx(() {
                         final authToken = SharedPrefs().getJwtToken();
-                        if (ctrl.gUser.value != null &&
+                        if (ctrl.userName.value.isNotEmpty &&
                             authToken?.isNotEmpty == true) {
                           return Row(
                             children: [
                               Text(
-                                "Hello, ${ctrl.gUser.value?.displayName}",
+                                "Hello, ${ctrl.userName.value}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium

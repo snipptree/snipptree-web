@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   var isLoading = false.obs;
   var gUser = Rxn<GoogleSignInAccount>();
   var googleSignIn = Rxn<GoogleSignIn>();
+  var userName = ''.obs;
 
   HomeUseCase useCase = HomeUseCase();
 
@@ -44,6 +45,7 @@ class HomeController extends GetxController {
     googleSignIn.value?.signOut().then(
       (value) {
         gUser.value = null;
+        userName.value = "";
         SharedPrefs().setJwtToken("");
         Util().showToast(
             title: "SignOut Successful!",
