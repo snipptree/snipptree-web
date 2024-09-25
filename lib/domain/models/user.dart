@@ -6,15 +6,13 @@ part 'user.g.dart';
 class User {
   String? token;
   String? email;
-  String? firstName;
-  String? lastName;
+  String? displayName;
   String? profilePicUrl;
 
   User({
     this.token,
     this.email,
-    this.firstName,
-    this.lastName,
+    this.displayName,
     this.profilePicUrl,
   });
 

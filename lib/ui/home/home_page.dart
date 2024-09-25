@@ -1,21 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/home/home_controller.dart';
-import 'package:snippet/ui/home/widgets/google_sign_in.dart';
 import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+import '../../common/app_constants.dart';
 
-  final HomeController ctrl =
-      Get.put(HomeController()); // Ensure the controller is injected properly
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _ExState();
+}
+
+class _ExState extends State<HomePage> {
+  final HomeController ctrl = HomeController();
+
+  @override
+  void initState() {
+    super.initState();
+    ctrl.userName.value = SharedPrefs().getUserName() ?? '';
+    ctrl.googleSignIn.value = GoogleSignIn(
+      clientId: AppConstants.googleSignInOAuthClientId,
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,27 +51,22 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     children: [
                       Obx(() {
-                        final authToken = SharedPrefs().getJwtToken();
-                        if (ctrl.userName.value.isNotEmpty &&
-                            authToken?.isNotEmpty == true) {
-                          return Row(
-                            children: [
-                              Text(
-                                "Hello, ${ctrl.userName.value}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(fontWeight: FontWeight.w700),
-                              ),
-                              const SizedBox(width: 12),
-                              MyProfileMenu(
-                                  controller: ctrl), // User Profile Menu
-                            ],
-                          );
-                        } else {
-                          return GoogleSignInButton(
-                              controller: ctrl); // Google Sign-In Button
-                        }
+                        return ctrl.userName.value.isNotEmpty
+                            ? Row(
+                                children: [
+                                  Text(
+                                    "Hello, ${ctrl.userName.value}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(fontWeight: FontWeight.w700),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  MyProfileMenu(
+                                      controller: ctrl), // User Profile Menu
+                                ],
+                              )
+                            : GoogleSignInButton(controller: ctrl);
                       }),
                       const SizedBox(width: 24),
                       InkWell(
@@ -215,5 +229,46 @@ class HomePage extends StatelessWidget {
         type: ToastType.info,
       );
     }
+  }
+}
+
+class GoogleSignInButton extends StatelessWidget {
+  final HomeController controller;
+
+  const GoogleSignInButton({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.white),
+        padding:
+            WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
+      ),
+      onPressed: () {
+        controller.signInWithGoogle();
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(width: 16),
+            Image.asset(
+              'assets/images/google_logo.png', // Add a Google logo in your assets
+              height: 24,
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              'Sign in with Google',
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(width: 16),
+          ],
+        ),
+      ),
+    );
   }
 }

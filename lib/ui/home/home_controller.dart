@@ -28,8 +28,8 @@ class HomeController extends GetxController {
       },
       (r) async {
         if (r.error == false) {
-          //TODO: @satheesh handle shared prefs here and jwt token handling
           SharedPrefs().setJwtToken(r.data?.token);
+          SharedPrefs().setUserName('${user.displayName}');
         } else {
           Util().showToast(
               title: r.message ?? 'Something went wrong',
@@ -47,11 +47,32 @@ class HomeController extends GetxController {
         gUser.value = null;
         userName.value = "";
         SharedPrefs().setJwtToken("");
+        SharedPrefs().setUserName("");
         Util().showToast(
             title: "SignOut Successful!",
             subTitle: "We miss you 🥺",
             type: ToastType.info);
       },
     );
+  }
+
+  // Sign-in with Google (regular flow)
+  Future<void> signInWithGoogle() async {
+    HomeUseCase useCase = HomeUseCase();
+    try {
+      gUser.value = await googleSignIn.value?.signIn();
+      if (gUser.value != null && gUser.value?.email.isNotEmpty == true) {
+        userName.value = gUser.value?.displayName ?? "";
+        User user = useCase.getUserData(gUser.value);
+        authenticateUser(user);
+      }
+    } catch (error) {
+      // Handle sign-in errors
+      debugPrint('Error during Google sign-in: $error');
+      Util().showToast(
+          title: "Google sign-in failed.",
+          subTitle: "Please try again.",
+          type: ToastType.error);
+    }
   }
 }

@@ -12,8 +12,7 @@ class HomeUseCase {
   User getUserData(GoogleSignInAccount? account) {
     return User()
       ..email = account?.email
-      ..firstName = account?.displayName?.split('').firstOrNull
-      ..lastName = account?.displayName?.split('').lastOrNull
+      ..displayName = account?.displayName
       ..profilePicUrl = account?.photoUrl;
   }
 
