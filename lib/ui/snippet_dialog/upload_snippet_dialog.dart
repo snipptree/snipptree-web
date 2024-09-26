@@ -45,7 +45,7 @@ class UploadSnippetDialog extends StatelessWidget {
                                 BorderRadius.all(Radius.circular(12.0)))),
                     controller: controller.snippetTextController,
                     validator: (value) {
-                      return controller.validateSnipperCode(value);
+                      return controller.validateSnippetCode(value);
                     },
                   ),
                   const SizedBox(

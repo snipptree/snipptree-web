@@ -1,5 +1,4 @@
 import 'dart:html' as html;
-import 'dart:html';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -39,7 +38,7 @@ class UploadSnippetDialogController extends GetxController {
     return null;
   }
 
-  String? validateSnipperCode(String? value) {
+  String? validateSnippetCode(String? value) {
     if (value == null || value.isEmpty) {
       return 'Please enter the snippet code';
     }
