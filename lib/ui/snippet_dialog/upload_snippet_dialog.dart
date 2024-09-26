@@ -102,7 +102,7 @@ class UploadSnippetDialog extends StatelessWidget {
                           border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12.0)))),
-                      controller: controller.outPutextController,
+                      controller: controller.outputTextController,
                       validator: (value) {
                         return controller.validateTextOutput(value);
                       },

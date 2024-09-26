@@ -18,7 +18,7 @@ class UploadSnippetDialogController extends GetxController {
 
   TextEditingController titleTextController = TextEditingController();
   TextEditingController snippetTextController = TextEditingController();
-  TextEditingController outPutextController = TextEditingController();
+  TextEditingController outputTextController = TextEditingController();
 
   var imageFile = Uint8List(0).obs;
   var fileName = '';
@@ -125,7 +125,7 @@ class UploadSnippetDialogController extends GetxController {
           formData.append('output_type', 'image');
         } else {
           formData.append('output_type', 'text');
-          formData.append('output', outPutextController.text);
+          formData.append('output', outputTextController.text);
         }
 
         formData.append('title', titleTextController.text);
