@@ -8,7 +8,6 @@ class UploadSnippetDialog extends StatelessWidget {
 
   final UploadSnippetDialogController controller =
       UploadSnippetDialogController();
-  final QuillController quillController = QuillController.basic();
 
   @override
   Widget build(BuildContext context) {
