@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog_controller.dart';
 
