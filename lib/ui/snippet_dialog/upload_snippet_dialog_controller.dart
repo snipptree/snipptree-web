@@ -54,54 +54,92 @@ class UploadSnippetDialogController extends GetxController {
   }
 
   pickImage() async {
-    FilePickerResult? resultFilePicker = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-    if (resultFilePicker != null) {
-      imageFile.value = resultFilePicker.files.first.bytes!;
-      fileName = resultFilePicker.files.first.name;
+    try {
+      FilePickerResult? resultFilePicker = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
+      if (resultFilePicker != null) {
+        imageFile.value = resultFilePicker.files.first.bytes!;
+        bool isValid = _isValidImageFile();
+        if (isValid) {
+          fileName = resultFilePicker.files.first.name;
+        } else {
+          imageFile.value = Uint8List(0);
+          Util().showToast(
+              title:
+                  'Invalid image format. Please select a PNG, JPEG, or GIF image.',
+              subTitle: '',
+              type: ToastType.warn);
+        }
+      }
+    } catch (e) {
+      imageFile.value = Uint8List(0);
+      Util().showToast(
+          title: 'Invalid image',
+          subTitle: 'Please upload a valid image.',
+          type: ToastType.error);
     }
   }
 
   Future<void> uploadSnippet() async {
+    // Validate the form.
     final titleSnippetIsValid = titleSnippetFormKey.currentState?.validate();
     var outPutIsValid = false;
+
     if (selectedCondition.value == 'Text') {
       outPutIsValid = outPutFormKey.currentState?.validate() ?? false;
     } else {
+      // Validate if an image is selected and has valid bytes.
       if (imageFile.value.buffer.lengthInBytes > 0) {
-        outPutIsValid = true;
+        // Check if the image is a valid format (PNG, JPEG, GIF).
+        final isValidImage = _isValidImageFile();
+        if (!isValidImage) {
+          outPutIsValid = false;
+          Util().showToast(
+              title:
+                  'Invalid image format. Please select a PNG, JPEG, or GIF image.',
+              subTitle: '',
+              type: ToastType.warn);
+        } else {
+          outPutIsValid = true;
+        }
       } else {
         outPutIsValid = false;
-        errorText.value = 'Please select the image';
+        errorText.value = 'Please select an image.';
       }
     }
 
+    // Proceed if validation succeeds.
     if (titleSnippetIsValid == true && outPutIsValid == true) {
-      // Prepare the form data
-      final html.FormData formData = html.FormData();
-
-      if (selectedCondition.value == 'Image') {
-        final blob = Blob(imageFile.value);
-        formData.appendBlob('image', blob, fileName);
-        formData.append('output_type', 'image');
-      } else {
-        formData.append('output_type', 'text');
-        formData.append('output', outPutextController.text);
-      }
-
-      formData.append('title', titleTextController.text);
-      formData.append('type', 'public');
-      formData.append('snippet', snippetTextController.text);
-
       try {
-        // Use html.HttpRequest to send the request
+        // Prepare form data.
+        final html.FormData formData = html.FormData();
+
+        if (selectedCondition.value == 'Image') {
+          // Detect the MIME type dynamically based on the image file.
+          final imageMimeType = _detectMimeType(imageFile.value);
+
+          // Create a Blob with the detected MIME type.
+          final blob = html.Blob([imageFile.value], imageMimeType);
+          formData.appendBlob('image', blob, fileName);
+          formData.append('output_type', 'image');
+        } else {
+          formData.append('output_type', 'text');
+          formData.append('output', outPutextController.text);
+        }
+
+        formData.append('title', titleTextController.text);
+        formData.append('type', 'public');
+        formData.append('snippet', snippetTextController.text);
+
+        // Create an HttpRequest and configure it.
         final request = html.HttpRequest();
         request.open('POST', '${AppConstants.baseUrl}snippet-service/snippet');
         request.setRequestHeader(
             "Authorization", 'Bearer ${SharedPrefs().getJwtToken()}');
 
+        // Handle the response.
         request.onLoadEnd.listen((event) {
           if (request.status == 200) {
             Get.back();
@@ -117,7 +155,7 @@ class UploadSnippetDialogController extends GetxController {
           }
         });
 
-        // Sending the request with form data
+        // Send the form data with the request.
         request.send(formData);
       } catch (e) {
         Util().showToast(
@@ -126,5 +164,40 @@ class UploadSnippetDialogController extends GetxController {
             type: ToastType.error);
       }
     }
+  }
+
+// Helper function to check if the image file is valid.
+  bool _isValidImageFile() {
+    final mimeType = _detectMimeType(imageFile.value);
+    return mimeType == 'image/png' ||
+        mimeType == 'image/jpeg' ||
+        mimeType == 'image/gif';
+  }
+
+// Helper function to detect the MIME type of an image.
+  String _detectMimeType(Uint8List imageData) {
+    // Common MIME types for image formats based on the first few bytes (magic numbers).
+    if (imageData.length >= 4) {
+      final headerBytes = imageData.sublist(0, 4);
+      // PNG signature: 89 50 4E 47
+      if (headerBytes[0] == 0x89 &&
+          headerBytes[1] == 0x50 &&
+          headerBytes[2] == 0x4E &&
+          headerBytes[3] == 0x47) {
+        return 'image/png';
+      }
+      // JPEG signature: FF D8 FF
+      else if (headerBytes[0] == 0xFF && headerBytes[1] == 0xD8) {
+        return 'image/jpeg';
+      }
+      // GIF signature: 47 49 46 38
+      else if (headerBytes[0] == 0x47 &&
+          headerBytes[1] == 0x49 &&
+          headerBytes[2] == 0x46 &&
+          headerBytes[3] == 0x38) {
+        return 'image/gif';
+      }
+    }
+    return 'unknown';
   }
 }
