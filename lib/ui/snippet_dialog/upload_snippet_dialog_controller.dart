@@ -41,7 +41,7 @@ class UploadSnippetDialogController extends GetxController {
 
   String? validateSnipperCode(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter the snipper code';
+      return 'Please enter the snippet code';
     }
     return null;
   }
