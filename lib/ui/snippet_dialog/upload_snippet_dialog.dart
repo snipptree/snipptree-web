@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog_controller.dart';
+import 'package:snippet/widgets/reusable_elevated_button.dart';
 
 class UploadSnippetDialog extends StatelessWidget {
   UploadSnippetDialog({super.key});
@@ -189,16 +190,11 @@ class UploadSnippetDialog extends StatelessWidget {
             SizedBox(
               height: 55,
               width: 360,
-              child: ElevatedButton(
-                onPressed: () {
-                  controller.uploadSnippet();
-                },
-                style: ElevatedButton.styleFrom(),
-                child: const Text(
-                  'Save Snippet',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
+              child: ReusableElevatedButton(
+                  onPressed: (){
+                    controller.uploadSnippet();
+                    },
+                  buttonText: 'Save Snippet'),
             )
           ],
         ),

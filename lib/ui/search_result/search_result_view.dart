@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/border_radius.dart';
 import 'package:snippet/common/colors.dart';
+import 'package:snippet/common/image_constants.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
 import 'package:snippet/widgets/ellipsis_text_hover.dart';
@@ -99,7 +101,7 @@ class _SearchResultViewState extends State<SearchResultView> {
                                         child: Image.network(
                                           Uri.encodeFull(ctrl.searchResponse
                                                   .value.data![index].image ??
-                                              "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                              ImageConstants.placeHolderImg),
                                           fit: BoxFit.fill,
                                           loadingBuilder: (BuildContext context,
                                               Widget child,
@@ -125,7 +127,7 @@ class _SearchResultViewState extends State<SearchResultView> {
                                               Object error,
                                               StackTrace? stackTrace) {
                                             return Image.network(
-                                              "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                                              ImageConstants.placeHolderImg,
                                               fit: BoxFit.fill,
                                             );
                                           },
@@ -182,7 +184,7 @@ class HeadingRow extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 10 / 6,
                 child: Image.asset(
-                  'assets/images/snipptree.png',
+                  ImageConstants.snippTreeImg,
                 ),
               ),
             ),
@@ -223,7 +225,7 @@ class HeadingRow extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.search),
                         border: InputBorder.none,
-                        hintText: 'Search for snippet',
+                        hintText: AppConstants.searchForSnippet,
                         hintStyle: Theme.of(context).textTheme.bodyLarge,
                         contentPadding:
                             const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),

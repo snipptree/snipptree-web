@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/home/home_controller.dart';
 
@@ -25,11 +26,11 @@ class MyProfileMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) => [
         const PopupMenuItem(
           value: 1,
-          child: Text('My Snippets'),
+          child: Text(AppConstants.mySnippets),
         ),
         const PopupMenuItem(
           value: 2,
-          child: Text('Logout'),
+          child: Text(AppConstants.logOut),
         ),
       ],
     );

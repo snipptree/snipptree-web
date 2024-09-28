@@ -10,4 +10,23 @@ class AppConstants {
   static const jwtToken = 'jwtToken';
   static const userName = 'userName';
   static const imageUrl = 'imageUrl';
+  static const hello = 'Hello';
+  static const donate = 'Donate';
+  static const uploadSnippet = 'Upload Snippet';
+  static const copyRightText = '© 2024 www.snipptree.com. All rights reserved.';
+  static const searchKey = 'searchKey';
+  static const goHome = 'Go Home';
+  static const logOut = 'Logout';
+  static const  searchForSnippet = 'Search for snippet';
+  static const  searchSnippet = 'Search Snippet';
+  static const  mySnippets = 'My Snippets';
+  static const  signInWithGoogle = 'Sign in with Google';
+  static const  toastTitle = "We'd love to have you, please stay with us!";
+  static const  noSnippetsFound = 'No snippets found! Start creating your own now!';
+  static const  toastSubTitle = 'Just one more step to complete your sign-up before you can upload your snippet.';
+
+
+
+
+
 }

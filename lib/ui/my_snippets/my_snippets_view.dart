@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/border_radius.dart';
 import 'package:snippet/common/colors.dart';
+import 'package:snippet/common/image_constants.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/my_snippets/my_snippets_controller.dart';
 import 'package:snippet/ui/search_result/view_snippet_dialog.dart';
@@ -36,7 +38,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
             const SizedBox(
               height: 50,
             ),
-            Text('My Snippets',
+            Text(AppConstants.mySnippets,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 50),
             Expanded(
@@ -50,7 +52,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "No snippets found! Start creating your own now!",
+                                 AppConstants.noSnippetsFound,
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
                                 const SizedBox(height: 48),
@@ -66,7 +68,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                     onPressed: () {
                                       Get.offAllNamed(Routes.homePage);
                                     },
-                                    child: const Text("Go Home"),
+                                    child: const Text(AppConstants.goHome),
                                   ),
                                 )
                               ],
@@ -128,7 +130,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                               borderRadius: AppBorderRadius.k16px,
                                               child: Image.network(
                                                 Uri.encodeFull(ctrl.mySnippetsResponse.value.data![index].image ??
-                                                    "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
+                                                    ImageConstants.placeHolderImg),
                                                 fit: BoxFit.fill,
                                                 loadingBuilder: (BuildContext context, Widget child,
                                                     ImageChunkEvent? loadingProgress) {
@@ -147,7 +149,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                                 errorBuilder:
                                                     (BuildContext context, Object error, StackTrace? stackTrace) {
                                                   return Image.network(
-                                                    "https://images.pexels.com/photos/213780/pexels-photo-213780.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+                                                    ImageConstants.placeHolderImg,
                                                     fit: BoxFit.fill,
                                                   );
                                                 },

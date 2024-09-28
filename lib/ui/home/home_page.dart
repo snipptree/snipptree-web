@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snippet/common/colors.dart';
+import 'package:snippet/common/image_constants.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/strings.dart';
@@ -10,6 +11,7 @@ import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/home/home_controller.dart';
 import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
+import 'package:snippet/widgets/reusable_elevated_button.dart';
 
 import '../../common/app_constants.dart';
 
@@ -55,7 +57,7 @@ class _ExState extends State<HomePage> {
                             ? Row(
                                 children: [
                                   Text(
-                                    "Hello, ${ctrl.userName.value}",
+                                    "${AppConstants.hello} ${ctrl.userName.value}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
@@ -76,7 +78,7 @@ class _ExState extends State<HomePage> {
                         child: MouseRegion(
                           cursor: SystemMouseCursors.click,
                           child: Text(
-                            "Donate ❤️",
+                            "${AppConstants.donate} ❤️",
                             style: Theme.of(context)
                                 .textTheme
                                 .titleMedium
@@ -102,8 +104,7 @@ class _ExState extends State<HomePage> {
             Hero(
               tag: 'logo',
               child: Center(
-                child: Image.asset(
-                  'assets/images/snipptree.png', // Logo asset
+                child: Image.asset(ImageConstants.snippTreeImg
                 ),
               ),
             ),
@@ -133,7 +134,7 @@ class _ExState extends State<HomePage> {
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.search),
                         border: InputBorder.none,
-                        hintText: 'Search for snippet',
+                        hintText: AppConstants.searchForSnippet,
                         contentPadding:
                             EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                       ),
@@ -149,25 +150,15 @@ class _ExState extends State<HomePage> {
                 SizedBox(
                   height: 55,
                   width: 180,
-                  child: ElevatedButton(
-                    onPressed: navigateToSERP,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 15),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                    child: const Text(
-                      'Search Snippet',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  child: ReusableElevatedButton(
+                      onPressed: navigateToSERP,
+                      buttonText: AppConstants.searchSnippet)
                 ),
                 const SizedBox(width: 20),
                 SizedBox(
                   height: 55,
                   width: 180,
-                  child: ElevatedButton(
+                  child: ReusableElevatedButton(
                     onPressed: () async {
                       final authToken = SharedPrefs().getJwtToken();
                       if (authToken?.isNotEmpty == true) {
@@ -176,31 +167,21 @@ class _ExState extends State<HomePage> {
                           barrierDismissible: true,
                           title: '',
                           titleStyle: const TextStyle(fontSize: 16),
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 32, vertical: 16),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                           titlePadding: EdgeInsets.zero,
                           content: Expanded(child: UploadSnippetDialog()),
                         );
                       } else {
                         Util().showToast(
-                          title: "We'd love to have you, please stay with us!",
-                          subTitle:
-                              "Just one more step to complete your sign-up before you can upload your snippet.",
+                          title: AppConstants.toastTitle,
+                          subTitle: AppConstants.toastSubTitle,
                           type: ToastType.success,
                         );
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 15),
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                    child: const Text(
-                      "Upload Snippet",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                    buttonText: AppConstants.uploadSnippet,
+                  )
+                  ,
                 ),
               ],
             ),
@@ -208,7 +189,7 @@ class _ExState extends State<HomePage> {
             const Padding(
               padding: EdgeInsets.only(bottom: 16.0),
               child: Text(
-                '© 2024 www.snipptree.com. All rights reserved.',
+                AppConstants.copyRightText,
                 style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
@@ -221,7 +202,7 @@ class _ExState extends State<HomePage> {
   void navigateToSERP() {
     if (ctrl.searchSnippetController.text.isNotEmpty) {
       Get.toNamed(Routes.serp,
-          parameters: {"searchKey": ctrl.searchSnippetController.text});
+          parameters: {AppConstants.searchKey: ctrl.searchSnippetController.text});
     } else {
       Util().showToast(
         title: AppStrings.enterASearchQuery,
@@ -241,9 +222,9 @@ class GoogleSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.white),
+        backgroundColor: WidgetStateProperty.all(Colors.white),
         padding:
-            MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
+            WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
       ),
       onPressed: () {
         controller.signInWithGoogle();
@@ -255,12 +236,12 @@ class GoogleSignInButton extends StatelessWidget {
           children: [
             const SizedBox(width: 16),
             Image.asset(
-              'assets/images/google_logo.png', // Add a Google logo in your assets
+              ImageConstants.googleLogoImg, // Add a Google logo in your assets
               height: 24,
             ),
             const SizedBox(width: 10),
             const Text(
-              'Sign in with Google',
+              AppConstants.signInWithGoogle,
               style: TextStyle(
                 color: Colors.black,
               ),
