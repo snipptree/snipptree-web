@@ -241,9 +241,9 @@ class GoogleSignInButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.white),
+        backgroundColor: MaterialStateProperty.all(Colors.white),
         padding:
-            WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
+            MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
       ),
       onPressed: () {
         controller.signInWithGoogle();
