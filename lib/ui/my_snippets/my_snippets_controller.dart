@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:snippet/common/strings.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/search_response.dart';
 import 'package:snippet/domain/usecases/snippet_usecase.dart';

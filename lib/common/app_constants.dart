@@ -24,6 +24,8 @@ class AppConstants {
   static const  toastTitle = "We'd love to have you, please stay with us!";
   static const  noSnippetsFound = 'No snippets found! Start creating your own now!';
   static const  toastSubTitle = 'Just one more step to complete your sign-up before you can upload your snippet.';
+  static const String enterASearchQuery = "Please enter a search query!";
+  static const String weHaveSnippetsWaitingForYou = "We've the best snippets waiting for you.";
 
 
 

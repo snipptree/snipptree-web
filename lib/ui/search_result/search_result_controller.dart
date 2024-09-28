@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:snippet/common/strings.dart';
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/domain/models/search_response.dart';
 import 'package:snippet/domain/usecases/snippet_usecase.dart';
@@ -29,8 +29,8 @@ class SearchResultController extends GetxController {
 
     if (searchKey.value.isEmpty) {
       Util().showToast(
-          title: AppStrings.enterASearchQuery,
-          subTitle: AppStrings.weHaveSnippetsWaitingForYou,
+          title: AppConstants.enterASearchQuery,
+          subTitle: AppConstants.weHaveSnippetsWaitingForYou,
           type: ToastType.info);
       return;
     }

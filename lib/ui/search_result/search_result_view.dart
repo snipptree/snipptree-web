@@ -5,6 +5,7 @@ import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/border_radius.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/image_constants.dart';
+import 'package:snippet/common/responsive_layout.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
 import 'package:snippet/widgets/ellipsis_text_hover.dart';
@@ -171,36 +172,29 @@ class HeadingRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onTap: () {
-              Get.offAllNamed(Routes.homePage);
-            },
-            child: Hero(
-              tag: 'logo',
-              child: AspectRatio(
-                aspectRatio: 10 / 6,
-                child: Image.asset(
-                  ImageConstants.snippTreeImg,
+    return ResponsiveLayout(
+        mobile: Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Get.offAllNamed(Routes.homePage);
+              },
+              child: Hero(
+                tag: 'logo',
+                child: AspectRatio(
+                  aspectRatio: 8 / 4,
+                  child: Image.asset(
+                    ImageConstants.snippTreeImg,
+                  ),
                 ),
-              ),
+              ).paddingOnly(top: 10),
             ),
-          ),
-        ),
-        const SizedBox(width: 60),
-        Expanded(
-          flex: 3,
-          child: Hero(
-            tag: 'search_bar',
-            child: Padding(
-              padding: const EdgeInsets.only(top: 40.0),
+            Hero(
+              tag: 'search_bar',
               child: Container(
-                width: 400,
+                width: 500,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: AppBorderRadius.k24px,
@@ -228,17 +222,152 @@ class HeadingRow extends StatelessWidget {
                         hintText: AppConstants.searchForSnippet,
                         hintStyle: Theme.of(context).textTheme.bodyLarge,
                         contentPadding:
-                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                        const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-        const Expanded(flex: 1, child: SizedBox.shrink())
-      ],
-    ).paddingOnly(bottom: 16);
+          ],
+        ).paddingOnly(bottom: 16),
+        tab: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  Get.offAllNamed(Routes.homePage);
+                },
+                child: Hero(
+                  tag: 'logo',
+                  child: AspectRatio(
+                    aspectRatio: 10 / 6,
+                    child: Image.asset(
+                      ImageConstants.snippTreeImg,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 60),
+            Expanded(
+              flex: 3,
+              child: Hero(
+                tag: 'search_bar',
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Container(
+                    width: 400,
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[900],
+                      borderRadius: AppBorderRadius.k24px,
+                      border: Border.all(color: Colors.grey[700]!),
+                    ),
+                    child: Material(
+                      color: Colors.grey[900],
+                      child: KeyboardListener(
+                        focusNode: FocusNode(),
+                        onKeyEvent: (event) async {
+                          if (event.logicalKey == LogicalKeyboardKey.enter) {
+                            await ctrl.getSnippets(
+                                searchQuery: ctrl.searchKey.value);
+                          }
+                        },
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          controller: ctrl.serpController,
+                          onChanged: (val) {
+                            ctrl.searchKey.value = val;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            border: InputBorder.none,
+                            hintText: AppConstants.searchForSnippet,
+                            hintStyle: Theme.of(context).textTheme.bodyLarge,
+                            contentPadding:
+                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Expanded(flex: 1, child: SizedBox.shrink())
+          ],
+        ).paddingOnly(bottom: 16),
+        web: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  Get.offAllNamed(Routes.homePage);
+                },
+                child: Hero(
+                  tag: 'logo',
+                  child: AspectRatio(
+                    aspectRatio: 10 / 6,
+                    child: Image.asset(
+                      ImageConstants.snippTreeImg,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 60),
+            Expanded(
+              flex: 3,
+              child: Hero(
+                tag: 'search_bar',
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Container(
+                    width: 400,
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[900],
+                      borderRadius: AppBorderRadius.k24px,
+                      border: Border.all(color: Colors.grey[700]!),
+                    ),
+                    child: Material(
+                      color: Colors.grey[900],
+                      child: KeyboardListener(
+                        focusNode: FocusNode(),
+                        onKeyEvent: (event) async {
+                          if (event.logicalKey == LogicalKeyboardKey.enter) {
+                            await ctrl.getSnippets(
+                                searchQuery: ctrl.searchKey.value);
+                          }
+                        },
+                        child: TextField(
+                          textInputAction: TextInputAction.search,
+                          controller: ctrl.serpController,
+                          onChanged: (val) {
+                            ctrl.searchKey.value = val;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            border: InputBorder.none,
+                            hintText: AppConstants.searchForSnippet,
+                            hintStyle: Theme.of(context).textTheme.bodyLarge,
+                            contentPadding:
+                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Expanded(flex: 1, child: SizedBox.shrink())
+          ],
+        ).paddingOnly(bottom: 16));
   }
 }
