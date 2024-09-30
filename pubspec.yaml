@@ -1,5 +1,5 @@
 name: snippet
-description: "A new Flutter project."
+description: "SnippTree is a comprehensive platform for developers, offering a vast collection of code snippets enhanced with AI features. It also allows developers to securely store their private snippets in personalized accounts for easy access and reuse in daily tasks."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
