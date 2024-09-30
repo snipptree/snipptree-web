@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:snippet/common/app_constants.dart';
-import 'package:snippet/common/routes.dart';
 import 'package:snippet/ui/home/home_controller.dart';
 
 class MyProfileMenu extends StatelessWidget {
