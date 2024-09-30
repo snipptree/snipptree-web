@@ -247,7 +247,7 @@ class _ExState extends State<HomePage> {
                             );
                           } else {
                             Util().showToast(
-                              title: AppConstants.toastTitle,
+                              title: AppConstants.loginToastTitle,
                               subTitle: AppConstants.toastSubTitle,
                               type: ToastType.success,
                             );
@@ -288,7 +288,7 @@ class _ExState extends State<HomePage> {
                             );
                           } else {
                             Util().showToast(
-                              title: AppConstants.toastTitle,
+                              title: AppConstants.loginToastTitle,
                               subTitle: AppConstants.toastSubTitle,
                               type: ToastType.success,
                             );
@@ -329,7 +329,7 @@ class _ExState extends State<HomePage> {
                             );
                           } else {
                             Util().showToast(
-                              title: AppConstants.toastTitle,
+                              title: AppConstants.loginToastTitle,
                               subTitle: AppConstants.toastSubTitle,
                               type: ToastType.success,
                             );

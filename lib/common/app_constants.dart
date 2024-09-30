@@ -21,7 +21,7 @@ class AppConstants {
   static const  searchSnippet = 'Search Snippet';
   static const  mySnippets = 'My Snippets';
   static const  signInWithGoogle = 'Sign in with Google';
-  static const  toastTitle = "We'd love to have you, please stay with us!";
+  static const  loginToastTitle = "Login Required!";
   static const  noSnippetsFound = 'No snippets found! Start creating your own now!';
   static const  toastSubTitle = 'Just one more step to complete your sign-up before you can upload your snippet.';
   static const String enterASearchQuery = "Please enter a search query!";
