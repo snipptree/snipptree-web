@@ -1,48 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="$FLUTTER_BASE_HREF">
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="SnippTree is a comprehensive platform for developers, offering a vast collection of code snippets enhanced with AI features. It also allows developers to securely store their private snippets in personalized accounts for easy access and reuse in daily tasks.">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description"
+          content="SnippTree is a comprehensive platform for developers, offering a vast collection of code snippets enhanced with AI features. It also allows developers to securely store their private snippets in personalized accounts for easy access and reuse in daily tasks.">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="snippet">
-  <link rel="apple-touch-icon" href="icons/favicon.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="snippet">
+    <link rel="apple-touch-icon" href="icons/favicon.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="icons/favicon.png"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="icons/favicon.png"/>
 
-  <title>SnippTree</title>
-  <link rel="manifest" href="manifest.json">
+    <title>SnippTree</title>
+    <link rel="manifest" href="manifest.json">
 
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6919234375061019" crossorigin="anonymous"></script>
+    <script>
+        // The value below is injected by flutter build, do not touch.
+        const serviceWorkerVersion = null;
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6919234375061019"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://unpkg.com/vanta/dist/vanta.halo.min.js"></script>
 </head>
 <body>
-  <script>
+<div id="vanta-background"></div>
+<script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -55,7 +61,20 @@
           });
         }
       });
+       // Initialize Vanta Halo effect
+      VANTA.HALO({
+        el: "#vanta-background",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 800,
+        padding: 0,
+        margin: 0,
+        size: 1.00,
+        scale: 1.00,
+        backgroundColor: 0x000000// Change background color if needed
+      });
     });
-  </script>
+</script>
 </body>
 </html>
