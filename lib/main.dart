@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         getPages: AppPages.appPages,
         initialRoute: Routes.homePage,
-        home: SelectionArea(
+        home: const SelectionArea(
           child: HomePage(),
         ),
         builder: (context, child) {

@@ -16,9 +16,6 @@ class MyProfileMenu extends StatelessWidget {
       onSelected: (value) {
         switch (value) {
           case 1:
-            Get.toNamed(Routes.mySnippets);
-            break;
-          case 2:
             controller.handleLogout();
             break;
         }
@@ -26,10 +23,6 @@ class MyProfileMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) => [
         const PopupMenuItem(
           value: 1,
-          child: Text(AppConstants.mySnippets),
-        ),
-        const PopupMenuItem(
-          value: 2,
           child: Text(AppConstants.logOut),
         ),
       ],

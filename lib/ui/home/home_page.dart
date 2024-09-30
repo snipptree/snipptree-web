@@ -72,6 +72,21 @@ class _ExState extends State<HomePage> {
                       const SizedBox(width: 24),
                       Obx(() {
                         return ctrl.userName.value.isNotEmpty
+                            ? InkWell(
+                          onTap: (){
+                            Get.toNamed(Routes.mySnippets);
+                          },
+                          child: Text(AppConstants.mySnippets,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700)),
+                        )
+                            : const SizedBox();
+                      }),
+                      const SizedBox(width: 24),
+                      Obx(() {
+                        return ctrl.userName.value.isNotEmpty
                             ? Row(
                                 children: [
                                   Text(
