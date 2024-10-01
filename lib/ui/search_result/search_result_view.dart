@@ -46,24 +46,26 @@ class _SearchResultViewState extends State<SearchResultView> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 16,
                           crossAxisCount: count,
+                          childAspectRatio: 16 / 9,
                         ),
                         itemBuilder: (_, index) => InkWell(
+                          customBorder: const RoundedRectangleBorder(
+                            borderRadius: AppBorderRadius.k16px,
+                          ),
                           onTap: () async {
                             await Get.defaultDialog(
                                 backgroundColor: AppColors.dialogBgColor,
                                 barrierDismissible: true,
                                 title: '',
                                 titleStyle: const TextStyle(fontSize: 16),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 32, vertical: 16),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                                 titlePadding: EdgeInsets.zero,
                                 content: Expanded(
                                   child: SizedBox(
                                     width: 400,
                                     child: Stack(children: [
                                       ViewSnippetDialog(
-                                        snippetData: ctrl
-                                            .searchResponse.value.data![index],
+                                        snippetData: ctrl.searchResponse.value.data![index],
                                       ),
                                       Positioned(
                                           right: 0.0,
@@ -94,67 +96,55 @@ class _SearchResultViewState extends State<SearchResultView> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 32, vertical: 8),
-                                    child: AspectRatio(
-                                      aspectRatio: 16 / 9,
-                                      child: ClipRRect(
-                                        borderRadius: AppBorderRadius.k16px,
-                                        child: Image.network(
-                                          Uri.encodeFull(ctrl.searchResponse
-                                                  .value.data![index].image ??
-                                              ImageConstants.placeHolderImg),
-                                          fit: BoxFit.fill,
-                                          loadingBuilder: (BuildContext context,
-                                              Widget child,
-                                              ImageChunkEvent?
-                                                  loadingProgress) {
-                                            if (loadingProgress == null) {
-                                              return child;
-                                            }
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                        null
-                                                    ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes!
-                                                    : null,
-                                              ),
-                                            );
-                                          },
-                                          errorBuilder: (BuildContext context,
-                                              Object error,
-                                              StackTrace? stackTrace) {
-                                            return Image.network(
-                                              ImageConstants.placeHolderImg,
-                                              fit: BoxFit.fill,
-                                            );
-                                          },
-                                        ),
+                                      horizontal: 32,
+                                      vertical: 8,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: AppBorderRadius.k16px,
+                                      child: Image.network(
+                                        Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
+                                            ImageConstants.placeHolderImg),
+                                        fit: BoxFit.fill,
+                                        loadingBuilder:
+                                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          }
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress.expectedTotalBytes != null
+                                                  ? loadingProgress.cumulativeBytesLoaded /
+                                                      loadingProgress.expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                          return Image.network(
+                                            ImageConstants.placeHolderImg,
+                                            fit: BoxFit.fill,
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(horizontal: 20),
                                 child: EllipsisTextWithHover(
-                                  text: ctrl.searchResponse.value.data![index]
-                                          .title?.capitalize ??
-                                      '',
+                                  text: ctrl.searchResponse.value.data![index].title?.capitalize ?? '',
                                 ),
+                              ),
+                              const SizedBox(
+                                height: 8,
                               )
                             ],
                           ),
                         ),
                         itemCount: ctrl.searchResponse.value.data?.length ?? 0,
                       )),
-                  Obx(() => ctrl.isLoading.value
-                      ? const Center(child: CircularProgressIndicator())
-                      : const SizedBox())
+                  Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
                 ],
               ),
             ),
@@ -193,8 +183,7 @@ class HeadingRow extends StatelessWidget {
               tag: 'search_bar',
               child: Container(
                 width: 500,
-                padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: AppBorderRadius.k24px,
@@ -206,8 +195,7 @@ class HeadingRow extends StatelessWidget {
                     focusNode: FocusNode(),
                     onKeyEvent: (event) async {
                       if (event.logicalKey == LogicalKeyboardKey.enter) {
-                        await ctrl.getSnippets(
-                            searchQuery: ctrl.searchKey.value);
+                        await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
                       }
                     },
                     child: TextField(
@@ -221,8 +209,7 @@ class HeadingRow extends StatelessWidget {
                         border: InputBorder.none,
                         hintText: AppConstants.searchForSnippet,
                         hintStyle: Theme.of(context).textTheme.bodyLarge,
-                        contentPadding:
-                        const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                        contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                       ),
                     ),
                   ),
@@ -259,8 +246,7 @@ class HeadingRow extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 40.0),
                   child: Container(
                     width: 400,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: AppBorderRadius.k24px,
@@ -272,8 +258,7 @@ class HeadingRow extends StatelessWidget {
                         focusNode: FocusNode(),
                         onKeyEvent: (event) async {
                           if (event.logicalKey == LogicalKeyboardKey.enter) {
-                            await ctrl.getSnippets(
-                                searchQuery: ctrl.searchKey.value);
+                            await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
                           }
                         },
                         child: TextField(
@@ -287,8 +272,7 @@ class HeadingRow extends StatelessWidget {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             hintStyle: Theme.of(context).textTheme.bodyLarge,
-                            contentPadding:
-                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                            contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                           ),
                         ),
                       ),
@@ -328,8 +312,7 @@ class HeadingRow extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 40.0),
                   child: Container(
                     width: 400,
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: AppBorderRadius.k24px,
@@ -341,8 +324,7 @@ class HeadingRow extends StatelessWidget {
                         focusNode: FocusNode(),
                         onKeyEvent: (event) async {
                           if (event.logicalKey == LogicalKeyboardKey.enter) {
-                            await ctrl.getSnippets(
-                                searchQuery: ctrl.searchKey.value);
+                            await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
                           }
                         },
                         child: TextField(
@@ -356,8 +338,7 @@ class HeadingRow extends StatelessWidget {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             hintStyle: Theme.of(context).textTheme.bodyLarge,
-                            contentPadding:
-                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                            contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                           ),
                         ),
                       ),
