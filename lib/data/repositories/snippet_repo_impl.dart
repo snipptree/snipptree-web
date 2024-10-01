@@ -68,4 +68,24 @@ class SnippetRepoImpl implements SnippetRepo {
       }
     }
   }
+
+
+
+  @override
+  Future<Either<Failure, SearchResponse>> getSnippetWithId(String snippetId) async {
+    if (!await networkInfo.isConnected) {
+      return Left(
+          Failure(message: 'No Internet', failureType: FailureType.INTERNET));
+    } else {
+      try {
+        var response = await dataSource.getSnippetWithId(snippetId);
+        final map = jsonDecode(response);
+        final searchRes = SearchResponse.fromJson(map);
+        return Right(searchRes);
+      } catch (e) {
+        return Left(Failure(message: e.toString()));
+      }
+    }
+  }
+
 }

@@ -7,6 +7,7 @@ import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/image_constants.dart';
 import 'package:snippet/common/responsive_layout.dart';
 import 'package:snippet/common/routes.dart';
+import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
 import 'package:snippet/widgets/ellipsis_text_hover.dart';
 
@@ -86,61 +87,74 @@ class _SearchResultViewState extends State<SearchResultView> {
                                   ),
                                 ));
                           },
-                          child: Column(
+                          child: Stack(
                             children: [
-                              Expanded(
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    borderRadius: AppBorderRadius.k8px,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 32,
-                                      vertical: 8,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: AppBorderRadius.k16px,
-                                      child: Image.network(
-                                        Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
-                                            ImageConstants.placeHolderImg),
-                                        fit: BoxFit.fill,
-                                        loadingBuilder:
-                                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          }
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              value: loadingProgress.expectedTotalBytes != null
-                                                  ? loadingProgress.cumulativeBytesLoaded /
-                                                      loadingProgress.expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          );
-                                        },
-                                        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
-                                          return Image.network(
-                                            ImageConstants.placeHolderImg,
+                              Column(
+                                children: [
+                                  Expanded(
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black12),
+                                        borderRadius: AppBorderRadius.k8px,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                                        child: ClipRRect(
+                                          borderRadius: AppBorderRadius.k16px,
+                                          child: Image.network(
+                                            Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
+                                                ImageConstants.placeHolderImg),
                                             fit: BoxFit.fill,
-                                          );
-                                        },
+                                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              }
+                                              return Center(
+                                                child: CircularProgressIndicator(
+                                                  value: loadingProgress.expectedTotalBytes != null
+                                                      ? loadingProgress.cumulativeBytesLoaded /
+                                                      loadingProgress.expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                              return Image.network(
+                                                ImageConstants.placeHolderImg,
+                                                fit: BoxFit.fill,
+                                              );
+                                            },
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    child: EllipsisTextWithHover(
+                                      text: ctrl.searchResponse.value.data![index].title?.capitalize ?? '',
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                ],
+                              ),
+                              Positioned(
+                                bottom: 35,
+                                right: 90,
+                                child: MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.share,color: Colors.grey,),
+                                    onPressed: () {
+                                      Clipboard.setData(ClipboardData(text: '${AppConstants.websiteUrl}#/serp?snippetId=${ ctrl.searchResponse.value.data![index].id}'));
+                                      Util().showToast(title: 'Copied to clip board', subTitle: 'You can share the snippet now', type: ToastType.info);
+                                    },
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                child: EllipsisTextWithHover(
-                                  text: ctrl.searchResponse.value.data![index].title?.capitalize ?? '',
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 8,
-                              )
                             ],
-                          ),
+                          )
+                          ,
                         ),
                         itemCount: ctrl.searchResponse.value.data?.length ?? 0,
                       )),

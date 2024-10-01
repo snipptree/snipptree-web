@@ -21,6 +21,11 @@ class SnippetUseCase {
     return response;
   }
 
+  Future<Either<Failure, SearchResponse>> getSnippetWithId(String snippetId) async {
+    final response = await dataSource.getSnippetWithId(snippetId);
+    return response;
+  }
+
   Future<Either<Failure, SearchResponse>> getMySnippets() async {
     final response = await dataSource.getMySnippets();
     return response;
