@@ -22,8 +22,10 @@ class ReusableElevatedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: padding ?? const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-        backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.inversePrimary,
+        padding:
+            padding ?? const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        backgroundColor:
+            backgroundColor ?? Theme.of(context).colorScheme.inversePrimary,
       ),
       child: Text(
         buttonText,

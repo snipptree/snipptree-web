@@ -59,14 +59,16 @@ class _SearchResultViewState extends State<SearchResultView> {
                                 barrierDismissible: true,
                                 title: '',
                                 titleStyle: const TextStyle(fontSize: 16),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 32, vertical: 16),
                                 titlePadding: EdgeInsets.zero,
                                 content: Expanded(
                                   child: SizedBox(
                                     width: 400,
                                     child: Stack(children: [
                                       ViewSnippetDialog(
-                                        snippetData: ctrl.searchResponse.value.data![index],
+                                        snippetData: ctrl
+                                            .searchResponse.value.data![index],
                                       ),
                                       Positioned(
                                           right: 0.0,
@@ -94,31 +96,45 @@ class _SearchResultViewState extends State<SearchResultView> {
                                   Expanded(
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black12),
+                                        border:
+                                            Border.all(color: Colors.black12),
                                         borderRadius: AppBorderRadius.k8px,
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 8),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 32, vertical: 8),
                                         child: ClipRRect(
                                           borderRadius: AppBorderRadius.k16px,
                                           child: Image.network(
-                                            Uri.encodeFull(ctrl.searchResponse.value.data![index].image ??
+                                            Uri.encodeFull(ctrl.searchResponse
+                                                    .value.data![index].image ??
                                                 ImageConstants.placeHolderImg),
                                             fit: BoxFit.fill,
-                                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent?
+                                                        loadingProgress) {
                                               if (loadingProgress == null) {
                                                 return child;
                                               }
                                               return Center(
-                                                child: CircularProgressIndicator(
-                                                  value: loadingProgress.expectedTotalBytes != null
-                                                      ? loadingProgress.cumulativeBytesLoaded /
-                                                      loadingProgress.expectedTotalBytes!
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  value: loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
                                                       : null,
                                                 ),
                                               );
                                             },
-                                            errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+                                            errorBuilder: (BuildContext context,
+                                                Object error,
+                                                StackTrace? stackTrace) {
                                               return Image.network(
                                                 ImageConstants.placeHolderImg,
                                                 fit: BoxFit.fill,
@@ -130,9 +146,12 @@ class _SearchResultViewState extends State<SearchResultView> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
                                     child: EllipsisTextWithHover(
-                                      text: ctrl.searchResponse.value.data![index].title?.capitalize ?? '',
+                                      text: ctrl.searchResponse.value
+                                              .data![index].title?.capitalize ??
+                                          '',
                                     ),
                                   ),
                                   const SizedBox(height: 8),
@@ -144,21 +163,31 @@ class _SearchResultViewState extends State<SearchResultView> {
                                 child: MouseRegion(
                                   cursor: SystemMouseCursors.click,
                                   child: IconButton(
-                                    icon: const Icon(Icons.share,color: Colors.grey,),
+                                    icon: const Icon(
+                                      Icons.share,
+                                      color: Colors.grey,
+                                    ),
                                     onPressed: () {
-                                      Clipboard.setData(ClipboardData(text: '${AppConstants.websiteUrl}#/serp?snippetId=${ ctrl.searchResponse.value.data![index].id}'));
-                                      Util().showToast(title: 'Copied to clip board', subTitle: 'You can share the snippet now', type: ToastType.info);
+                                      Clipboard.setData(ClipboardData(
+                                          text:
+                                              '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
+                                      Util().showToast(
+                                          title: 'Copied to clip board',
+                                          subTitle:
+                                              'You can share the snippet now',
+                                          type: ToastType.info);
                                     },
                                   ),
                                 ),
                               ),
                             ],
-                          )
-                          ,
+                          ),
                         ),
                         itemCount: ctrl.searchResponse.value.data?.length ?? 0,
                       )),
-                  Obx(() => ctrl.isLoading.value ? const Center(child: CircularProgressIndicator()) : const SizedBox())
+                  Obx(() => ctrl.isLoading.value
+                      ? const Center(child: CircularProgressIndicator())
+                      : const SizedBox())
                 ],
               ),
             ),
@@ -197,7 +226,8 @@ class HeadingRow extends StatelessWidget {
               tag: 'search_bar',
               child: Container(
                 width: 500,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: AppBorderRadius.k24px,
@@ -209,7 +239,8 @@ class HeadingRow extends StatelessWidget {
                     focusNode: FocusNode(),
                     onKeyEvent: (event) async {
                       if (event.logicalKey == LogicalKeyboardKey.enter) {
-                        await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
+                        await ctrl.getSnippets(
+                            searchQuery: ctrl.searchKey.value);
                       }
                     },
                     child: TextField(
@@ -223,7 +254,8 @@ class HeadingRow extends StatelessWidget {
                         border: InputBorder.none,
                         hintText: AppConstants.searchForSnippet,
                         hintStyle: Theme.of(context).textTheme.bodyLarge,
-                        contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                       ),
                     ),
                   ),
@@ -260,7 +292,8 @@ class HeadingRow extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 40.0),
                   child: Container(
                     width: 400,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: AppBorderRadius.k24px,
@@ -272,7 +305,8 @@ class HeadingRow extends StatelessWidget {
                         focusNode: FocusNode(),
                         onKeyEvent: (event) async {
                           if (event.logicalKey == LogicalKeyboardKey.enter) {
-                            await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
+                            await ctrl.getSnippets(
+                                searchQuery: ctrl.searchKey.value);
                           }
                         },
                         child: TextField(
@@ -286,7 +320,8 @@ class HeadingRow extends StatelessWidget {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             hintStyle: Theme.of(context).textTheme.bodyLarge,
-                            contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                           ),
                         ),
                       ),
@@ -326,7 +361,8 @@ class HeadingRow extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 40.0),
                   child: Container(
                     width: 400,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: AppBorderRadius.k24px,
@@ -338,7 +374,8 @@ class HeadingRow extends StatelessWidget {
                         focusNode: FocusNode(),
                         onKeyEvent: (event) async {
                           if (event.logicalKey == LogicalKeyboardKey.enter) {
-                            await ctrl.getSnippets(searchQuery: ctrl.searchKey.value);
+                            await ctrl.getSnippets(
+                                searchQuery: ctrl.searchKey.value);
                           }
                         },
                         child: TextField(
@@ -352,7 +389,8 @@ class HeadingRow extends StatelessWidget {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             hintStyle: Theme.of(context).textTheme.bodyLarge,
-                            contentPadding: const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                           ),
                         ),
                       ),

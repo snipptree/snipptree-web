@@ -191,9 +191,9 @@ class UploadSnippetDialog extends StatelessWidget {
               height: 55,
               width: 360,
               child: ReusableElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     controller.uploadSnippet();
-                    },
+                  },
                   buttonText: 'Save Snippet'),
             )
           ],

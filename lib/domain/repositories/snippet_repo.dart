@@ -13,5 +13,4 @@ abstract class SnippetRepo {
   Future<Either<Failure, SearchResponse>> getSnippetWithId(String snippetId);
 
   Future<Either<Failure, SearchResponse>> getMySnippets();
-
 }

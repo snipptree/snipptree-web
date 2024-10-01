@@ -18,18 +18,16 @@ class AppConstants {
   static const searchKey = 'searchKey';
   static const goHome = 'Go Home';
   static const logOut = 'Logout';
-  static const  searchForSnippet = 'Search for snippet';
-  static const  searchSnippet = 'Search Snippet';
-  static const  mySnippets = 'My Snippets';
-  static const  signInWithGoogle = 'Sign in with Google';
-  static const  loginToastTitle = "Login Required!";
-  static const  noSnippetsFound = 'No snippets found! Start creating your own now!';
-  static const  toastSubTitle = 'Just one more step to complete your sign-up before you can upload your snippet.';
+  static const searchForSnippet = 'Search for snippet';
+  static const searchSnippet = 'Search Snippet';
+  static const mySnippets = 'My Snippets';
+  static const signInWithGoogle = 'Sign in with Google';
+  static const loginToastTitle = "Login Required!";
+  static const noSnippetsFound =
+      'No snippets found! Start creating your own now!';
+  static const toastSubTitle =
+      'Just one more step to complete your sign-up before you can upload your snippet.';
   static const String enterASearchQuery = "Please enter a search query!";
-  static const String weHaveSnippetsWaitingForYou = "We've the best snippets waiting for you.";
-
-
-
-
-
+  static const String weHaveSnippetsWaitingForYou =
+      "We've the best snippets waiting for you.";
 }

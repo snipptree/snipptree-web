@@ -12,7 +12,6 @@ abstract class NetworkInfo {
 }
 
 class NetworkInfoImpl implements NetworkInfo {
-
   @override
   Future<bool> get isConnected => isConnectedToInternet();
 

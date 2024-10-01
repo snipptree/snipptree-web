@@ -69,10 +69,9 @@ class SnippetRepoImpl implements SnippetRepo {
     }
   }
 
-
-
   @override
-  Future<Either<Failure, SearchResponse>> getSnippetWithId(String snippetId) async {
+  Future<Either<Failure, SearchResponse>> getSnippetWithId(
+      String snippetId) async {
     if (!await networkInfo.isConnected) {
       return Left(
           Failure(message: 'No Internet', failureType: FailureType.INTERNET));
@@ -87,5 +86,4 @@ class SnippetRepoImpl implements SnippetRepo {
       }
     }
   }
-
 }

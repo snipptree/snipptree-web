@@ -44,193 +44,207 @@ class _ExState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          ResponsiveLayout(mobile: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // Handle donation tap
-                      },
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: Text(
-                          "${AppConstants.donate} ❤️",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(
-                            decoration: TextDecoration.underline,
+          ResponsiveLayout(
+              mobile: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // Handle donation tap
+                          },
+                          child: MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: Text(
+                              "${AppConstants.donate} ❤️",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    decoration: TextDecoration.underline,
+                                  ),
+                            ),
                           ),
                         ),
+                        const SizedBox(width: 24),
+                        Obx(() {
+                          return ctrl.userName.value.isNotEmpty
+                              ? InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.mySnippets);
+                                  },
+                                  child: Text(AppConstants.mySnippets,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w700)),
+                                )
+                              : const SizedBox();
+                        }),
+                        const SizedBox(width: 24),
+                        Obx(() {
+                          return ctrl.userName.value.isNotEmpty
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      "${AppConstants.hello} ${ctrl.userName.value}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w700),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    MyProfileMenu(
+                                        controller: ctrl), // User Profile Menu
+                                  ],
+                                )
+                              : GoogleSignInButton(controller: ctrl);
+                        }),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              tab: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24, top: 16),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              // Handle donation tap
+                            },
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: Text(
+                                "${AppConstants.donate} ❤️",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          Obx(() {
+                            return ctrl.userName.value.isNotEmpty
+                                ? InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.mySnippets);
+                                    },
+                                    child: Text(AppConstants.mySnippets,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w700)),
+                                  )
+                                : const SizedBox();
+                          }),
+                          const SizedBox(width: 24),
+                          Obx(() {
+                            return ctrl.userName.value.isNotEmpty
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        "${AppConstants.hello} ${ctrl.userName.value}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w700),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      MyProfileMenu(
+                                          controller:
+                                              ctrl), // User Profile Menu
+                                    ],
+                                  )
+                                : GoogleSignInButton(controller: ctrl);
+                          }),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 24),
-                    Obx(() {
-                      return ctrl.userName.value.isNotEmpty
-                          ? InkWell(
-                        onTap: (){
-                          Get.toNamed(Routes.mySnippets);
-                        },
-                        child: Text(AppConstants.mySnippets,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.w700)),
-                      )
-                          : const SizedBox();
-                    }),
-                    const SizedBox(width: 24),
-                    Obx(() {
-                      return ctrl.userName.value.isNotEmpty
-                          ? Row(
-                        children: [
-                          Text(
-                            "${AppConstants.hello} ${ctrl.userName.value}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.w700),
-                          ),
-                          const SizedBox(width: 12),
-                          MyProfileMenu(controller: ctrl), // User Profile Menu
-                        ],
-                      )
-                          : GoogleSignInButton(controller: ctrl);
-                    }),
                   ],
                 ),
               ),
-            ],
-          ), tab: Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 24, top: 16),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // Handle donation tap
-                        },
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Text(
-                            "${AppConstants.donate} ❤️",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                              decoration: TextDecoration.underline,
+              web: Padding(
+                padding: const EdgeInsets.only(right: 24),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24, top: 16),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              // Handle donation tap
+                            },
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: Text(
+                                "${AppConstants.donate} ❤️",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
                             ),
                           ),
-                        ),
+                          const SizedBox(width: 24),
+                          Obx(() {
+                            return ctrl.userName.value.isNotEmpty
+                                ? InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.mySnippets);
+                                    },
+                                    child: Text(AppConstants.mySnippets,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w700)),
+                                  )
+                                : const SizedBox();
+                          }),
+                          const SizedBox(width: 24),
+                          Obx(() {
+                            return ctrl.userName.value.isNotEmpty
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        "${AppConstants.hello} ${ctrl.userName.value}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.w700),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      MyProfileMenu(
+                                          controller:
+                                              ctrl), // User Profile Menu
+                                    ],
+                                  )
+                                : GoogleSignInButton(controller: ctrl);
+                          }),
+                        ],
                       ),
-                      const SizedBox(width: 24),
-                      Obx(() {
-                        return ctrl.userName.value.isNotEmpty
-                            ? InkWell(
-                          onTap: (){
-                            Get.toNamed(Routes.mySnippets);
-                          },
-                          child: Text(AppConstants.mySnippets,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700)),
-                        )
-                            : const SizedBox();
-                      }),
-                      const SizedBox(width: 24),
-                      Obx(() {
-                        return ctrl.userName.value.isNotEmpty
-                            ? Row(
-                          children: [
-                            Text(
-                              "${AppConstants.hello} ${ctrl.userName.value}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                            const SizedBox(width: 12),
-                            MyProfileMenu(controller: ctrl), // User Profile Menu
-                          ],
-                        )
-                            : GoogleSignInButton(controller: ctrl);
-                      }),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ), web: Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 24, top: 16),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // Handle donation tap
-                        },
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Text(
-                            "${AppConstants.donate} ❤️",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 24),
-                      Obx(() {
-                        return ctrl.userName.value.isNotEmpty
-                            ? InkWell(
-                          onTap: (){
-                            Get.toNamed(Routes.mySnippets);
-                          },
-                          child: Text(AppConstants.mySnippets,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700)),
-                        )
-                            : const SizedBox();
-                      }),
-                      const SizedBox(width: 24),
-                      Obx(() {
-                        return ctrl.userName.value.isNotEmpty
-                            ? Row(
-                          children: [
-                            Text(
-                              "${AppConstants.hello} ${ctrl.userName.value}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                            const SizedBox(width: 12),
-                            MyProfileMenu(controller: ctrl), // User Profile Menu
-                          ],
-                        )
-                            : GoogleSignInButton(controller: ctrl);
-                      }),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )),
+              )),
         ],
       ),
       body: Center(
@@ -242,15 +256,19 @@ class _ExState extends State<HomePage> {
               tag: 'logo',
               child: Center(
                 child: ResponsiveLayout(
-                    mobile: Image.asset(ImageConstants.snippTreeImg,width: 250,height: 150,),
+                    mobile: Image.asset(
+                      ImageConstants.snippTreeImg,
+                      width: 250,
+                      height: 150,
+                    ),
                     tab: Image.asset(ImageConstants.snippTreeImg),
                     web: Image.asset(ImageConstants.snippTreeImg)),
               ),
             ),
             const ResponsiveLayout(
-                mobile:  SizedBox(height: 0),
-                tab:  SizedBox(height: 50),
-                web:  SizedBox(height: 50)),
+                mobile: SizedBox(height: 0),
+                tab: SizedBox(height: 50),
+                web: SizedBox(height: 50)),
             Hero(
               tag: 'search_bar',
               child: ResponsiveLayout(
@@ -258,7 +276,7 @@ class _ExState extends State<HomePage> {
                     width: 280,
                     height: 60,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: BorderRadius.circular(25),
@@ -280,7 +298,7 @@ class _ExState extends State<HomePage> {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             contentPadding:
-                            EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                                EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
                           ),
                         ),
                       ),
@@ -289,7 +307,7 @@ class _ExState extends State<HomePage> {
                   tab: Container(
                     width: 600,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: BorderRadius.circular(25),
@@ -311,7 +329,7 @@ class _ExState extends State<HomePage> {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             contentPadding:
-                            EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                                EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                           ),
                         ),
                       ),
@@ -320,7 +338,7 @@ class _ExState extends State<HomePage> {
                   web: Container(
                     width: 600,
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: BorderRadius.circular(25),
@@ -342,7 +360,7 @@ class _ExState extends State<HomePage> {
                             border: InputBorder.none,
                             hintText: AppConstants.searchForSnippet,
                             contentPadding:
-                            EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                                EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                           ),
                         ),
                       ),
@@ -358,18 +376,18 @@ class _ExState extends State<HomePage> {
                         height: 40,
                         width: 124,
                         child: ReusableElevatedButton(
-                           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                           textStyle: const TextStyle(fontSize: 12),
-
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
+                            textStyle: const TextStyle(fontSize: 12),
                             onPressed: navigateToSERP,
-                            buttonText: AppConstants.searchSnippet)
-                    ),
+                            buttonText: AppConstants.searchSnippet)),
                     const SizedBox(width: 10),
                     SizedBox(
                       height: 40,
                       width: 124,
                       child: ReusableElevatedButton(
-                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 8),
                         textStyle: const TextStyle(fontSize: 12),
                         onPressed: () async {
                           final authToken = SharedPrefs().getJwtToken();
@@ -379,7 +397,8 @@ class _ExState extends State<HomePage> {
                               barrierDismissible: true,
                               title: '',
                               titleStyle: const TextStyle(fontSize: 16),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
                               titlePadding: EdgeInsets.zero,
                               content: Expanded(child: UploadSnippetDialog()),
                             );
@@ -392,8 +411,7 @@ class _ExState extends State<HomePage> {
                           }
                         },
                         buttonText: AppConstants.uploadSnippet,
-                      )
-                      ,
+                      ),
                     ),
                   ],
                 ),
@@ -405,8 +423,7 @@ class _ExState extends State<HomePage> {
                         width: 180,
                         child: ReusableElevatedButton(
                             onPressed: navigateToSERP,
-                            buttonText: AppConstants.searchSnippet)
-                    ),
+                            buttonText: AppConstants.searchSnippet)),
                     const SizedBox(width: 20),
                     SizedBox(
                       height: 55,
@@ -420,7 +437,8 @@ class _ExState extends State<HomePage> {
                               barrierDismissible: true,
                               title: '',
                               titleStyle: const TextStyle(fontSize: 16),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 16),
                               titlePadding: EdgeInsets.zero,
                               content: Expanded(child: UploadSnippetDialog()),
                             );
@@ -433,8 +451,7 @@ class _ExState extends State<HomePage> {
                           }
                         },
                         buttonText: AppConstants.uploadSnippet,
-                      )
-                      ,
+                      ),
                     ),
                   ],
                 ),
@@ -446,8 +463,7 @@ class _ExState extends State<HomePage> {
                         width: 180,
                         child: ReusableElevatedButton(
                             onPressed: navigateToSERP,
-                            buttonText: AppConstants.searchSnippet)
-                    ),
+                            buttonText: AppConstants.searchSnippet)),
                     const SizedBox(width: 20),
                     SizedBox(
                       height: 55,
@@ -461,7 +477,8 @@ class _ExState extends State<HomePage> {
                               barrierDismissible: true,
                               title: '',
                               titleStyle: const TextStyle(fontSize: 16),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 32, vertical: 16),
                               titlePadding: EdgeInsets.zero,
                               content: Expanded(child: UploadSnippetDialog()),
                             );
@@ -474,8 +491,7 @@ class _ExState extends State<HomePage> {
                           }
                         },
                         buttonText: AppConstants.uploadSnippet,
-                      )
-                      ,
+                      ),
                     ),
                   ],
                 )),
@@ -495,8 +511,9 @@ class _ExState extends State<HomePage> {
 
   void navigateToSERP() {
     if (ctrl.searchSnippetController.text.isNotEmpty) {
-      Get.toNamed(Routes.serp,
-          parameters: {AppConstants.searchKey: ctrl.searchSnippetController.text});
+      Get.toNamed(Routes.serp, parameters: {
+        AppConstants.searchKey: ctrl.searchSnippetController.text
+      });
     } else {
       Util().showToast(
         title: AppConstants.enterASearchQuery,

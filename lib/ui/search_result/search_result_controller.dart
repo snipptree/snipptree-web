@@ -24,15 +24,12 @@ class SearchResultController extends GetxController {
   }
 
   Future<void>? getSnippets({String? searchQuery}) async {
-
     snippetId = Get.parameters['snippetId'] ?? '';
-    if(snippetId.isNotEmpty){
-
+    if (snippetId.isNotEmpty) {
       isLoading.value = true;
       isDataLoaded.value = false;
       searchResponse.value = SearchResponse();
-      final response =
-      await SnippetUseCase().getSnippetWithId(snippetId);
+      final response = await SnippetUseCase().getSnippetWithId(snippetId);
       response.fold((l) async {
         isLoading.value = false;
         Util().showToast(
@@ -44,17 +41,15 @@ class SearchResultController extends GetxController {
           isDataLoaded.value = true;
           searchResponse.value = r;
         } else {
-
           Util().showToast(
               title: r.message ?? 'Something went wrong',
               subTitle: '',
               type: ToastType.error);
-          errorMsg.value =  r.message ?? 'Something went wrong';
+          errorMsg.value = r.message ?? 'Something went wrong';
         }
         isLoading.value = false;
       });
-
-    }else{
+    } else {
       if (searchQuery == null) {
         searchKey.value = Get.parameters['searchKey'] ?? '';
         serpController.text = searchKey.value;
@@ -72,7 +67,7 @@ class SearchResultController extends GetxController {
       isDataLoaded.value = false;
       searchResponse.value = SearchResponse();
       final response =
-      await SnippetUseCase().getSnippets(searchQuery ?? searchKey.value);
+          await SnippetUseCase().getSnippets(searchQuery ?? searchKey.value);
       response.fold((l) async {
         isLoading.value = false;
         Util().showToast(
@@ -92,6 +87,5 @@ class SearchResultController extends GetxController {
         isLoading.value = false;
       });
     }
-
   }
 }
