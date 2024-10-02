@@ -25,7 +25,7 @@ class SearchResultController extends GetxController {
 
   Future<void>? getSnippets({String? searchQuery}) async {
     snippetId = Get.parameters['snippetId'] ?? '';
-    if (snippetId.isNotEmpty) {
+    if ((searchQuery?.isEmpty == true || searchQuery==null) && snippetId.isNotEmpty) {
       isLoading.value = true;
       isDataLoaded.value = false;
       searchResponse.value = SearchResponse();
