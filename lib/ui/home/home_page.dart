@@ -1,4 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:animated_hint_textfield/animated_hint_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -26,6 +26,7 @@ class HomePage extends StatefulWidget {
 
 class _ExState extends State<HomePage> {
   final HomeController ctrl = HomeController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -38,6 +39,13 @@ class _ExState extends State<HomePage> {
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose(); // Clean up the focus node when the widget is disposed.
+    ctrl.searchSnippetController.dispose(); // Clean up the text controller.
+    super.dispose();
   }
 
   @override
@@ -136,116 +144,106 @@ class _ExState extends State<HomePage> {
                   Hero(
                     tag: 'search_bar',
                     child: ResponsiveLayout(
-                        mobile: Container(
-                          width: 280,
-                          height: 60,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[900],
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.grey[700]!),
-                          ),
-                          child: Material(
-                            color: Colors.grey[900],
-                            child: KeyboardListener(
-                              focusNode: FocusNode(),
-                              onKeyEvent: (event) async {
-                                if (event.logicalKey == LogicalKeyboardKey.enter) {
-                                  navigateToSERP();
-                                }
-                              },
-                              child: TextField(
-                                controller: ctrl.searchSnippetController,
-                                decoration: const InputDecoration(
-                                  hintText: '',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Row(
-                                    children: [
-                                      Icon(Icons.search),
-                                      SizedBox(width: 12),
-                                      AnimatedHintText(),
-                                    ],
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                      mobile: Container(
+                        width: 280,
+                        height: 60,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[900],
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.grey[700]!),
+                        ),
+                        child: Material(
+                          color: Colors.grey[900],
+                          child: KeyboardListener(
+                            focusNode: FocusNode(),
+                            onKeyEvent: (event) async {
+                              if (event.logicalKey == LogicalKeyboardKey.enter) {
+                                navigateToSERP();
+                              }
+                            },
+                            child: TextField(
+                              controller: ctrl.searchSnippetController,
+                              decoration: const InputDecoration(
+                                hintText: '',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                prefixIcon: Row(
+                                  children: [
+                                    Icon(Icons.search),
+                                    SizedBox(width: 12),
+                                  ],
                                 ),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                               ),
                             ),
                           ),
                         ),
-                        tab: Container(
-                          width: 600,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[900],
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.grey[700]!),
-                          ),
-                          child: Material(
-                            color: Colors.grey[900],
-                            child: KeyboardListener(
-                              focusNode: FocusNode(),
-                              onKeyEvent: (event) async {
-                                // Using an animated typewriter effect for the hint
-                                if (event.logicalKey == LogicalKeyboardKey.enter) {
-                                  navigateToSERP();
-                                }
-                              },
-                              child: TextFormField(
-                                controller: ctrl.searchSnippetController,
-                                decoration: const InputDecoration(
-                                  hintText: '',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Row(
-                                    children: [
-                                      Icon(Icons.search),
-                                      SizedBox(width: 12),
-                                      AnimatedHintText(),
-                                    ],
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                      ),
+                      tab: Container(
+                        width: 600,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[900],
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.grey[700]!),
+                        ),
+                        child: Material(
+                          color: Colors.grey[900],
+                          child: KeyboardListener(
+                            focusNode: FocusNode(),
+                            onKeyEvent: (event) async {
+                              // Using an animated typewriter effect for the hint
+                              if (event.logicalKey == LogicalKeyboardKey.enter) {
+                                navigateToSERP();
+                              }
+                            },
+                            child: TextFormField(
+                              controller: ctrl.searchSnippetController,
+                              decoration: const InputDecoration(
+                                hintText: '',
+                                hintStyle: TextStyle(color: Colors.grey),
+                                prefixIcon: Row(
+                                  children: [
+                                    Icon(Icons.search),
+                                    SizedBox(width: 12),
+                                  ],
                                 ),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                               ),
                             ),
                           ),
                         ),
-                        web: Container(
-                          width: 600,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[900],
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(color: Colors.grey[700]!),
-                          ),
-                          child: Material(
-                            color: Colors.grey[900],
-                            child: KeyboardListener(
-                              focusNode: FocusNode(),
-                              onKeyEvent: (event) async {
-                                if (event.logicalKey == LogicalKeyboardKey.enter) {
-                                  navigateToSERP();
-                                }
-                              },
-                              child: TextFormField(
-                                controller: ctrl.searchSnippetController,
-                                decoration: const InputDecoration(
-                                  hintText: '',
-                                  hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Row(
-                                    children: [
-                                      Icon(Icons.search),
-                                      SizedBox(width: 12),
-                                      AnimatedHintText(),
-                                    ],
-                                  ),
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
-                                ),
-                              ),
+                      ),
+                      web: Container(
+                        width: 600,
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[900],
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(color: Colors.grey[700]!),
+                        ),
+                        child: Material(
+                          color: Colors.grey[900],
+                          child: AnimatedTextField(
+                            animationType: Animationtype.typer,
+                            hintTextStyle: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                             ),
+                            hintTexts: const [
+                              'Search for a code snippet...',
+                              'Share your code snippets with the world 🌍',
+                              'Every like plants a tree 🌳',
+                            ],
+                            decoration: const InputDecoration(
+                                prefixIcon: Icon(Icons.search),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.all(12)),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 40),
                   ResponsiveLayout(
@@ -439,40 +437,6 @@ class GoogleSignInButton extends StatelessWidget {
             const SizedBox(width: 16),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AnimatedHintText extends StatelessWidget {
-  const AnimatedHintText({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 500.0, // Adjust width based on your need
-      child: AnimatedTextKit(
-        repeatForever: true,
-        animatedTexts: [
-          TypewriterAnimatedText(
-            'Search for a code snippet...',
-            textStyle: const TextStyle(color: Colors.grey, fontSize: 16.0, fontWeight: FontWeight.bold),
-            speed: const Duration(milliseconds: 120),
-          ),
-          TypewriterAnimatedText(
-            'Share your code snippets with the world 🌍',
-            textStyle: const TextStyle(color: Colors.grey, fontSize: 16.0, fontWeight: FontWeight.bold),
-            speed: const Duration(milliseconds: 80),
-          ),
-          TypewriterAnimatedText(
-            'Every like plants a tree 🌳',
-            textStyle: const TextStyle(color: Colors.grey, fontSize: 16.0, fontWeight: FontWeight.bold),
-            speed: const Duration(milliseconds: 80),
-          ),
-        ],
-        onTap: () {
-          debugPrint("Tap Event");
-        },
       ),
     );
   }
