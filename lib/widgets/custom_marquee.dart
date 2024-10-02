@@ -13,8 +13,8 @@ class _CustomMarqueeState extends State<CustomMarquee> with SingleTickerProvider
   late ScrollController _scrollController;
   late AnimationController _animationController;
   late double textWidth;
-  final double spaceBetween = 120; // Spacing between loops
-  final double velocity = 60; // Pixels per second
+  final double spaceBetween = 300; // Spacing between loops
+  final double velocity = 80; // Pixels per second
 
   @override
   void initState() {

@@ -361,7 +361,7 @@ class _ExState extends State<HomePage> {
         const Material(
           child: CustomMarquee(
             text:
-                '🌳 Code for a Greener Tomorrow! 🌳 Upload your code snippets at Snipptree.com and for every 🌟 100 tree-likes 🌟 we\'ll plant a tree 🌱 on your behalf!  Go green 🌍 with Snipptree.com – Let\'s grow together! 🌿💻',
+                '🌱 Code. Share. Plant on snipptree.com! 🌟 For every 100 tree-likes on your snippets, we plant a tree on your behalf 🌳. Let’s build a greener future! 💻🌍 #GoGreen',
           ),
         ),
       ],
