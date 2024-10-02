@@ -218,15 +218,16 @@ class _ExState extends State<HomePage> {
                       ),
                       web: Container(
                         width: 600,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                         decoration: BoxDecoration(
                           color: Colors.grey[900],
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(24),
                           border: Border.all(color: Colors.grey[700]!),
                         ),
                         child: Material(
                           color: Colors.grey[900],
                           child: AnimatedTextField(
+                            controller: ctrl.searchSnippetController,
                             animationType: Animationtype.typer,
                             hintTextStyle: const TextStyle(
                               overflow: TextOverflow.ellipsis,
@@ -239,7 +240,7 @@ class _ExState extends State<HomePage> {
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.search),
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.all(12)),
+                                contentPadding: EdgeInsets.only(bottom: 20)),
                           ),
                         ),
                       ),
