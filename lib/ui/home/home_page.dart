@@ -43,7 +43,8 @@ class _ExState extends State<HomePage> {
 
   @override
   void dispose() {
-    _focusNode.dispose(); // Clean up the focus node when the widget is disposed.
+    _focusNode
+        .dispose(); // Clean up the focus node when the widget is disposed.
     ctrl.searchSnippetController.dispose(); // Clean up the text controller.
     super.dispose();
   }
@@ -74,7 +75,10 @@ class _ExState extends State<HomePage> {
                                 cursor: SystemMouseCursors.click,
                                 child: Text(
                                   "${AppConstants.donate} ❤️",
-                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(
                                         decoration: TextDecoration.underline,
                                       ),
                                 ),
@@ -91,7 +95,8 @@ class _ExState extends State<HomePage> {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
-                                              ?.copyWith(fontWeight: FontWeight.w700)),
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w700)),
                                     )
                                   : const SizedBox();
                             }),
@@ -105,10 +110,13 @@ class _ExState extends State<HomePage> {
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
-                                              ?.copyWith(fontWeight: FontWeight.w700),
+                                              ?.copyWith(
+                                                  fontWeight: FontWeight.w700),
                                         ),
                                         const SizedBox(width: 12),
-                                        MyProfileMenu(controller: ctrl), // User Profile Menu
+                                        MyProfileMenu(
+                                            controller:
+                                                ctrl), // User Profile Menu
                                       ],
                                     )
                                   : GoogleSignInButton(controller: ctrl);
@@ -140,49 +148,17 @@ class _ExState extends State<HomePage> {
                     ),
                   ),
                   const ResponsiveLayout(
-                      mobile: SizedBox(height: 0), tab: SizedBox(height: 50), web: SizedBox(height: 50)),
+                      mobile: SizedBox(height: 0),
+                      tab: SizedBox(height: 50),
+                      web: SizedBox(height: 50)),
                   Hero(
                     tag: 'search_bar',
                     child: ResponsiveLayout(
                       mobile: Container(
                         width: 280,
                         height: 60,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[900],
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(color: Colors.grey[700]!),
-                        ),
-                        child: Material(
-                          color: Colors.grey[900],
-                          child: KeyboardListener(
-                            focusNode: FocusNode(),
-                            onKeyEvent: (event) async {
-                              if (event.logicalKey == LogicalKeyboardKey.enter) {
-                                navigateToSERP();
-                              }
-                            },
-                            child: TextField(
-                              controller: ctrl.searchSnippetController,
-                              decoration: const InputDecoration(
-                                hintText: '',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                prefixIcon: Row(
-                                  children: [
-                                    Icon(Icons.search),
-                                    SizedBox(width: 12),
-                                  ],
-                                ),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      tab: Container(
-                        width: 600,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
                         decoration: BoxDecoration(
                           color: Colors.grey[900],
                           borderRadius: BorderRadius.circular(25),
@@ -194,31 +170,34 @@ class _ExState extends State<HomePage> {
                             focusNode: FocusNode(),
                             onKeyEvent: (event) async {
                               // Using an animated typewriter effect for the hint
-                              if (event.logicalKey == LogicalKeyboardKey.enter) {
+                              if (event.logicalKey ==
+                                  LogicalKeyboardKey.enter) {
                                 navigateToSERP();
                               }
                             },
-                            child: TextFormField(
+                            child: AnimatedTextField(
                               controller: ctrl.searchSnippetController,
-                              decoration: const InputDecoration(
-                                hintText: '',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                prefixIcon: Row(
-                                  children: [
-                                    Icon(Icons.search),
-                                    SizedBox(width: 12),
-                                  ],
-                                ),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                              animationType: Animationtype.typer,
+                              hintTextStyle: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
                               ),
+                              hintTexts: const [
+                                'Search for a code snippet...',
+                                'Share your code snippets with the world 🌍',
+                                'Every like plants a tree 🌳',
+                              ],
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.search),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(bottom: 20)),
                             ),
                           ),
                         ),
                       ),
-                      web: Container(
+                      tab: Container(
                         width: 600,
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 2),
                         decoration: BoxDecoration(
                           color: Colors.grey[900],
                           borderRadius: BorderRadius.circular(24),
@@ -226,21 +205,70 @@ class _ExState extends State<HomePage> {
                         ),
                         child: Material(
                           color: Colors.grey[900],
-                          child: AnimatedTextField(
-                            controller: ctrl.searchSnippetController,
-                            animationType: Animationtype.typer,
-                            hintTextStyle: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
+                          child: KeyboardListener(
+                            focusNode: FocusNode(),
+                            onKeyEvent: (event) async {
+                              // Using an animated typewriter effect for the hint
+                              if (event.logicalKey ==
+                                  LogicalKeyboardKey.enter) {
+                                navigateToSERP();
+                              }
+                            },
+                            child: AnimatedTextField(
+                              controller: ctrl.searchSnippetController,
+                              animationType: Animationtype.typer,
+                              hintTextStyle: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              hintTexts: const [
+                                'Search for a code snippet...',
+                                'Share your code snippets with the world 🌍',
+                                'Every like plants a tree 🌳',
+                              ],
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.search),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(bottom: 20)),
                             ),
-                            hintTexts: const [
-                              'Search for a code snippet...',
-                              'Share your code snippets with the world 🌍',
-                              'Every like plants a tree 🌳',
-                            ],
-                            decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.search),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(bottom: 20)),
+                          ),
+                        ),
+                      ),
+                      web: Container(
+                        width: 600,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[900],
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(color: Colors.grey[700]!),
+                        ),
+                        child: Material(
+                          color: Colors.grey[900],
+                          child: KeyboardListener(
+                            focusNode: FocusNode(),
+                            onKeyEvent: (event) async {
+                              // Using an animated typewriter effect for the hint
+                              if (event.logicalKey ==
+                                  LogicalKeyboardKey.enter) {
+                                navigateToSERP();
+                              }
+                            },
+                            child: AnimatedTextField(
+                              controller: ctrl.searchSnippetController,
+                              animationType: Animationtype.typer,
+                              hintTextStyle: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              hintTexts: const [
+                                'Search for a code snippet...',
+                                'Share your code snippets with the world 🌍',
+                                'Every like plants a tree 🌳',
+                              ],
+                              decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.search),
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.only(bottom: 20)),
+                            ),
                           ),
                         ),
                       ),
@@ -255,7 +283,8 @@ class _ExState extends State<HomePage> {
                               height: 40,
                               width: 124,
                               child: ReusableElevatedButton(
-                                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 8),
                                   textStyle: const TextStyle(fontSize: 12),
                                   onPressed: navigateToSERP,
                                   buttonText: AppConstants.searchSnippet)),
@@ -264,7 +293,8 @@ class _ExState extends State<HomePage> {
                             height: 40,
                             width: 124,
                             child: ReusableElevatedButton(
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
                               textStyle: const TextStyle(fontSize: 12),
                               onPressed: () async {
                                 final authToken = SharedPrefs().getJwtToken();
@@ -274,9 +304,11 @@ class _ExState extends State<HomePage> {
                                     barrierDismissible: true,
                                     title: '',
                                     titleStyle: const TextStyle(fontSize: 16),
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
                                     titlePadding: EdgeInsets.zero,
-                                    content: Expanded(child: UploadSnippetDialog()),
+                                    content:
+                                        Expanded(child: UploadSnippetDialog()),
                                   );
                                 } else {
                                   Util().showToast(
@@ -298,7 +330,8 @@ class _ExState extends State<HomePage> {
                               height: 55,
                               width: 180,
                               child: ReusableElevatedButton(
-                                  onPressed: navigateToSERP, buttonText: AppConstants.searchSnippet)),
+                                  onPressed: navigateToSERP,
+                                  buttonText: AppConstants.searchSnippet)),
                           const SizedBox(width: 20),
                           SizedBox(
                             height: 55,
@@ -312,9 +345,11 @@ class _ExState extends State<HomePage> {
                                     barrierDismissible: true,
                                     title: '',
                                     titleStyle: const TextStyle(fontSize: 16),
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 32, vertical: 16),
                                     titlePadding: EdgeInsets.zero,
-                                    content: Expanded(child: UploadSnippetDialog()),
+                                    content:
+                                        Expanded(child: UploadSnippetDialog()),
                                   );
                                 } else {
                                   Util().showToast(
@@ -336,7 +371,8 @@ class _ExState extends State<HomePage> {
                               height: 55,
                               width: 180,
                               child: ReusableElevatedButton(
-                                  onPressed: navigateToSERP, buttonText: AppConstants.searchSnippet)),
+                                  onPressed: navigateToSERP,
+                                  buttonText: AppConstants.searchSnippet)),
                           const SizedBox(width: 20),
                           SizedBox(
                             height: 55,
@@ -350,9 +386,11 @@ class _ExState extends State<HomePage> {
                                     barrierDismissible: true,
                                     title: '',
                                     titleStyle: const TextStyle(fontSize: 16),
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 32, vertical: 16),
                                     titlePadding: EdgeInsets.zero,
-                                    content: Expanded(child: UploadSnippetDialog()),
+                                    content:
+                                        Expanded(child: UploadSnippetDialog()),
                                   );
                                 } else {
                                   Util().showToast(
@@ -392,7 +430,9 @@ class _ExState extends State<HomePage> {
 
   void navigateToSERP() {
     if (ctrl.searchSnippetController.text.isNotEmpty) {
-      Get.toNamed(Routes.serp, parameters: {AppConstants.searchKey: ctrl.searchSnippetController.text});
+      Get.toNamed(Routes.serp, parameters: {
+        AppConstants.searchKey: ctrl.searchSnippetController.text
+      });
     } else {
       Util().showToast(
         title: AppConstants.enterASearchQuery,
@@ -413,7 +453,8 @@ class GoogleSignInButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
+        padding:
+            WidgetStateProperty.all(const EdgeInsets.symmetric(vertical: 12)),
       ),
       onPressed: () {
         controller.signInWithGoogle();

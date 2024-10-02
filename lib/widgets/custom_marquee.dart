@@ -9,7 +9,8 @@ class CustomMarquee extends StatefulWidget {
   _CustomMarqueeState createState() => _CustomMarqueeState();
 }
 
-class _CustomMarqueeState extends State<CustomMarquee> with SingleTickerProviderStateMixin {
+class _CustomMarqueeState extends State<CustomMarquee>
+    with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   late AnimationController _animationController;
   late double textWidth;
@@ -35,7 +36,8 @@ class _CustomMarqueeState extends State<CustomMarquee> with SingleTickerProvider
 
   void _startScrolling() {
     // Measure the text width
-    final textSize = _measureTextSize(widget.text, const TextStyle(fontSize: 14));
+    final textSize =
+        _measureTextSize(widget.text, const TextStyle(fontSize: 14));
     textWidth = textSize.width;
 
     // Calculate the total distance to scroll (text width + space)
@@ -43,7 +45,8 @@ class _CustomMarqueeState extends State<CustomMarquee> with SingleTickerProvider
 
     // Create animation controller for infinite scroll
     _animationController = AnimationController(
-      duration: Duration(milliseconds: (scrollDistance / velocity * 1000).round()),
+      duration:
+          Duration(milliseconds: (scrollDistance / velocity * 1000).round()),
       vsync: this,
     );
 
@@ -79,7 +82,8 @@ class _CustomMarqueeState extends State<CustomMarquee> with SingleTickerProvider
             children: [
               Text(
                 widget.text,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: spaceBetween), // Space between repeated text
             ],

@@ -1,3 +1,4 @@
+import 'package:animated_hint_textfield/animated_hint_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -225,9 +226,9 @@ class HeadingRow extends StatelessWidget {
             Hero(
               tag: 'search_bar',
               child: Container(
-                width: 500,
+                width: 300,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: AppBorderRadius.k24px,
@@ -243,20 +244,21 @@ class HeadingRow extends StatelessWidget {
                             searchQuery: ctrl.searchKey.value);
                       }
                     },
-                    child: TextField(
-                      textInputAction: TextInputAction.search,
+                    child: AnimatedTextField(
                       controller: ctrl.serpController,
-                      onChanged: (val) {
-                        ctrl.searchKey.value = val;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.search),
-                        border: InputBorder.none,
-                        hintText: AppConstants.searchForSnippet,
-                        hintStyle: Theme.of(context).textTheme.bodyLarge,
-                        contentPadding:
-                            const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                      animationType: Animationtype.typer,
+                      hintTextStyle: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
                       ),
+                      hintTexts: const [
+                        'Search for a code snippet...',
+                        'Share your code snippets with the world 🌍',
+                        'Every like plants a tree 🌳',
+                      ],
+                      decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(bottom: 20)),
                     ),
                   ),
                 ),
@@ -293,7 +295,7 @@ class HeadingRow extends StatelessWidget {
                   child: Container(
                     width: 400,
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: AppBorderRadius.k24px,
@@ -309,20 +311,21 @@ class HeadingRow extends StatelessWidget {
                                 searchQuery: ctrl.searchKey.value);
                           }
                         },
-                        child: TextField(
-                          textInputAction: TextInputAction.search,
+                        child: AnimatedTextField(
                           controller: ctrl.serpController,
-                          onChanged: (val) {
-                            ctrl.searchKey.value = val;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            border: InputBorder.none,
-                            hintText: AppConstants.searchForSnippet,
-                            hintStyle: Theme.of(context).textTheme.bodyLarge,
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                          animationType: Animationtype.typer,
+                          hintTextStyle: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          hintTexts: const [
+                            'Search for a code snippet...',
+                            'Share your code snippets with the world 🌍',
+                            'Every like plants a tree 🌳',
+                          ],
+                          decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(bottom: 20)),
                         ),
                       ),
                     ),
@@ -362,7 +365,7 @@ class HeadingRow extends StatelessWidget {
                   child: Container(
                     width: 400,
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
                       borderRadius: AppBorderRadius.k24px,
@@ -378,20 +381,21 @@ class HeadingRow extends StatelessWidget {
                                 searchQuery: ctrl.searchKey.value);
                           }
                         },
-                        child: TextField(
-                          textInputAction: TextInputAction.search,
+                        child: AnimatedTextField(
                           controller: ctrl.serpController,
-                          onChanged: (val) {
-                            ctrl.searchKey.value = val;
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            border: InputBorder.none,
-                            hintText: AppConstants.searchForSnippet,
-                            hintStyle: Theme.of(context).textTheme.bodyLarge,
-                            contentPadding:
-                                const EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
+                          animationType: Animationtype.typer,
+                          hintTextStyle: const TextStyle(
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          hintTexts: const [
+                            'Search for a code snippet...',
+                            'Share your code snippets with the world 🌍',
+                            'Every like plants a tree 🌳',
+                          ],
+                          decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(bottom: 20)),
                         ),
                       ),
                     ),
