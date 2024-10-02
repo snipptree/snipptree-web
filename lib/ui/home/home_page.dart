@@ -189,7 +189,7 @@ class _ExState extends State<HomePage> {
                               decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.search),
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(bottom: 20)),
+                                  contentPadding: EdgeInsets.only(bottom: 18)),
                             ),
                           ),
                         ),
@@ -228,7 +228,7 @@ class _ExState extends State<HomePage> {
                               decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.search),
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(bottom: 20)),
+                                  contentPadding: EdgeInsets.only(bottom: 18)),
                             ),
                           ),
                         ),
@@ -267,7 +267,7 @@ class _ExState extends State<HomePage> {
                               decoration: const InputDecoration(
                                   prefixIcon: Icon(Icons.search),
                                   border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(bottom: 20)),
+                                  contentPadding: EdgeInsets.only(bottom: 18)),
                             ),
                           ),
                         ),
