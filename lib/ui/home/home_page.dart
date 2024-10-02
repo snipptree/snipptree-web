@@ -44,207 +44,70 @@ class _ExState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          ResponsiveLayout(
-              mobile: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            // Handle donation tap
-                          },
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: Text(
-                              "${AppConstants.donate} ❤️",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    decoration: TextDecoration.underline,
-                                  ),
+          Padding(
+            padding: const EdgeInsets.only(left:12,right: 12),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Handle donation tap
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Text(
+                            "${AppConstants.donate} ❤️",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                              decoration: TextDecoration.underline,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 24),
-                        Obx(() {
-                          return ctrl.userName.value.isNotEmpty
-                              ? InkWell(
-                                  onTap: () {
-                                    Get.toNamed(Routes.mySnippets);
-                                  },
-                                  child: Text(AppConstants.mySnippets,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w700)),
-                                )
-                              : const SizedBox();
-                        }),
-                        const SizedBox(width: 24),
-                        Obx(() {
-                          return ctrl.userName.value.isNotEmpty
-                              ? Row(
-                                  children: [
-                                    Text(
-                                      "${AppConstants.hello} ${ctrl.userName.value}",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w700),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    MyProfileMenu(
-                                        controller: ctrl), // User Profile Menu
-                                  ],
-                                )
-                              : GoogleSignInButton(controller: ctrl);
-                        }),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 24),
+                      Obx(() {
+                        return ctrl.userName.value.isNotEmpty
+                            ? InkWell(
+                          onTap: (){
+                            Get.toNamed(Routes.mySnippets);
+                          },
+                          child: Text(AppConstants.mySnippets,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700)),
+                        )
+                            : const SizedBox();
+                      }),
+                      const SizedBox(width: 24),
+                      Obx(() {
+                        return ctrl.userName.value.isNotEmpty
+                            ? Row(
+                          children: [
+                            Text(
+                              "${AppConstants.hello} ${ctrl.userName.value}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(width: 12),
+                            MyProfileMenu(controller: ctrl), // User Profile Menu
+                          ],
+                        )
+                            : GoogleSignInButton(controller: ctrl);
+                      }),
+                    ],
                   ),
-                ],
-              ),
-              tab: Padding(
-                padding: const EdgeInsets.only(right: 24),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24, top: 16),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Handle donation tap
-                            },
-                            child: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: Text(
-                                "${AppConstants.donate} ❤️",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      decoration: TextDecoration.underline,
-                                    ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          Obx(() {
-                            return ctrl.userName.value.isNotEmpty
-                                ? InkWell(
-                                    onTap: () {
-                                      Get.toNamed(Routes.mySnippets);
-                                    },
-                                    child: Text(AppConstants.mySnippets,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700)),
-                                  )
-                                : const SizedBox();
-                          }),
-                          const SizedBox(width: 24),
-                          Obx(() {
-                            return ctrl.userName.value.isNotEmpty
-                                ? Row(
-                                    children: [
-                                      Text(
-                                        "${AppConstants.hello} ${ctrl.userName.value}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      MyProfileMenu(
-                                          controller:
-                                              ctrl), // User Profile Menu
-                                    ],
-                                  )
-                                : GoogleSignInButton(controller: ctrl);
-                          }),
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              web: Padding(
-                padding: const EdgeInsets.only(right: 24),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24, top: 16),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Handle donation tap
-                            },
-                            child: MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: Text(
-                                "${AppConstants.donate} ❤️",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      decoration: TextDecoration.underline,
-                                    ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 24),
-                          Obx(() {
-                            return ctrl.userName.value.isNotEmpty
-                                ? InkWell(
-                                    onTap: () {
-                                      Get.toNamed(Routes.mySnippets);
-                                    },
-                                    child: Text(AppConstants.mySnippets,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700)),
-                                  )
-                                : const SizedBox();
-                          }),
-                          const SizedBox(width: 24),
-                          Obx(() {
-                            return ctrl.userName.value.isNotEmpty
-                                ? Row(
-                                    children: [
-                                      Text(
-                                        "${AppConstants.hello} ${ctrl.userName.value}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      MyProfileMenu(
-                                          controller:
-                                              ctrl), // User Profile Menu
-                                    ],
-                                  )
-                                : GoogleSignInButton(controller: ctrl);
-                          }),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+              ],
+            ),
+          ),
         ],
       ),
       body: Center(
