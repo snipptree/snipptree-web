@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -153,13 +154,20 @@ class _ExState extends State<HomePage> {
                                   navigateToSERP();
                                 }
                               },
-                              child: TextFormField(
+                              child: TextField(
                                 controller: ctrl.searchSnippetController,
                                 decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.search),
+                                  hintText: '',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Row(
+                                    children: [
+                                      Icon(Icons.search),
+                                      SizedBox(width: 12),
+                                      AnimatedHintText(),
+                                    ],
+                                  ),
                                   border: InputBorder.none,
-                                  hintText: AppConstants.searchForSnippet,
-                                  contentPadding: EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
+                                  contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                                 ),
                               ),
                             ),
@@ -178,6 +186,7 @@ class _ExState extends State<HomePage> {
                             child: KeyboardListener(
                               focusNode: FocusNode(),
                               onKeyEvent: (event) async {
+                                // Using an animated typewriter effect for the hint
                                 if (event.logicalKey == LogicalKeyboardKey.enter) {
                                   navigateToSERP();
                                 }
@@ -185,9 +194,16 @@ class _ExState extends State<HomePage> {
                               child: TextFormField(
                                 controller: ctrl.searchSnippetController,
                                 decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.search),
+                                  hintText: '',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Row(
+                                    children: [
+                                      Icon(Icons.search),
+                                      SizedBox(width: 12),
+                                      AnimatedHintText(),
+                                    ],
+                                  ),
                                   border: InputBorder.none,
-                                  hintText: AppConstants.searchForSnippet,
                                   contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                                 ),
                               ),
@@ -214,9 +230,16 @@ class _ExState extends State<HomePage> {
                               child: TextFormField(
                                 controller: ctrl.searchSnippetController,
                                 decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.search),
+                                  hintText: '',
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Row(
+                                    children: [
+                                      Icon(Icons.search),
+                                      SizedBox(width: 12),
+                                      AnimatedHintText(),
+                                    ],
+                                  ),
                                   border: InputBorder.none,
-                                  hintText: AppConstants.searchForSnippet,
                                   contentPadding: EdgeInsets.fromLTRB(8.0, 11.0, 8.0, 8.0),
                                 ),
                               ),
@@ -416,6 +439,40 @@ class GoogleSignInButton extends StatelessWidget {
             const SizedBox(width: 16),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AnimatedHintText extends StatelessWidget {
+  const AnimatedHintText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 500.0, // Adjust width based on your need
+      child: AnimatedTextKit(
+        repeatForever: true,
+        animatedTexts: [
+          TypewriterAnimatedText(
+            'Search for a code snippet...',
+            textStyle: const TextStyle(color: Colors.grey, fontSize: 16.0, fontWeight: FontWeight.bold),
+            speed: const Duration(milliseconds: 120),
+          ),
+          TypewriterAnimatedText(
+            'Share your code snippets with the world 🌍',
+            textStyle: const TextStyle(color: Colors.grey, fontSize: 16.0, fontWeight: FontWeight.bold),
+            speed: const Duration(milliseconds: 80),
+          ),
+          TypewriterAnimatedText(
+            'Every like plants a tree 🌳',
+            textStyle: const TextStyle(color: Colors.grey, fontSize: 16.0, fontWeight: FontWeight.bold),
+            speed: const Duration(milliseconds: 80),
+          ),
+        ],
+        onTap: () {
+          debugPrint("Tap Event");
+        },
       ),
     );
   }
