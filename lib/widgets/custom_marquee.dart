@@ -14,8 +14,8 @@ class _CustomMarqueeState extends State<CustomMarquee>
   late ScrollController _scrollController;
   late AnimationController _animationController;
   late double textWidth;
-  final double spaceBetween = 300; // Spacing between loops
-  final double velocity = 80; // Pixels per second
+  final double spaceBetween = 1000; // Spacing between loops
+  final double velocity = 65; // Pixels per second
 
   @override
   void initState() {

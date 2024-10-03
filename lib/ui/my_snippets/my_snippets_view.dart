@@ -83,6 +83,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 mainAxisSpacing: 16,
                                 crossAxisCount: count,
+                                    childAspectRatio: 16 /9,
                               ),
                               itemBuilder: (_, index) => InkWell(
                                 onTap: () async {
@@ -138,53 +139,50 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 32, vertical: 8),
-                                          child: AspectRatio(
-                                            aspectRatio: 16 / 9,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  AppBorderRadius.k16px,
-                                              child: Image.network(
-                                                Uri.encodeFull(ctrl
-                                                        .mySnippetsResponse
-                                                        .value
-                                                        .data![index]
-                                                        .image ??
-                                                    ImageConstants
-                                                        .placeHolderImg),
-                                                fit: BoxFit.fill,
-                                                loadingBuilder:
-                                                    (BuildContext context,
-                                                        Widget child,
-                                                        ImageChunkEvent?
-                                                            loadingProgress) {
-                                                  if (loadingProgress == null) {
-                                                    return child;
-                                                  }
-                                                  return Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      value: loadingProgress
-                                                                  .expectedTotalBytes !=
-                                                              null
-                                                          ? loadingProgress
-                                                                  .cumulativeBytesLoaded /
-                                                              loadingProgress
-                                                                  .expectedTotalBytes!
-                                                          : null,
-                                                    ),
-                                                  );
-                                                },
-                                                errorBuilder: (BuildContext
-                                                        context,
-                                                    Object error,
-                                                    StackTrace? stackTrace) {
-                                                  return Image.network(
-                                                    ImageConstants
-                                                        .placeHolderImg,
-                                                    fit: BoxFit.fill,
-                                                  );
-                                                },
-                                              ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                AppBorderRadius.k16px,
+                                            child: Image.network(
+                                              Uri.encodeFull(ctrl
+                                                      .mySnippetsResponse
+                                                      .value
+                                                      .data![index]
+                                                      .image ??
+                                                  ImageConstants
+                                                      .placeHolderImg),
+                                              fit: BoxFit.fill,
+                                              loadingBuilder:
+                                                  (BuildContext context,
+                                                      Widget child,
+                                                      ImageChunkEvent?
+                                                          loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child;
+                                                }
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    value: loadingProgress
+                                                                .expectedTotalBytes !=
+                                                            null
+                                                        ? loadingProgress
+                                                                .cumulativeBytesLoaded /
+                                                            loadingProgress
+                                                                .expectedTotalBytes!
+                                                        : null,
+                                                  ),
+                                                );
+                                              },
+                                              errorBuilder: (BuildContext
+                                                      context,
+                                                  Object error,
+                                                  StackTrace? stackTrace) {
+                                                return Image.network(
+                                                  ImageConstants
+                                                      .placeHolderImg,
+                                                  fit: BoxFit.fill,
+                                                );
+                                              },
                                             ),
                                           ),
                                         ),
