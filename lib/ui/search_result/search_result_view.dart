@@ -90,97 +90,66 @@ class _SearchResultViewState extends State<SearchResultView> {
                                   ),
                                 ));
                           },
-                          child: Stack(
+                          child: Column(
                             children: [
-                              Column(
-                                children: [
-                                  Expanded(
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.black12),
-                                        borderRadius: AppBorderRadius.k8px,
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 32, vertical: 8),
-                                        child: ClipRRect(
-                                          borderRadius: AppBorderRadius.k16px,
-                                          child: Image.network(
-                                            Uri.encodeFull(ctrl.searchResponse
-                                                    .value.data![index].image ??
-                                                ImageConstants.placeHolderImg),
-                                            fit: BoxFit.fill,
-                                            loadingBuilder:
-                                                (BuildContext context,
-                                                    Widget child,
-                                                    ImageChunkEvent?
-                                                        loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  value: loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!
-                                                      : null,
-                                                ),
-                                              );
-                                            },
-                                            errorBuilder: (BuildContext context,
-                                                Object error,
-                                                StackTrace? stackTrace) {
-                                              return Image.network(
-                                                ImageConstants.placeHolderImg,
-                                                fit: BoxFit.fill,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                              Expanded(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black12),
+                                    borderRadius: AppBorderRadius.k8px,
                                   ),
-                                  Padding(
+                                  child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: EllipsisTextWithHover(
-                                      text: ctrl.searchResponse.value
-                                              .data![index].title?.capitalize ??
-                                          '',
+                                        horizontal: 32, vertical: 8),
+                                    child: ClipRRect(
+                                      borderRadius: AppBorderRadius.k16px,
+                                      child: Image.network(
+                                        Uri.encodeFull(ctrl.searchResponse.value
+                                                .data![index].image ??
+                                            ImageConstants.placeHolderImg),
+                                        fit: BoxFit.fill,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          }
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              value: loadingProgress
+                                                          .expectedTotalBytes !=
+                                                      null
+                                                  ? loadingProgress
+                                                          .cumulativeBytesLoaded /
+                                                      loadingProgress
+                                                          .expectedTotalBytes!
+                                                  : null,
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder: (BuildContext context,
+                                            Object error,
+                                            StackTrace? stackTrace) {
+                                          return Image.network(
+                                            ImageConstants.placeHolderImg,
+                                            fit: BoxFit.fill,
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                ],
-                              ),
-                              Positioned(
-                                bottom: 35,
-                                right: 90,
-                                child: MouseRegion(
-                                  cursor: SystemMouseCursors.click,
-                                  child: IconButton(
-                                    icon: const Icon(
-                                      Icons.share,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      Clipboard.setData(ClipboardData(
-                                          text:
-                                              '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
-                                      Util().showToast(
-                                          title: 'Copied to clip board',
-                                          subTitle:
-                                              'You can share the snippet now',
-                                          type: ToastType.info);
-                                    },
                                   ),
                                 ),
                               ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: EllipsisTextWithHover(
+                                  text: ctrl.searchResponse.value.data![index]
+                                          .title?.capitalize ??
+                                      '',
+                                ),
+                              ),
+                              const SizedBox(height: 8),
                             ],
                           ),
                         ),
@@ -227,8 +196,7 @@ class HeadingRow extends StatelessWidget {
               tag: 'search_bar',
               child: Container(
                 width: 300,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
                   borderRadius: AppBorderRadius.k24px,
@@ -245,6 +213,9 @@ class HeadingRow extends StatelessWidget {
                       }
                     },
                     child: AnimatedTextField(
+                      onChanged: (val) {
+                        ctrl.searchKey.value = val;
+                      },
                       controller: ctrl.serpController,
                       animationType: Animationtype.typer,
                       hintTextStyle: const TextStyle(
@@ -312,6 +283,9 @@ class HeadingRow extends StatelessWidget {
                           }
                         },
                         child: AnimatedTextField(
+                          onChanged: (val) {
+                            ctrl.searchKey.value = val;
+                          },
                           controller: ctrl.serpController,
                           animationType: Animationtype.typer,
                           hintTextStyle: const TextStyle(
@@ -382,6 +356,9 @@ class HeadingRow extends StatelessWidget {
                           }
                         },
                         child: AnimatedTextField(
+                          onChanged: (val) {
+                            ctrl.searchKey.value = val;
+                          },
                           controller: ctrl.serpController,
                           animationType: Animationtype.typer,
                           hintTextStyle: const TextStyle(
