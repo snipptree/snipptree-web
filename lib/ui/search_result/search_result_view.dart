@@ -47,8 +47,9 @@ class _SearchResultViewState extends State<SearchResultView> {
                   Obx(() => GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
                           crossAxisCount: count,
-                          childAspectRatio: 16 / 9,
+                          childAspectRatio: 16 / 11.5,
                         ),
                         itemBuilder: (_, index) => InkWell(
                           customBorder: const RoundedRectangleBorder(
@@ -90,67 +91,116 @@ class _SearchResultViewState extends State<SearchResultView> {
                                   ),
                                 ));
                           },
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black12),
-                                    borderRadius: AppBorderRadius.k8px,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 32, vertical: 8),
-                                    child: ClipRRect(
-                                      borderRadius: AppBorderRadius.k16px,
-                                      child: Image.network(
-                                        Uri.encodeFull(ctrl.searchResponse.value
-                                                .data![index].image ??
-                                            ImageConstants.placeHolderImg),
-                                        fit: BoxFit.fill,
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          }
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            ),
-                                          );
-                                        },
-                                        errorBuilder: (BuildContext context,
-                                            Object error,
-                                            StackTrace? stackTrace) {
-                                          return Image.network(
-                                            ImageConstants.placeHolderImg,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.black12),
+                                          borderRadius: AppBorderRadius.k8px,
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: AppBorderRadius.k16px,
+                                          child: Image.network(
+                                            Uri.encodeFull(ctrl.searchResponse.value
+                                                    .data![index].image ??
+                                                ImageConstants.placeHolderImg),
                                             fit: BoxFit.fill,
-                                          );
+                                            loadingBuilder: (BuildContext context,
+                                                Widget child,
+                                                ImageChunkEvent? loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              }
+                                              return Center(
+                                                child: CircularProgressIndicator(
+                                                  value: loadingProgress
+                                                              .expectedTotalBytes !=
+                                                          null
+                                                      ? loadingProgress
+                                                              .cumulativeBytesLoaded /
+                                                          loadingProgress
+                                                              .expectedTotalBytes!
+                                                      : null,
+                                                ),
+                                              );
+                                            },
+                                            errorBuilder: (BuildContext context,
+                                                Object error,
+                                                StackTrace? stackTrace) {
+                                              return Image.network(
+                                                ImageConstants.placeHolderImg,
+                                                fit: BoxFit.fill,
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.symmetric(horizontal: 20),
+                                        child: EllipsisTextWithHover(
+                                          text: ctrl.searchResponse.value.data![index]
+                                                  .title?.capitalize ??
+                                              '',
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 8,),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.thumb_up_alt_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () {
+                                          Clipboard.setData(ClipboardData(
+                                              text:
+                                              '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
+                                          Util().showToast(
+                                              title: 'Copied to clip board',
+                                              subTitle:
+                                              'You can share the snippet now',
+                                              type: ToastType.info);
                                         },
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
-                                child: EllipsisTextWithHover(
-                                  text: ctrl.searchResponse.value.data![index]
-                                          .title?.capitalize ??
-                                      '',
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                            ],
+                                    const SizedBox(height: 20),
+                                    MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.ios_share_rounded,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () {
+                                          Clipboard.setData(ClipboardData(
+                                              text:
+                                              '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
+                                          Util().showToast(
+                                              title: 'Copied to clip board',
+                                              subTitle:
+                                              'You can share the snippet now',
+                                              type: ToastType.info);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         itemCount: ctrl.searchResponse.value.data?.length ?? 0,
