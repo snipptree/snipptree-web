@@ -15,8 +15,8 @@ class Styles {
 
   static ScrollbarThemeData scrollbarTheme =
       const ScrollbarThemeData().copyWith(
-    thumbColor: MaterialStateProperty.all(defaultGreyColor),
-    thickness: MaterialStateProperty.all(5),
+    thumbColor: WidgetStateProperty.all(defaultGreyColor),
+    thickness: WidgetStateProperty.all(5),
     // thumbVisibility: false,
     interactive: true,
   );

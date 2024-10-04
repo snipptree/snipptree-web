@@ -7,8 +7,6 @@ class MaterialTheme {
 
   static ColorScheme darkScheme() {
     return const ColorScheme(
-      background: Colors.black,
-      onBackground: Color(0xffffffff),
       brightness: Brightness.dark,
       primary: Color(0xffffffff),
       surfaceTint: Colors.transparent,
@@ -45,8 +43,6 @@ class MaterialTheme {
 
   static ColorScheme darkMediumContrastScheme() {
     return const ColorScheme(
-      background: Colors.black,
-      onBackground: Color(0xffffffff),
       brightness: Brightness.dark,
       primary: Color(0xffffffff),
       surfaceTint: Color(0xff2ae500),
@@ -83,8 +79,6 @@ class MaterialTheme {
 
   static ColorScheme darkHighContrastScheme() {
     return const ColorScheme(
-      background: Colors.black,
-      onBackground: Color(0xffffffff),
       brightness: Brightness.dark,
       primary: Color.fromARGB(255, 28, 23, 23),
       surfaceTint: Color(0xff2ae500),
@@ -127,7 +121,7 @@ class MaterialTheme {
           bodyColor: colorScheme.onSurface,
           displayColor: colorScheme.onSurface,
         ),
-        scaffoldBackgroundColor: colorScheme.background,
+        scaffoldBackgroundColor: colorScheme.surface,
         canvasColor: colorScheme.surface,
       );
 

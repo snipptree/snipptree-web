@@ -15,7 +15,7 @@ class Failure {
 
   Failure({required this.message, this.failureType = FailureType.GENERAL});
 
-  Failure.fromServerError(DioError error) {
+  Failure.fromServerError(DioException error) {
     message = error.message;
   }
 }
