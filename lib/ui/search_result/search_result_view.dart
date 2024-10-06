@@ -9,6 +9,7 @@ import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/image_constants.dart';
 import 'package:snippet/common/responsive_layout.dart';
 import 'package:snippet/common/routes.dart';
+import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
 import 'package:snippet/widgets/ellipsis_text_hover.dart';
@@ -183,16 +184,25 @@ class _SearchResultViewState extends State<SearchResultView> {
                                                   : Colors.green.shade100,
                                             ),
                                             onPressed: () {
-                                              ctrl.updateLikeStatus(
-                                                  isLiked: ctrl
-                                                      .isAlreadyLiked(index),
-                                                  index: index,
-                                                  snippetId: ctrl
-                                                          .searchResponse
-                                                          .value
-                                                          .data![index]
-                                                          .id ??
-                                                      '');
+                                              final authToken = SharedPrefs().getJwtToken();
+                                              if (authToken?.isNotEmpty == true) {
+                                                ctrl.updateLikeStatus(
+                                                    isLiked: ctrl
+                                                        .isAlreadyLiked(index),
+                                                    index: index,
+                                                    snippetId: ctrl
+                                                        .searchResponse
+                                                        .value
+                                                        .data![index]
+                                                        .id ??
+                                                        '');
+                                              }else{
+                                                Util().showToast(
+                                                  title: AppConstants.loginToastTitle,
+                                                  subTitle: AppConstants.toastSubTitle,
+                                                  type: ToastType.success,
+                                                );
+                                              }
                                             },
                                           )),
                                     ),
