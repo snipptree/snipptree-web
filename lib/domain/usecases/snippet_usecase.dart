@@ -44,4 +44,10 @@ class SnippetUseCase {
     final response = await dataSource.getMySnippets();
     return response;
   }
+
+  Future<Either<Failure, BaseResponse>> deleteSnippet(String snippetId) async {
+    final response = await dataSource.deleteSnippet(snippetId);
+    return response;
+  }
+
 }

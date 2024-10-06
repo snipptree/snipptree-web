@@ -44,4 +44,30 @@ class MySnippetsController extends GetxController {
       isLoading.value = false;
     });
   }
+
+  Future<void>? deleteSnippet({required String snippetId, required int index}) async {
+    final response = await SnippetUseCase().deleteSnippet(snippetId);
+    response.fold((l) async {
+      Util().showToast(
+          title: l.message ?? 'Something went wrong',
+          subTitle: '',
+          type: ToastType.error);
+    }, (r) async {
+      if (r.error == false) {
+        mySnippetsResponse.value.data?.removeAt(index);
+        mySnippetsResponse.refresh();
+        Util().showToast(
+            title: r.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.info);
+      } else {
+        Util().showToast(
+            title: r.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.error);
+      }
+    });
+  }
+
+
 }

@@ -17,4 +17,6 @@ abstract class SnippetRepo {
   Future<Either<Failure, LikeDislikeResponse>> likeSnippet(String snippetId);
 
   Future<Either<Failure, LikeDislikeResponse>> disLikeSnippet(String snippetId);
+
+  Future<Either<Failure, BaseResponse>> deleteSnippet(String snippetId);
 }

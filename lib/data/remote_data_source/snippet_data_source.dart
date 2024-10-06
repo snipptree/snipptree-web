@@ -27,6 +27,10 @@ abstract class SnippetDataSource {
   Future<String> disLikeSnippet(@Header("Authorization") String token,
       @Path("snippetId") String snippetId);
 
+  @DELETE('${SnippetApi.deleteSnippet}/{snippetId}')
+  Future<String> deleteSnippet(@Header("Authorization") String token,
+      @Path("snippetId") String snippetId);
+
   @GET(SnippetApi.getMySnippetsApi)
   Future<String> getMySnippets(@Header("Authorization") String token);
 }

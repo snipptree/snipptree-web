@@ -132,4 +132,28 @@ class SnippetRepoImpl implements SnippetRepo {
       }
     }
   }
+
+
+
+  @override
+  Future<Either<Failure, BaseResponse>> deleteSnippet(String snippetId) async {
+    String response = '';
+    if (!await networkInfo.isConnected) {
+      return Left(
+          Failure(message: 'No Internet', failureType: FailureType.INTERNET));
+    } else {
+      try {
+        response = await dataSource.deleteSnippet(
+            SharedPrefs().getJwtToken() ?? '', snippetId);
+        final map = jsonDecode(response);
+        final searchRes = BaseResponse.fromJson(map);
+        return Right(searchRes);
+      } catch (e) {
+        final map = jsonDecode(response);
+        final searchRes = Failure.fromJson(map);
+        return Left(Failure(message: searchRes.message ?? e.toString()));
+      }
+    }
+  }
+
 }

@@ -7,4 +7,5 @@ class SnippetApi {
   static const getMySnippetsApi = 'snippet-service/user/snippets';
   static const likeSnippet = 'snippet-service/snippet';
   static const disLikeSnippet = 'snippet-service/snippet';
+  static const deleteSnippet = 'snippet-service/snippet';
 }
