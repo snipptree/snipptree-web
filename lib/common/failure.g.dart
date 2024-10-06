@@ -8,14 +8,17 @@ part of 'failure.dart';
 
 Failure _$FailureFromJson(Map<String, dynamic> json) => Failure(
       message: json['message'] as String?,
+      statusCode: (json['statusCode'] as num?)?.toInt(),
+      error: json['error'] as bool?,
       failureType:
           $enumDecodeNullable(_$FailureTypeEnumMap, json['failureType']) ??
               FailureType.GENERAL,
-    )..error = json['error'] as bool?;
+    );
 
 Map<String, dynamic> _$FailureToJson(Failure instance) => <String, dynamic>{
       'error': instance.error,
       'message': instance.message,
+      'statusCode': instance.statusCode,
       'failureType': _$FailureTypeEnumMap[instance.failureType],
     };
 

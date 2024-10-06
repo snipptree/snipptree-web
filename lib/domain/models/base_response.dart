@@ -6,10 +6,12 @@ part 'base_response.g.dart';
 class BaseResponse {
   bool? error;
   String? message;
+  int? statusCode; // Add the statusCode field
 
   BaseResponse({
     this.error,
     this.message,
+    this.statusCode,
   });
 
   factory BaseResponse.fromJson(Map<String, dynamic> json) =>

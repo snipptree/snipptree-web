@@ -15,6 +15,9 @@ import 'package:snippet/firebase_options.dart';
 var getIt = GetIt.I;
 var dio = Dio(BaseOptions(
   receiveTimeout: const Duration(seconds: 60),
+  validateStatus: (status) {
+    return status != null && status < 500; // Accept any status code less than 500
+  },
 ))
   ..interceptors.add(LogInterceptor(
     request: true,
