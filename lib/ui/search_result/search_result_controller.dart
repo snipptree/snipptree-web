@@ -89,4 +89,63 @@ class SearchResultController extends GetxController {
       });
     }
   }
+
+  Future<void>? updateLikeStatus(
+      {required bool isLiked,
+      required int index,
+      required String snippetId}) async {
+    if (isLiked) {
+      final response = await SnippetUseCase().disLikeSnippet(snippetId);
+      response.fold((l) async {
+        Util().showToast(
+            title: l.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.error);
+      }, (r) async {
+        if (r.error == false) {
+          updateSnippets(isLiked, index);
+        } else {
+          Util().showToast(
+              title: r.message ?? 'Something went wrong',
+              subTitle: '',
+              type: ToastType.error);
+          errorMsg.value = r.message ?? 'Something went wrong';
+        }
+      });
+    } else {
+      final response = await SnippetUseCase().likeSnippet(snippetId);
+      response.fold((l) async {
+        Util().showToast(
+            title: l.message ?? 'Something went wrong',
+            subTitle: '',
+            type: ToastType.error);
+      }, (r) async {
+        if (r.error == false) {
+          updateSnippets(isLiked, index);
+        } else {
+          Util().showToast(
+              title: r.message ?? 'Something went wrong',
+              subTitle: '',
+              type: ToastType.error);
+          errorMsg.value = r.message ?? 'Something went wrong';
+        }
+      });
+    }
+  }
+
+  void updateSnippets(bool isLiked, int index) {
+    searchResponse.value.data![index].isLiked = !isLiked;
+    if (isLiked) {
+      searchResponse.value.data![index].totalLikes =
+          (searchResponse.value.data![index].totalLikes ?? 0) - 1;
+    } else {
+      searchResponse.value.data![index].totalLikes =
+          (searchResponse.value.data![index].totalLikes ?? 0) + 1;
+    }
+    searchResponse.refresh();
+  }
+
+  isAlreadyLiked(int index) {
+    return searchResponse.value.data![index].isLiked;
+  }
 }

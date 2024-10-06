@@ -17,6 +17,8 @@ SearchResponseList _$SearchResponseListFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String?,
       type: json['type'] as String?,
       image: json['image'] as String?,
+      totalLikes: (json['total_likes'] as num?)?.toInt(),
+      isLiked: json['is_liked'] as bool? ?? false,
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
@@ -32,4 +34,6 @@ Map<String, dynamic> _$SearchResponseListToJson(SearchResponseList instance) =>
       'type': instance.type,
       'image': instance.image,
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'total_likes': instance.totalLikes,
+      'is_liked': instance.isLiked,
     };

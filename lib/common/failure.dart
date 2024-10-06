@@ -5,15 +5,23 @@
 *  Copyright © 2021 abhibus.com. All rights reserved.
 */
 import 'package:dio/dio.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'failure.g.dart';
 
 enum FailureType { DATABASE, SERVER, INTERNET, FORMAT, GENERAL }
 
 ///generic failure to be used for the error cases
+@JsonSerializable()
 class Failure {
+  bool? error;
   String? message;
   FailureType? failureType;
 
   Failure({required this.message, this.failureType = FailureType.GENERAL});
+
+  factory Failure.fromJson(Map<String, dynamic> json) =>
+      _$FailureFromJson(json);
 
   Failure.fromServerError(DioException error) {
     message = error.message;

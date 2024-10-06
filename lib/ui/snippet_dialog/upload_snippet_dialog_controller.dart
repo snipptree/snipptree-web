@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
-import 'package:snippet/domain/models/snippet_response.dart';
+import 'package:snippet/domain/models/base_response.dart';
 
 class UploadSnippetDialogController extends GetxController {
   var byTicketSelected = true.obs;
@@ -29,7 +29,7 @@ class UploadSnippetDialogController extends GetxController {
   final conditions = ['Image', 'Text'];
   var selectedCondition = 'Image'.obs;
 
-  var snippetResponse = SnippetResponse().obs;
+  var snippetResponse = BaseResponse().obs;
 
   String? validateTitle(String? value) {
     if (value == null || value.isEmpty) {

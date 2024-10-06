@@ -101,24 +101,28 @@ class _SearchResultViewState extends State<SearchResultView> {
                                     children: [
                                       DecoratedBox(
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.black12),
+                                          border:
+                                              Border.all(color: Colors.black12),
                                           borderRadius: AppBorderRadius.k8px,
                                         ),
                                         child: ClipRRect(
                                           borderRadius: AppBorderRadius.k16px,
                                           child: Image.network(
-                                            Uri.encodeFull(ctrl.searchResponse.value
-                                                    .data![index].image ??
+                                            Uri.encodeFull(ctrl.searchResponse
+                                                    .value.data![index].image ??
                                                 ImageConstants.placeHolderImg),
                                             fit: BoxFit.fill,
-                                            loadingBuilder: (BuildContext context,
-                                                Widget child,
-                                                ImageChunkEvent? loadingProgress) {
+                                            loadingBuilder:
+                                                (BuildContext context,
+                                                    Widget child,
+                                                    ImageChunkEvent?
+                                                        loadingProgress) {
                                               if (loadingProgress == null) {
                                                 return child;
                                               }
                                               return Center(
-                                                child: CircularProgressIndicator(
+                                                child:
+                                                    CircularProgressIndicator(
                                                   value: loadingProgress
                                                               .expectedTotalBytes !=
                                                           null
@@ -143,41 +147,58 @@ class _SearchResultViewState extends State<SearchResultView> {
                                       ),
                                       const SizedBox(height: 12),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.symmetric(horizontal: 20),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
                                         child: EllipsisTextWithHover(
-                                          text: ctrl.searchResponse.value.data![index]
-                                                  .title?.capitalize ??
+                                          text: ctrl
+                                                  .searchResponse
+                                                  .value
+                                                  .data![index]
+                                                  .title
+                                                  ?.capitalize ??
                                               '',
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 8,),
+                                const SizedBox(
+                                  width: 8,
+                                ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
-                                      child: IconButton(
-                                        icon: const Icon(
-                                          Icons.thumb_up_alt_outlined,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          Clipboard.setData(ClipboardData(
-                                              text:
-                                              '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
-                                          Util().showToast(
-                                              title: 'Copied to clip board',
-                                              subTitle:
-                                              'You can share the snippet now',
-                                              type: ToastType.info);
-                                        },
-                                      ),
+                                      child: Obx(() => IconButton(
+                                            icon: Icon(
+                                              (ctrl.searchResponse.value
+                                                      .data![index].isLiked)
+                                                  ? Icons.thumb_up
+                                                  : Icons.thumb_up_alt_outlined,
+                                              color: (ctrl.searchResponse.value
+                                                      .data![index].isLiked)
+                                                  ? Colors.green
+                                                  : Colors.grey,
+                                            ),
+                                            onPressed: () {
+                                              ctrl.updateLikeStatus(
+                                                  isLiked: ctrl
+                                                      .isAlreadyLiked(index),
+                                                  index: index,
+                                                  snippetId: ctrl
+                                                          .searchResponse
+                                                          .value
+                                                          .data![index]
+                                                          .id ??
+                                                      '');
+                                            },
+                                          )),
                                     ),
-                                    const SizedBox(height: 20),
+                                    Obx(
+                                      () => Text(
+                                          '${ctrl.searchResponse.value.data![index].totalLikes}'),
+                                    ),
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
                                       child: IconButton(
@@ -188,11 +209,11 @@ class _SearchResultViewState extends State<SearchResultView> {
                                         onPressed: () {
                                           Clipboard.setData(ClipboardData(
                                               text:
-                                              '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
+                                                  '${AppConstants.websiteUrl}#/serp?snippetId=${ctrl.searchResponse.value.data![index].id}'));
                                           Util().showToast(
                                               title: 'Copied to clip board',
                                               subTitle:
-                                              'You can share the snippet now',
+                                                  'You can share the snippet now',
                                               type: ToastType.info);
                                         },
                                       ),

@@ -5,13 +5,17 @@ part 'search_response_list.g.dart';
 @JsonSerializable()
 class SearchResponseList {
   DateTime? createdAt;
-  String? id;
-  String? output;
-  String? snippet;
-  String? title;
-  String? type;
-  String? image;
-  DateTime? updatedAt;
+  final String? id;
+  final String? output;
+  final String? snippet;
+  final String? title;
+  final String? type;
+  final String? image;
+  final DateTime? updatedAt;
+  @JsonKey(name: 'total_likes')
+  int? totalLikes;
+  @JsonKey(name: 'is_liked')
+  bool isLiked;
 
   SearchResponseList(
       {this.createdAt,
@@ -21,11 +25,12 @@ class SearchResponseList {
       this.title,
       this.type,
       this.image,
+      this.totalLikes,
+      this.isLiked = false,
       this.updatedAt});
 
   factory SearchResponseList.fromJson(Map<String, dynamic> json) =>
       _$SearchResponseListFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$SearchResponseListToJson(this);
 }

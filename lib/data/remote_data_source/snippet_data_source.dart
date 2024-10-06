@@ -13,10 +13,19 @@ abstract class SnippetDataSource {
   Future<String> submitSnippetData(@Body() SnippetRequest req);
 
   @GET(SnippetApi.getSnippetsApi)
-  Future<String> getSnippets(@Query('query') String q);
+  Future<String> getSnippets(
+      @Header("Authorization") String token, @Query('query') String q);
 
   @GET('${SnippetApi.getSnippetWithId}/{snippetId}')
   Future<String> getSnippetWithId(@Path("snippetId") String snippetId);
+
+  @POST('${SnippetApi.likeSnippet}/{snippetId}/like')
+  Future<String> likeSnippet(@Header("Authorization") String token,
+      @Path("snippetId") String snippetId);
+
+  @DELETE('${SnippetApi.disLikeSnippet}/{snippetId}/unlike')
+  Future<String> disLikeSnippet(@Header("Authorization") String token,
+      @Path("snippetId") String snippetId);
 
   @GET(SnippetApi.getMySnippetsApi)
   Future<String> getMySnippets(@Header("Authorization") String token);

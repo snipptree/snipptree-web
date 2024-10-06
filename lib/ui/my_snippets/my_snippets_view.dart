@@ -83,7 +83,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 mainAxisSpacing: 16,
                                 crossAxisCount: count,
-                                    childAspectRatio: 16 /9,
+                                childAspectRatio: 16 / 9,
                               ),
                               itemBuilder: (_, index) => InkWell(
                                 onTap: () async {
@@ -140,8 +140,7 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 32, vertical: 8),
                                           child: ClipRRect(
-                                            borderRadius:
-                                                AppBorderRadius.k16px,
+                                            borderRadius: AppBorderRadius.k16px,
                                             child: Image.network(
                                               Uri.encodeFull(ctrl
                                                       .mySnippetsResponse
@@ -173,13 +172,12 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                                   ),
                                                 );
                                               },
-                                              errorBuilder: (BuildContext
-                                                      context,
-                                                  Object error,
-                                                  StackTrace? stackTrace) {
+                                              errorBuilder:
+                                                  (BuildContext context,
+                                                      Object error,
+                                                      StackTrace? stackTrace) {
                                                 return Image.network(
-                                                  ImageConstants
-                                                      .placeHolderImg,
+                                                  ImageConstants.placeHolderImg,
                                                   fit: BoxFit.fill,
                                                 );
                                               },
