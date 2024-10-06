@@ -1,6 +1,7 @@
 import 'package:animated_hint_textfield/animated_hint_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/border_radius.dart';
@@ -171,15 +172,15 @@ class _SearchResultViewState extends State<SearchResultView> {
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
                                       child: Obx(() => IconButton(
-                                            icon: Icon(
+                                            icon: FaIcon(
                                               (ctrl.searchResponse.value
                                                       .data![index].isLiked)
-                                                  ? Icons.thumb_up
-                                                  : Icons.thumb_up_alt_outlined,
+                                                  ? FontAwesomeIcons.tree
+                                                  : FontAwesomeIcons.tree,
                                               color: (ctrl.searchResponse.value
                                                       .data![index].isLiked)
                                                   ? Colors.green
-                                                  : Colors.grey,
+                                                  : Colors.green.shade100,
                                             ),
                                             onPressed: () {
                                               ctrl.updateLikeStatus(
@@ -202,9 +203,9 @@ class _SearchResultViewState extends State<SearchResultView> {
                                     MouseRegion(
                                       cursor: SystemMouseCursors.click,
                                       child: IconButton(
-                                        icon: const Icon(
-                                          Icons.ios_share_rounded,
-                                          color: Colors.grey,
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.share,
+                                          color: Colors.green.shade100,
                                         ),
                                         onPressed: () {
                                           Clipboard.setData(ClipboardData(
