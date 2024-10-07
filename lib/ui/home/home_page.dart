@@ -13,6 +13,7 @@ import 'package:snippet/ui/home/home_controller.dart';
 import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 import 'package:snippet/widgets/custom_marquee.dart';
+import 'package:snippet/widgets/razorpay_donate_button.dart';
 import 'package:snippet/widgets/reusable_elevated_button.dart';
 
 import '../../common/app_constants.dart';
@@ -54,76 +55,50 @@ class _ExState extends State<HomePage> {
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 40),
+          padding: const EdgeInsets.only(top: 45),
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               actions: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  padding: const EdgeInsets.only(right: 12),
                   child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                // Handle donation tap
-                              },
-                              child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: Text(
-                                  "${AppConstants.donate} ❤️",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 24),
-                            Obx(() {
-                              return ctrl.userName.value.isNotEmpty
-                                  ? InkWell(
-                                      onTap: () {
-                                        Get.toNamed(Routes.mySnippets);
-                                      },
-                                      child: Text(AppConstants.mySnippets,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.w700)),
-                                    )
-                                  : const SizedBox();
-                            }),
-                            const SizedBox(width: 24),
-                            Obx(() {
-                              return ctrl.userName.value.isNotEmpty
-                                  ? Row(
-                                      children: [
-                                        Text(
-                                          "${AppConstants.hello} ${ctrl.userName.value}",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.w700),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        MyProfileMenu(
-                                            controller:
-                                                ctrl), // User Profile Menu
-                                      ],
-                                    )
-                                  : GoogleSignInButton(controller: ctrl);
-                            }),
-                          ],
-                        ),
-                      ),
+                      const RazorpayButtonWidget(),
+                      Obx(() {
+                        return ctrl.userName.value.isNotEmpty
+                            ? InkWell(
+                                onTap: () {
+                                  Get.toNamed(Routes.mySnippets);
+                                },
+                                child: Text(AppConstants.mySnippets,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                            fontWeight: FontWeight.w700)),
+                              )
+                            : const SizedBox();
+                      }),
+                      const SizedBox(width: 24),
+                      Obx(() {
+                        return ctrl.userName.value.isNotEmpty
+                            ? Row(
+                                children: [
+                                  Text(
+                                    "${AppConstants.hello} ${ctrl.userName.value}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(fontWeight: FontWeight.w700),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  MyProfileMenu(
+                                      controller: ctrl), // User Profile Menu
+                                ],
+                              )
+                            : GoogleSignInButton(controller: ctrl);
+                      }),
                     ],
                   ),
                 ),
