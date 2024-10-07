@@ -81,10 +81,10 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                         : Obx(() => GridView.builder(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 16,
-                                    crossAxisSpacing: 16,
-                                    crossAxisCount: count,
-                                    childAspectRatio: 16 / 12,
+                                mainAxisSpacing: 16,
+                                crossAxisSpacing: 16,
+                                crossAxisCount: count,
+                                childAspectRatio: 16 / 12,
                               ),
                               itemBuilder: (_, index) => InkWell(
                                 onTap: () async {
@@ -134,48 +134,58 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                     children: [
                                       Expanded(
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
                                             DecoratedBox(
                                               decoration: BoxDecoration(
-                                                border:
-                                                Border.all(color: Colors.black12),
-                                                borderRadius: AppBorderRadius.k8px,
+                                                border: Border.all(
+                                                    color: Colors.black12),
+                                                borderRadius:
+                                                    AppBorderRadius.k8px,
                                               ),
                                               child: ClipRRect(
-                                                borderRadius: AppBorderRadius.k16px,
+                                                borderRadius:
+                                                    AppBorderRadius.k16px,
                                                 child: Image.network(
-                                                  Uri.encodeFull(ctrl.mySnippetsResponse
-                                                      .value.data![index].image ??
-                                                      ImageConstants.placeHolderImg),
+                                                  Uri.encodeFull(ctrl
+                                                          .mySnippetsResponse
+                                                          .value
+                                                          .data![index]
+                                                          .image ??
+                                                      ImageConstants
+                                                          .placeHolderImg),
                                                   fit: BoxFit.fill,
                                                   loadingBuilder:
                                                       (BuildContext context,
-                                                      Widget child,
-                                                      ImageChunkEvent?
-                                                      loadingProgress) {
-                                                    if (loadingProgress == null) {
+                                                          Widget child,
+                                                          ImageChunkEvent?
+                                                              loadingProgress) {
+                                                    if (loadingProgress ==
+                                                        null) {
                                                       return child;
                                                     }
                                                     return Center(
                                                       child:
-                                                      CircularProgressIndicator(
+                                                          CircularProgressIndicator(
                                                         value: loadingProgress
-                                                            .expectedTotalBytes !=
-                                                            null
+                                                                    .expectedTotalBytes !=
+                                                                null
                                                             ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!
+                                                                    .cumulativeBytesLoaded /
+                                                                loadingProgress
+                                                                    .expectedTotalBytes!
                                                             : null,
                                                       ),
                                                     );
                                                   },
-                                                  errorBuilder: (BuildContext context,
+                                                  errorBuilder: (BuildContext
+                                                          context,
                                                       Object error,
                                                       StackTrace? stackTrace) {
                                                     return Image.network(
-                                                      ImageConstants.placeHolderImg,
+                                                      ImageConstants
+                                                          .placeHolderImg,
                                                       fit: BoxFit.fill,
                                                     );
                                                   },
@@ -184,15 +194,16 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                             ),
                                             const SizedBox(height: 12),
                                             Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 20),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
                                               child: EllipsisTextWithHover(
                                                 text: ctrl
-                                                    .mySnippetsResponse
-                                                    .value
-                                                    .data![index]
-                                                    .title
-                                                    ?.capitalize ??
+                                                        .mySnippetsResponse
+                                                        .value
+                                                        .data![index]
+                                                        .title
+                                                        ?.capitalize ??
                                                     '',
                                               ),
                                             ),
@@ -203,25 +214,25 @@ class _MySnippetsViewState extends State<MySnippetsView> {
                                         width: 8,
                                       ),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           MouseRegion(
                                             cursor: SystemMouseCursors.click,
                                             child: IconButton(
                                               icon: const Icon(Icons.delete),
                                               onPressed: () {
-                                                  ctrl.deleteSnippet(snippetId: ctrl
-                                                      .mySnippetsResponse
-                                                      .value
-                                                      .data![index]
-                                                      .id ??
-                                                      '', index: index);
-
+                                                ctrl.deleteSnippet(
+                                                    snippetId: ctrl
+                                                            .mySnippetsResponse
+                                                            .value
+                                                            .data![index]
+                                                            .id ??
+                                                        '',
+                                                    index: index);
                                               },
                                             ),
                                           ),
-
-
                                         ],
                                       )
                                     ],

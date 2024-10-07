@@ -45,7 +45,8 @@ class MySnippetsController extends GetxController {
     });
   }
 
-  Future<void>? deleteSnippet({required String snippetId, required int index}) async {
+  Future<void>? deleteSnippet(
+      {required String snippetId, required int index}) async {
     final response = await SnippetUseCase().deleteSnippet(snippetId);
     response.fold((l) async {
       Util().showToast(
@@ -58,7 +59,7 @@ class MySnippetsController extends GetxController {
         mySnippetsResponse.refresh();
         Util().showToast(
             title: r.message ?? 'Something went wrong',
-            subTitle: '',
+            subTitle: "But this is not the end",
             type: ToastType.info);
       } else {
         Util().showToast(
@@ -68,6 +69,4 @@ class MySnippetsController extends GetxController {
       }
     });
   }
-
-
 }

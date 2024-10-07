@@ -1,6 +1,7 @@
 class AppConstants {
   static const baseUrl = 'https://api.snipptree.com/';
   static const websiteUrl = 'https://snipptree.com/';
+
   //static const baseUrl = 'http://localhost:8080/';
   static const googleSignInOAuthClientId =
       "1080620736880-s6sv83ur9moh939l6jcc18ebkope1bbk.apps.googleusercontent.com";
@@ -25,8 +26,8 @@ class AppConstants {
   static const loginToastTitle = "Login Required!";
   static const noSnippetsFound =
       'No snippets found! Start creating your own now!';
-  static const toastSubTitle =
-      'Just one more step to complete your sign-up before you can upload your snippet.';
+  static const toastSubTitle = 'Before you can upload your snippet.';
+  static const loginForLike = 'Before you can like any snippet.';
   static const String enterASearchQuery = "Please enter a search query!";
   static const String weHaveSnippetsWaitingForYou =
       "We've the best snippets waiting for you.";

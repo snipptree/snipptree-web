@@ -19,7 +19,11 @@ class Failure {
   int? statusCode;
   FailureType? failureType;
 
-  Failure({required this.message, this.statusCode, this.error, this.failureType = FailureType.GENERAL});
+  Failure(
+      {required this.message,
+      this.statusCode,
+      this.error,
+      this.failureType = FailureType.GENERAL});
 
   factory Failure.fromJson(Map<String, dynamic> json) =>
       _$FailureFromJson(json);

@@ -133,8 +133,6 @@ class SnippetRepoImpl implements SnippetRepo {
     }
   }
 
-
-
   @override
   Future<Either<Failure, BaseResponse>> deleteSnippet(String snippetId) async {
     String response = '';
@@ -155,5 +153,4 @@ class SnippetRepoImpl implements SnippetRepo {
       }
     }
   }
-
 }

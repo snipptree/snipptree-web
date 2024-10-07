@@ -184,23 +184,27 @@ class _SearchResultViewState extends State<SearchResultView> {
                                                   : Colors.green.shade100,
                                             ),
                                             onPressed: () {
-                                              final authToken = SharedPrefs().getJwtToken();
-                                              if (authToken?.isNotEmpty == true) {
+                                              final authToken =
+                                                  SharedPrefs().getJwtToken();
+                                              if (authToken?.isNotEmpty ==
+                                                  true) {
                                                 ctrl.updateLikeStatus(
                                                     isLiked: ctrl
                                                         .isAlreadyLiked(index),
                                                     index: index,
                                                     snippetId: ctrl
-                                                        .searchResponse
-                                                        .value
-                                                        .data![index]
-                                                        .id ??
+                                                            .searchResponse
+                                                            .value
+                                                            .data![index]
+                                                            .id ??
                                                         '');
-                                              }else{
+                                              } else {
                                                 Util().showToast(
-                                                  title: AppConstants.loginToastTitle,
-                                                  subTitle: AppConstants.toastSubTitle,
-                                                  type: ToastType.success,
+                                                  title: AppConstants
+                                                      .loginToastTitle,
+                                                  subTitle:
+                                                      AppConstants.loginForLike,
+                                                  type: ToastType.info,
                                                 );
                                               }
                                             },

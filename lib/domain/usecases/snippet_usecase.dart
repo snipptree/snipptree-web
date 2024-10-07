@@ -49,5 +49,4 @@ class SnippetUseCase {
     final response = await dataSource.deleteSnippet(snippetId);
     return response;
   }
-
 }
