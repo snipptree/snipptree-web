@@ -13,8 +13,8 @@ import 'package:snippet/ui/home/home_controller.dart';
 import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 import 'package:snippet/widgets/custom_marquee.dart';
-import 'package:snippet/widgets/razorpay_donate_button.dart';
 import 'package:snippet/widgets/reusable_elevated_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/app_constants.dart';
 
@@ -64,7 +64,28 @@ class _ExState extends State<HomePage> {
                   padding: const EdgeInsets.only(right: 12),
                   child: Row(
                     children: [
-                      const RazorpayButtonWidget(),
+                      InkWell(
+                        onTap: () async {
+                          Uri paymentUrl =
+                              Uri.parse("https://rzp.io/rzp/Z7zv2bq");
+                          if (!await launchUrl(paymentUrl)) {
+                            throw Exception('Could not launch $paymentUrl');
+                          }
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Text(
+                            "${AppConstants.donate} ❤️",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  decoration: TextDecoration.underline,
+                                ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 24),
                       Obx(() {
                         return ctrl.userName.value.isNotEmpty
                             ? InkWell(
