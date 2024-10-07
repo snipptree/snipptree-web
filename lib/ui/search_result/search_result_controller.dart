@@ -91,9 +91,9 @@ class SearchResultController extends GetxController {
   }
 
   Future<void>? updateLikeStatus(
-      {required bool isLiked,
-      required int index,
+      {required int index,
       required String snippetId}) async {
+    bool isLiked = searchResponse.value.data![index].isLiked;
     if (isLiked) {
       final response = await SnippetUseCase().disLikeSnippet(snippetId);
       response.fold((l) async {
@@ -145,7 +145,5 @@ class SearchResultController extends GetxController {
     searchResponse.refresh();
   }
 
-  isAlreadyLiked(int index) {
-    return searchResponse.value.data![index].isLiked;
-  }
+
 }

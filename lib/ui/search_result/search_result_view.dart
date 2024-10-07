@@ -11,6 +11,9 @@ import 'package:snippet/common/responsive_layout.dart';
 import 'package:snippet/common/routes.dart';
 import 'package:snippet/common/shared_pref.dart';
 import 'package:snippet/common/utils.dart';
+import 'package:snippet/ui/home/home_controller.dart';
+import 'package:snippet/ui/home/home_page.dart';
+import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/search_result/search_result_controller.dart';
 import 'package:snippet/widgets/ellipsis_text_hover.dart';
 
@@ -25,6 +28,7 @@ class SearchResultView extends StatefulWidget {
 
 class _SearchResultViewState extends State<SearchResultView> {
   final SearchResultController ctrl = SearchResultController();
+  final HomeController homeCtrl = Get.find();
 
   @override
   void initState() {
@@ -42,7 +46,7 @@ class _SearchResultViewState extends State<SearchResultView> {
         padding: const EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           children: [
-            HeadingRow(ctrl: ctrl),
+            HeadingRow(ctrl: ctrl, homeCtrl: homeCtrl),
             Expanded(
               child: Stack(
                 children: [
@@ -189,8 +193,6 @@ class _SearchResultViewState extends State<SearchResultView> {
                                               if (authToken?.isNotEmpty ==
                                                   true) {
                                                 ctrl.updateLikeStatus(
-                                                    isLiked: ctrl
-                                                        .isAlreadyLiked(index),
                                                     index: index,
                                                     snippetId: ctrl
                                                             .searchResponse
@@ -256,8 +258,9 @@ class _SearchResultViewState extends State<SearchResultView> {
 
 class HeadingRow extends StatelessWidget {
   final SearchResultController ctrl;
+  final HomeController homeCtrl;
 
-  const HeadingRow({required this.ctrl, super.key});
+  const HeadingRow({required this.ctrl, required this.homeCtrl, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -265,23 +268,66 @@ class HeadingRow extends StatelessWidget {
         mobile: Column(
           children: [
             GestureDetector(
-              onTap: () {
-                Get.offAllNamed(Routes.homePage);
-              },
-              child: Hero(
-                tag: 'logo',
-                child: AspectRatio(
-                  aspectRatio: 8 / 4,
-                  child: Image.asset(
-                    ImageConstants.snippTreeImg,
+                onTap: () {
+                  Get.offAllNamed(Routes.homePage);
+                },
+                child: Hero(
+                  tag: 'logo',
+                  child: AspectRatio(
+                    aspectRatio: 8 / 4,
+                    child: Image.asset(
+                      ImageConstants.snippTreeImg,
+                    ),
                   ),
-                ),
-              ).paddingOnly(top: 10),
+                )),
+            const SizedBox(
+              height: 12,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Obx(() {
+                  return homeCtrl.userName.value.isNotEmpty
+                      ? InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.mySnippets);
+                          },
+                          child: Text(AppConstants.mySnippets,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700)),
+                        )
+                      : const SizedBox();
+                }),
+                const SizedBox(width: 8),
+                Obx(() {
+                  return homeCtrl.userName.value.isNotEmpty
+                      ? Row(
+                          children: [
+                            Text(
+                              "${AppConstants.hello} ${homeCtrl.userName.value}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                            const SizedBox(width: 8),
+                            MyProfileMenu(
+                                controller: homeCtrl), // User Profile Menu
+                          ],
+                        )
+                      : GoogleSignInButton(controller: homeCtrl);
+                }),
+              ],
+            ),
+            const SizedBox(
+              height: 12,
             ),
             Hero(
               tag: 'search_bar',
               child: Container(
-                width: 300,
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: Colors.grey[900],
@@ -321,81 +367,101 @@ class HeadingRow extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 12),
           ],
-        ).paddingOnly(bottom: 16),
+        ),
         tab: Row(
           children: [
             Expanded(
-              flex: 1,
-              child: GestureDetector(
-                onTap: () {
-                  Get.offAllNamed(Routes.homePage);
-                },
-                child: Hero(
-                  tag: 'logo',
-                  child: AspectRatio(
-                    aspectRatio: 10 / 6,
-                    child: Image.asset(
-                      ImageConstants.snippTreeImg,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 60),
-            Expanded(
-              flex: 3,
+              flex: 2,
               child: Hero(
                 tag: 'search_bar',
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: Container(
-                    width: 400,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: AppBorderRadius.k24px,
-                      border: Border.all(color: Colors.grey[700]!),
-                    ),
-                    child: Material(
-                      color: Colors.grey[900],
-                      child: KeyboardListener(
-                        focusNode: FocusNode(),
-                        onKeyEvent: (event) async {
-                          if (event.logicalKey == LogicalKeyboardKey.enter) {
-                            await ctrl.getSnippets(
-                                searchQuery: ctrl.searchKey.value);
-                          }
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: AppBorderRadius.k24px,
+                    border: Border.all(color: Colors.grey[700]!),
+                  ),
+                  child: Material(
+                    color: Colors.grey[900],
+                    child: KeyboardListener(
+                      focusNode: FocusNode(),
+                      onKeyEvent: (event) async {
+                        if (event.logicalKey == LogicalKeyboardKey.enter) {
+                          await ctrl.getSnippets(
+                              searchQuery: ctrl.searchKey.value);
+                        }
+                      },
+                      child: AnimatedTextField(
+                        onChanged: (val) {
+                          ctrl.searchKey.value = val;
                         },
-                        child: AnimatedTextField(
-                          onChanged: (val) {
-                            ctrl.searchKey.value = val;
-                          },
-                          controller: ctrl.serpController,
-                          animationType: Animationtype.typer,
-                          hintTextStyle: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          hintTexts: const [
-                            'Search for a code snippet...',
-                            'Share your code snippets with the world 🌍',
-                            'Every like plants a tree 🌳',
-                          ],
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.search),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(bottom: 20)),
+                        controller: ctrl.serpController,
+                        animationType: Animationtype.typer,
+                        hintTextStyle: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                         ),
+                        hintTexts: const [
+                          'Search for a code snippet...',
+                          'Share your code snippets with the world 🌍',
+                          'Every like plants a tree 🌳',
+                        ],
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(bottom: 20)),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-            const Expanded(flex: 1, child: SizedBox.shrink())
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(() {
+                    return homeCtrl.userName.value.isNotEmpty
+                        ? InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.mySnippets);
+                            },
+                            child: Text(AppConstants.mySnippets,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700)),
+                          )
+                        : const SizedBox();
+                  }),
+                  const SizedBox(width: 24),
+                  Obx(() {
+                    return homeCtrl.userName.value.isNotEmpty
+                        ? Row(
+                            children: [
+                              Text(
+                                "${AppConstants.hello} ${homeCtrl.userName.value}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(width: 12),
+                              MyProfileMenu(
+                                  controller: homeCtrl), // User Profile Menu
+                            ],
+                          )
+                        : GoogleSignInButton(controller: homeCtrl);
+                  }),
+                ],
+              ),
+            ),
           ],
-        ).paddingOnly(bottom: 16),
+        ).paddingOnly(top:24,bottom: 12),
         web: Row(
           children: [
             Expanded(
@@ -415,59 +481,98 @@ class HeadingRow extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 60),
+            const SizedBox(
+              width: 50,
+            ),
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Hero(
                 tag: 'search_bar',
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: Container(
-                    width: 400,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: AppBorderRadius.k24px,
-                      border: Border.all(color: Colors.grey[700]!),
-                    ),
-                    child: Material(
-                      color: Colors.grey[900],
-                      child: KeyboardListener(
-                        focusNode: FocusNode(),
-                        onKeyEvent: (event) async {
-                          if (event.logicalKey == LogicalKeyboardKey.enter) {
-                            await ctrl.getSnippets(
-                                searchQuery: ctrl.searchKey.value);
-                          }
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: AppBorderRadius.k24px,
+                    border: Border.all(color: Colors.grey[700]!),
+                  ),
+                  child: Material(
+                    color: Colors.grey[900],
+                    child: KeyboardListener(
+                      focusNode: FocusNode(),
+                      onKeyEvent: (event) async {
+                        if (event.logicalKey == LogicalKeyboardKey.enter) {
+                          await ctrl.getSnippets(
+                              searchQuery: ctrl.searchKey.value);
+                        }
+                      },
+                      child: AnimatedTextField(
+                        onChanged: (val) {
+                          ctrl.searchKey.value = val;
                         },
-                        child: AnimatedTextField(
-                          onChanged: (val) {
-                            ctrl.searchKey.value = val;
-                          },
-                          controller: ctrl.serpController,
-                          animationType: Animationtype.typer,
-                          hintTextStyle: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          hintTexts: const [
-                            'Search for a code snippet...',
-                            'Share your code snippets with the world 🌍',
-                            'Every like plants a tree 🌳',
-                          ],
-                          decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.search),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(bottom: 20)),
+                        controller: ctrl.serpController,
+                        animationType: Animationtype.typer,
+                        hintTextStyle: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                         ),
+                        hintTexts: const [
+                          'Search for a code snippet...',
+                          'Share your code snippets with the world 🌍',
+                          'Every like plants a tree 🌳',
+                        ],
+                        decoration: const InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(bottom: 20)),
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-            const Expanded(flex: 1, child: SizedBox.shrink())
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(() {
+                    return homeCtrl.userName.value.isNotEmpty
+                        ? InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.mySnippets);
+                            },
+                            child: Text(AppConstants.mySnippets,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700)),
+                          )
+                        : const SizedBox();
+                  }),
+                  const SizedBox(width: 24),
+                  Obx(() {
+                    return homeCtrl.userName.value.isNotEmpty
+                        ? Row(
+                            children: [
+                              Text(
+                                "${AppConstants.hello} ${homeCtrl.userName.value}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(width: 12),
+                              MyProfileMenu(
+                                  controller: homeCtrl), // User Profile Menu
+                            ],
+                          )
+                        : GoogleSignInButton(controller: homeCtrl);
+                  }),
+                ],
+              ),
+            )
           ],
-        ).paddingOnly(bottom: 16));
+        ).paddingOnly(bottom: 12));
   }
 }

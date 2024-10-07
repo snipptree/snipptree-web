@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _ExState extends State<HomePage> {
-  final HomeController ctrl = HomeController();
+  final HomeController ctrl = Get.put(HomeController());
   final FocusNode _focusNode = FocusNode();
 
   @override
