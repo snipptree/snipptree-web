@@ -65,7 +65,7 @@ class _ExState extends State<HomePage> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          html.window.open("https://rzp.io/rzp/Z7zv2bq", '_blank');
+                          html.window.open("https://rzp.io/rzp/lekVOb8E", '_blank');
                         },
                         child: MouseRegion(
                           cursor: SystemMouseCursors.click,
