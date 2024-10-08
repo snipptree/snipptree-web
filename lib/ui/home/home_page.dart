@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:snippet/common/app_constants.dart';
 import 'package:snippet/common/colors.dart';
 import 'package:snippet/common/image_constants.dart';
 import 'package:snippet/common/responsive_layout.dart';
@@ -15,8 +16,6 @@ import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 import 'package:snippet/widgets/custom_marquee.dart';
 import 'package:snippet/widgets/reusable_elevated_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../common/app_constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

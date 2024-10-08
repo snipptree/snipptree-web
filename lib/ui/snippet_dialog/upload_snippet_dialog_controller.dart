@@ -29,6 +29,8 @@ class UploadSnippetDialogController extends GetxController {
   final conditions = ['Image', 'Text'];
   var selectedCondition = 'Image'.obs;
 
+  var privateSnippet = false.obs;
+
   var snippetResponse = BaseResponse().obs;
 
   String? validateTitle(String? value) {
@@ -129,7 +131,12 @@ class UploadSnippetDialogController extends GetxController {
         }
 
         formData.append('title', titleTextController.text);
-        formData.append('type', 'public');
+        if (privateSnippet.value) {
+          formData.append('type', 'private');
+        } else {
+          formData.append('type', 'public');
+        }
+
         formData.append('snippet', snippetTextController.text);
 
         // Create an HttpRequest and configure it.

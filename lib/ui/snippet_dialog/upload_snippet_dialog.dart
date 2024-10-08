@@ -20,6 +20,16 @@ class UploadSnippetDialog extends StatelessWidget {
               key: controller.titleSnippetFormKey,
               child: Column(
                 children: [
+                  Text(
+                    "Upload your own snippet",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    "Your private snippets are securely\nstored using 256-bit encryption.",
+                    style: Theme.of(context).textTheme.labelSmall,
+                    textAlign: TextAlign.center,
+                  ),
                   const SizedBox(height: 12),
                   TextFormField(
                     decoration: const InputDecoration(
@@ -169,24 +179,35 @@ class UploadSnippetDialog extends StatelessWidget {
                       ],
                     ),
                   )),
-            const SizedBox(
-              height: 30,
+            Obx(
+              () => Visibility(
+                visible: (controller.selectedCondition.value == 'Image' &&
+                    controller.imageFile.value.buffer.lengthInBytes < 1),
+                child: Column(
+                  children: [
+                    Text(
+                      controller.errorText.value,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Obx(() => Visibility(
-                  visible: (controller.selectedCondition.value == 'Image' &&
-                      controller.imageFile.value.buffer.lengthInBytes < 1),
-                  child: Column(
-                    children: [
-                      Text(
-                        controller.errorText.value,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      )
-                    ],
-                  ),
-                )),
+            Obx(
+              () {
+                return CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: controller.privateSnippet.value,
+                  onChanged: (val) {
+                    controller.privateSnippet.value = val ?? false;
+                  },
+                  title: const Text("Make this private"),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 12,
+            ),
             SizedBox(
               height: 55,
               width: 360,
