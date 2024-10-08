@@ -15,7 +15,7 @@ import 'package:snippet/ui/home/widgets/my_profile_menu.dart';
 import 'package:snippet/ui/snippet_dialog/upload_snippet_dialog.dart';
 import 'package:snippet/widgets/custom_marquee.dart';
 import 'package:snippet/widgets/reusable_elevated_button.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'dart:html' as html;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,11 +65,7 @@ class _ExState extends State<HomePage> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          Uri paymentUrl =
-                              Uri.parse("https://rzp.io/rzp/Z7zv2bq");
-                          if (!await launchUrl(paymentUrl)) {
-                            throw Exception('Could not launch $paymentUrl');
-                          }
+                          html.window.open("https://rzp.io/rzp/Z7zv2bq", '_blank');
                         },
                         child: MouseRegion(
                           cursor: SystemMouseCursors.click,
