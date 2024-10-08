@@ -15,6 +15,7 @@ class UploadSnippetDialog extends StatelessWidget {
       behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Form(
               key: controller.titleSnippetFormKey,
@@ -24,13 +25,7 @@ class UploadSnippetDialog extends StatelessWidget {
                     "Upload your own snippet",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  const SizedBox(height: 6),
-                  Text(
-                    "Your private snippets are securely\nstored using 256-bit encryption.",
-                    style: Theme.of(context).textTheme.labelSmall,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 24),
                   TextFormField(
                     decoration: const InputDecoration(
                         label: Text('Enter title for your snippet'),
@@ -205,9 +200,12 @@ class UploadSnippetDialog extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(
-              height: 12,
-            ),
+            Text(
+              "Your private snippets are securely stored using\n256-bit encryption.",
+              style: Theme.of(context).textTheme.labelSmall,
+              textAlign: TextAlign.start,
+            ).paddingOnly(left: 24),
+            const SizedBox(height: 12),
             SizedBox(
               height: 55,
               width: 360,
