@@ -63,24 +63,24 @@ class _ExState extends State<HomePage> {
                   padding: const EdgeInsets.only(right: 12),
                   child: Row(
                     children: [
-                      InkWell(
-                        onTap: () async {
-                          html.window.open("https://rzp.io/rzp/lekVOb8E", '_blank');
-                        },
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Text(
-                            "${AppConstants.donate} ❤️",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
-                                  decoration: TextDecoration.underline,
-                                ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 24),
+                      // InkWell(
+                      //   onTap: () async {
+                      //     html.window.open("https://rzp.io/rzp/lekVOb8E", '_blank');
+                      //   },
+                      //   child: MouseRegion(
+                      //     cursor: SystemMouseCursors.click,
+                      //     child: Text(
+                      //       "${AppConstants.donate} ❤️",
+                      //       style: Theme.of(context)
+                      //           .textTheme
+                      //           .titleMedium
+                      //           ?.copyWith(
+                      //             decoration: TextDecoration.underline,
+                      //           ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // const SizedBox(width: 24),
                       Obx(() {
                         return ctrl.userName.value.isNotEmpty
                             ? InkWell(
