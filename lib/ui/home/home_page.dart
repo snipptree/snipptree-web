@@ -397,11 +397,26 @@ class _ExState extends State<HomePage> {
                         ],
                       )),
                   const Spacer(),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 16.0),
-                    child: Text(
-                      AppConstants.copyRightText,
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                   Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          AppConstants.copyRightText,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                        const SizedBox(width: 2),
+                        InkWell(
+                          onTap: (){
+                            html.window.open("https://www.snipptree.com/home", '_blank');
+                          },
+                          child: const Text(
+                            AppConstants.privacyPolicy,
+                            style: TextStyle(fontSize: 12, color: Colors.grey),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

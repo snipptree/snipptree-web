@@ -16,6 +16,7 @@ class AppConstants {
   static const donate = 'Donate';
   static const uploadSnippet = 'Upload Snippet';
   static const copyRightText = '© 2024 www.snipptree.com. All rights reserved.';
+  static const privacyPolicy = 'Privacy Policy';
   static const searchKey = 'searchKey';
   static const goHome = 'Go Home';
   static const logOut = 'Logout';
