@@ -34,10 +34,7 @@ class _ExState extends State<HomePage> {
     ctrl.userName.value = SharedPrefs().getUserName() ?? '';
     ctrl.googleSignIn.value = GoogleSignIn(
       clientId: AppConstants.googleSignInOAuthClientId,
-      scopes: [
-        'email',
-        'https://www.googleapis.com/auth/contacts.readonly',
-      ],
+      scopes: ['email'],
     );
   }
 
